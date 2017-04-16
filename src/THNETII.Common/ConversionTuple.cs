@@ -45,6 +45,8 @@ namespace THNETII.Common
             }
         }
 
+        public void ClearCache() => cachedTuple = null;
+
         protected static Func<T, T, bool> GetEqualityCheckFunction<T>()
         {
             if (typeof(T).GetTypeInfo().IsValueType)
