@@ -9,7 +9,7 @@
     <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
     <DebugType>portable</DebugType>
     
-    <RootNamespace>THNETII.Common</RootNamespace>
+    <RootNamespace>THNETII</RootNamespace>
 
     <Description>TH-NETII .NET Common Repository Unit Tests</Description>
   </PropertyGroup>
