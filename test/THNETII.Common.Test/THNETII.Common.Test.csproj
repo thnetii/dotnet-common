@@ -20,6 +20,7 @@
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 
   <ItemGroup Label="ProjectReferences">
+    <ProjectReference Include="..\..\src\THNETII.Common\THNETII.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="PackageReferences">
