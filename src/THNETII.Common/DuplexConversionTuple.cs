@@ -5,6 +5,8 @@ namespace THNETII.Common
 {
     public class DuplexConversionTuple<TRaw, TConvert> : ConversionTuple<TRaw, TConvert>
     {
+        private static readonly Func<TConvert, TConvert, bool> defaultConvertEqualityCheckFunction = GetEqualityCheckFunction<TConvert>();
+
         private readonly Func<TConvert, TConvert, bool> convertedEquals;
         private readonly Func<TConvert, TRaw> rawReverseConvert;
 
@@ -31,10 +33,10 @@ namespace THNETII.Common
         }
 
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TConvert, TRaw> rawReverseConvert)
-            : this(rawConvert, GetEqualityCheckFunction<TRaw>(), rawReverseConvert, GetEqualityCheckFunction<TConvert>()) { }
+            : this(rawConvert, GetEqualityCheckFunction<TRaw>(), rawReverseConvert, defaultConvertEqualityCheckFunction) { }
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer, Func<TConvert, TRaw> rawReverseConvert)
             : this(rawConvert, (rawEqualityComparer ?? throw new ArgumentNullException(nameof(rawEqualityComparer))).Equals,
-                  rawReverseConvert, GetEqualityCheckFunction<TConvert>())
+                  rawReverseConvert, defaultConvertEqualityCheckFunction)
         { }
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TConvert, TRaw> rawReverseConvert, IEqualityComparer<TConvert> convertedEqualityComparer)
             : this(rawConvert, GetEqualityCheckFunction<TRaw>(),

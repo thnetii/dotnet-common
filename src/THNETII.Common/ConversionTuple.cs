@@ -7,7 +7,10 @@ namespace THNETII.Common
 {
     public class ConversionTuple<TRaw, TConvert>
     {
+        private static readonly Func<TRaw, TRaw, bool> defaultRawEqualityCheckFunction = GetEqualityCheckFunction<TRaw>();
+
         protected readonly object sync = new object();
+
         private readonly Func<TRaw, TConvert> rawConvert;
         private readonly Func<TRaw, TRaw, bool> rawEquals;
         protected TRaw rawValue;
@@ -55,7 +58,7 @@ namespace THNETII.Common
                 return ReferenceEqualityComparer<T>.StaticEquals;
         }
 
-        public ConversionTuple(Func<TRaw, TConvert> rawConvert) : this(rawConvert, GetEqualityCheckFunction<TRaw>()) { }
+        public ConversionTuple(Func<TRaw, TConvert> rawConvert) : this(rawConvert, defaultRawEqualityCheckFunction) { }
         public ConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer)
             : this(rawConvert, (rawEqualityComparer ?? throw new ArgumentNullException(nameof(rawEqualityComparer))).Equals) { }
         protected ConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TRaw, TRaw, bool> rawEquals)
