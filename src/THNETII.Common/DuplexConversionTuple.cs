@@ -17,7 +17,7 @@ namespace THNETII.Common
             {
                 var localCached = cachedTuple;
                 TRaw localRaw;
-                if (convertedEquals(localCached.Item2, value))
+                if (localCached != null && convertedEquals(localCached.Item2, value))
                     localRaw = localCached.Item1;
                 else
                 {
