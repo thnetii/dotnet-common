@@ -12,9 +12,9 @@ namespace THNETII.Common.Test
         }
 
         [Fact]
-        public void NewConversionTupleWithNullComparerThrowsArgumentException()
+        public void NewConversionTupleWithNullComparer()
         {
-            Assert.Throws<ArgumentNullException>(() => new ConversionTuple<int, string>(i => i.ToString(), rawEqualityComparer: null));
+            var conv = new ConversionTuple<int, string>(i => i.ToString(), rawEqualityComparer: null);
         }
     }
 }
