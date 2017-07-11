@@ -20,17 +20,20 @@ namespace THNETII.Common.Cli
             Logger = logger;
         }
 
-        private int UnrecognizedCommandFallback(CommandLineApplication app, string unrecognizedCommand, int commandIdx, bool allowExecuteSingleMatch = false)
+        protected int UnrecognizedCommandFallback(CommandLineApplication app, string unrecognizedCommand, int commandIdx)
+            => UnrecognizedCommandFallback(app, unrecognizedCommand, unrecognizedCommand, commandIdx);
+
+        private int UnrecognizedCommandFallback(CommandLineApplication app, string originalUnrecognizedCommand, string unrecognizedCommand, int commandIdx)
         {
             var matchCommands = app.Commands.Where(c => c.Name.StartsWith(unrecognizedCommand, StringComparison.OrdinalIgnoreCase)).ToList();
             switch (matchCommands.Count)
             {
                 case 0:
                     if (unrecognizedCommand.Length > 1)
-                        return UnrecognizedCommandFallback(app, unrecognizedCommand.Substring(0, unrecognizedCommand.Length - 1), commandIdx);
+                        return UnrecognizedCommandFallback(app, originalUnrecognizedCommand, unrecognizedCommand.Substring(0, unrecognizedCommand.Length - 1), commandIdx);
                     break;
                 case 1:
-                    if (!allowExecuteSingleMatch)
+                    if (originalUnrecognizedCommand != unrecognizedCommand)
                         break;
                     Logger?.LogDebug("Matching shortened command '{0}' to command '{1}'", unrecognizedCommand, matchCommands[0].Name);
                     var commandArgs = new string[app.RemainingArguments.Count - 1];
@@ -44,7 +47,7 @@ namespace THNETII.Common.Cli
                     return matchCommands[0].Execute(commandArgs);
             }
 
-            Logger?.LogError("Unrecognized Command: {0}", unrecognizedCommand);
+            Logger?.LogError("Unrecognized Command: {0}", originalUnrecognizedCommand);
             if (matchCommands.Any())
                 app.Out.WriteLine("Did you mean:");
             foreach (var mc in matchCommands)
@@ -53,18 +56,27 @@ namespace THNETII.Common.Cli
             return 1;
         }
 
-        public virtual int Run(CommandLineApplication app)
+        protected string FindUnrecognizedCommand(CommandLineApplication app) => FindUnrecognizedCommand(app, out var _);
+
+        protected string FindUnrecognizedCommand(CommandLineApplication app, out int argumentIndex)
         {
-            int i;
-            string unrecognizedCommand = null;
-            for (i = 0; i < app.RemainingArguments.Count; i++)
+            app.ThrowIfNull(nameof(app));
+            for (int i = 0; i < app.RemainingArguments.Count; i++)
             {
                 if (!app.RemainingArguments[i].StartsWith("-"))
                 {
-                    unrecognizedCommand = app.RemainingArguments[i];
-                    break;
+                    argumentIndex = i;
+                    return app.RemainingArguments[i];
                 }
             }
+
+            argumentIndex = -1;
+            return null;
+        }
+
+        public virtual int Run(CommandLineApplication app)
+        {
+            string unrecognizedCommand = FindUnrecognizedCommand(app, out int i);
 
             if (unrecognizedCommand == null)
             {
@@ -73,7 +85,7 @@ namespace THNETII.Common.Cli
                 return 1;
             }
 
-            return UnrecognizedCommandFallback(app, unrecognizedCommand, i, true);
+            return UnrecognizedCommandFallback(app, unrecognizedCommand, i);
         }
     }
 }
