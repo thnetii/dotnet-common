@@ -150,10 +150,10 @@ namespace THNETII.Common.Cli
             return this;
         }
 
-        public CliBuilder<TCommand> AddSubCommand<TSubCommand>(string name, Action<CommandLineApplication> configuration, Action<CliBuilder<TSubCommand>> subCliConfigure)
+        public CliBuilder<TCommand> AddSubCommand<TSubCommand>(string name, Action<CliBuilder<TSubCommand>> subCliConfigure, Action<CommandLineApplication> configuration)
             where TSubCommand : CliCommand
             => AddSubCommand(cli => cli.Command(name, configuration), subCliConfigure);
-        public CliBuilder<TCommand> AddSubCommand<TSubCommand>(string name, Action<CommandLineApplication> configuration, bool throwOnUnexpectedArg, Action<CliBuilder<TSubCommand>> subCliConfigure)
+        public CliBuilder<TCommand> AddSubCommand<TSubCommand>(string name, Action<CliBuilder<TSubCommand>> subCliConfigure, Action<CommandLineApplication> configuration, bool throwOnUnexpectedArg)
             where TSubCommand : CliCommand
             => AddSubCommand(cli => cli.Command(name, configuration, throwOnUnexpectedArg), subCliConfigure);
 
