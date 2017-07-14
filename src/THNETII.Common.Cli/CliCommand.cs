@@ -35,7 +35,8 @@ namespace THNETII.Common.Cli
                 case 1:
                     if (originalUnrecognizedCommand != unrecognizedCommand)
                         break;
-                    Logger?.LogDebug("Matching shortened command '{0}' to command '{1}'", unrecognizedCommand, matchCommands[0].Name);
+                    var matchingCommand = matchCommands[0];
+                    Logger?.LogDebug($"Matching shortened command '{{{nameof(unrecognizedCommand)}}}' to command '{{{nameof(matchingCommand)}}}'", unrecognizedCommand, matchingCommand.Name);
                     var commandArgs = new string[app.RemainingArguments.Count - 1];
                     for (int i = 0; i < app.RemainingArguments.Count; i++)
                     {
@@ -47,7 +48,7 @@ namespace THNETII.Common.Cli
                     return matchCommands[0].Execute(commandArgs);
             }
 
-            Logger?.LogError("Unrecognized Command: {0}", originalUnrecognizedCommand);
+            Logger?.LogError($"Unrecognized Command: {{{nameof(unrecognizedCommand)}}}", originalUnrecognizedCommand);
             if (matchCommands.Any())
                 app.Out.WriteLine("Did you mean:");
             foreach (var mc in matchCommands)
