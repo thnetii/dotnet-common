@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project>
-  <Import Project="..\..\Paths.props" />
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -11,11 +8,6 @@
     <!--<NetStandardImplicitPackageVersion>2.0.0-preview2-final</NetStandardImplicitPackageVersion>-->
     <Description>TH-NETII .NET Common Command-line Interface library</Description>
   </PropertyGroup>
-
-  <Import Project="..\..\Common.props" />
-  <Import Project="..\..\Version.props" />
-
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2" />
