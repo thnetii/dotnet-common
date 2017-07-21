@@ -98,24 +98,34 @@ namespace THNETII.Common
         }
 
         /// <summary>
-        /// Creates a new conversion tuple with the specified conversion functions.
+        /// Creates a new conversion tuple with the specified conversion function.
         /// <para>Optionally, an EqualityComparer can be specified that is used to determine whether the raw value of the conversion has changed.</para>
         /// </summary>
         /// <param name="rawConvert">The conversion function to use, to convert values from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
         /// <param name="rawEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="RawValue"/> has been changed. Omit or specify <c>null</c> to use default equality checks.</param>
         /// <remarks>
         /// The conversion function <paramref name="rawConvert"/> is only when accessing <see cref="ConvertedValue"/> and then only if the value of <see cref="RawValue"/> has changed since the last access to <see cref="ConvertedValue"/>.
-        /// <para>To determine whether <see cref="RawValue"/> has changed, the <see cref="DuplexConversionTuple{TRaw, TConvert}"/> class caches the <typeparamref name="TRaw"/> value that used in the last conversion and compares it for equality against the current value of <see cref="RawValue"/>.</para>
+        /// <para>To determine whether <see cref="RawValue"/> has changed, the <see cref="ConversionTuple{TRaw, TConvert}"/> class caches the <typeparamref name="TRaw"/> value that was used in the last conversion and compares it for equality against the current value of <see cref="RawValue"/>.</para>
         /// <para>If no custom <see cref="IEqualityComparer{TRaw}"/> is specified in <paramref name="rawEqualityComparer"/> or if <paramref name="rawEqualityComparer"/> is <c>null</c>, a reference equality check (<see cref="object.ReferenceEquals(object, object)"/> is used if <typeparamref name="TRaw"/> is a reference type. If <typeparamref name="TRaw"/> is a value type, <see cref="EqualityComparer{TRaw}.Default"/> is used as the equality comparer.</para>
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="rawConvert"/> is <c>null</c>.</exception>
         public ConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer = null)
             : this(rawConvert, (rawEqualityComparer != null ? rawEqualityComparer.Equals : defaultRawEqualityCheckFunction)) { }
 
-        private ConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TRaw, TRaw, bool> rawEquals)
+        /// <summary>
+        /// Creates a new conversion tuple with the specified conversion and equality functions.
+        /// </summary>
+        /// <param name="rawConvert">The conversion function to use, to convert values from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
+        /// <param name="rawEquals">An equality check function that determines equality between two values or instances of the <typeparamref name="TRaw"/> type. Must not be <c>null</c>.</param>
+        /// <remarks>
+        /// The conversion function <paramref name="rawConvert"/> is only when accessing <see cref="ConvertedValue"/> and then only if the value of <see cref="RawValue"/> has changed since the last access to <see cref="ConvertedValue"/>.
+        /// <para>To determine whether <see cref="RawValue"/> has changed, the <see cref="ConversionTuple{TRaw, TConvert}"/> class caches the <typeparamref name="TRaw"/> value that was used in the last conversion and compares it for equality against the current value of <see cref="RawValue"/>.</para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="rawConvert"/> or <paramref name="rawEquals"/> is <c>null</c>.</exception>
+        public ConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TRaw, TRaw, bool> rawEquals)
         {
             this.rawConvert = rawConvert ?? throw new ArgumentNullException(nameof(rawConvert));
-            this.rawEquals = rawEquals;
+            this.rawEquals = rawEquals ?? throw new ArgumentNullException(nameof(rawEquals));
         }
     }
 }

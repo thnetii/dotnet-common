@@ -56,7 +56,7 @@ namespace THNETII.Common
         /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <c>null</c>.</param>
         /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/> or <paramref name="rawReverseConvert"/> are <c>null</c>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TConvert, TRaw> rawReverseConvert)
-            : this(rawConvert, null, rawReverseConvert) { }
+            : this(rawConvert, (IEqualityComparer<TRaw>)null, rawReverseConvert) { }
 
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions. Uses the specified equality comparer to detect changes for the raw value.
@@ -68,6 +68,9 @@ namespace THNETII.Common
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer, Func<TConvert, TRaw> rawReverseConvert)
             : this(rawConvert, rawEqualityComparer, rawReverseConvert, (IEqualityComparer<TConvert>)null) { }
 
+        public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TRaw, TRaw, bool> rawEquals, Func<TConvert, TRaw> rawReverseConvert)
+            : this(rawConvert, rawEquals, rawReverseConvert, (IEqualityComparer<TConvert>)null) { }
+
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions. Uses the specified equality comparer to detect changes for the converted value.
         /// </summary>
@@ -76,7 +79,10 @@ namespace THNETII.Common
         /// <param name="convertedEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Specify <c>null</c> to use default equality checks.</param>
         /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/> or <paramref name="rawReverseConvert"/> are <c>null</c>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TConvert, TRaw> rawReverseConvert, IEqualityComparer<TConvert> convertedEqualityComparer)
-            : this(rawConvert, null, rawReverseConvert, convertedEqualityComparer) { }
+            : this(rawConvert, (IEqualityComparer<TRaw>)null, rawReverseConvert, convertedEqualityComparer) { }
+
+        public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TConvert, TRaw> rawReverseConvert, Func<TConvert, TConvert, bool> convertedEquals)
+            : this(rawConvert, (IEqualityComparer<TRaw>)null, rawReverseConvert, convertedEquals) { }
 
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions. Uses the specified equality comparers to detect changes for the raw and converted values.
@@ -89,12 +95,23 @@ namespace THNETII.Common
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer, Func<TConvert, TRaw> rawReverseConvert, IEqualityComparer<TConvert> convertedEqualityComparer)
             : this(rawConvert, rawEqualityComparer, rawReverseConvert, convertedEqualityComparer != null ? convertedEqualityComparer.Equals : defaultConvertEqualityCheckFunction) { }
 
-        private DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer,
+        public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TRaw, TRaw, bool> rawEquals, Func<TConvert, TRaw> rawReverseConvert, IEqualityComparer<TConvert> convertedEqualityComparer)
+            : this(rawConvert, rawEquals, rawReverseConvert, convertedEqualityComparer != null ? convertedEqualityComparer.Equals : defaultConvertEqualityCheckFunction) { }
+
+        public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer,
             Func<TConvert, TRaw> rawReverseConvert, Func<TConvert, TConvert, bool> convertedEquals)
             : base(rawConvert, rawEqualityComparer)
         {
             this.rawReverseConvert = rawReverseConvert ?? throw new ArgumentNullException(nameof(rawReverseConvert));
-            this.convertedEquals = convertedEquals;
+            this.convertedEquals = convertedEquals ?? throw new ArgumentNullException(nameof(convertedEquals));
+        }
+
+        public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TRaw, TRaw, bool> rawEquals,
+            Func<TConvert, TRaw> rawReverseConvert, Func<TConvert, TConvert, bool> convertedEquals)
+            : base(rawConvert, rawEquals)
+        {
+            this.rawReverseConvert = rawReverseConvert ?? throw new ArgumentNullException(nameof(rawReverseConvert));
+            this.convertedEquals = convertedEquals ?? throw new ArgumentNullException(nameof(convertedEquals));
         }
     }
 }
