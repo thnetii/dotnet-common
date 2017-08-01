@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using Microsoft.Extensions.CommandLineUtils;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Configuration;
-using System.Reflection;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace THNETII.Common.Cli
 {
@@ -76,8 +75,6 @@ namespace THNETII.Common.Cli
             writer.WriteLine();
 
             writer.WriteLine("Execution environment:");
-            
-
             WriteKeyValuePairFormatted(writer, typeof(RuntimeInformation).GetProperties(BindingFlags.Public | BindingFlags.Static)
                 .Select(StaticMemberInfoToKvp));
 
