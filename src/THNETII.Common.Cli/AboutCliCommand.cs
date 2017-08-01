@@ -28,9 +28,15 @@ namespace THNETII.Common.Cli
 
         private static void WriteKeyValuePairFormatted(TextWriter writer, IEnumerable<KeyValuePair<string, object>> keyValuePairs)
         {
-            keyValuePairs = keyValuePairs.ToList();
-            var longestKeyLength = keyValuePairs.Max(kvp => kvp.Key.Length + 1);
+            var keyValuePairsList = new List<KeyValuePair<string, object>>();
+            var longestKeyLength = 0;
             foreach (var kvp in keyValuePairs)
+            {
+                longestKeyLength = Math.Max(longestKeyLength, kvp.Key.Length + 1);
+                keyValuePairsList.Add(kvp);
+            }
+
+            foreach (var kvp in keyValuePairsList)
                 writer.WriteLine($"{$"{kvp.Key}:".PadRight(longestKeyLength)} {kvp.Value}");
         }
 
