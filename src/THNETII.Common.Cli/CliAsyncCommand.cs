@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.CommandLineUtils;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using Microsoft.Extensions.CommandLineUtils;
 
 namespace THNETII.Common.Cli
 {
@@ -13,6 +13,7 @@ namespace THNETII.Common.Cli
         public virtual Task<int> RunAsync(CommandLineApplication app)
             => Task.FromResult(base.Run(app));
 
+        /// <inheritdoc />
         public override sealed int Run(CommandLineApplication app)
             => RunAsync(app)?.GetAwaiter().GetResult() ?? 1;
     }
