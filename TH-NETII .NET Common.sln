@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A779530B-DED1-41B2-8A20-B021C3D6EC8B}"
 	ProjectSection(SolutionItems) = preProject
@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rfc", "rfc", "{71E34419-F7A
 		doc\rfc\rfc7520.html = doc\rfc\rfc7520.html
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Common.Cli.About", "..\thnetii-acme\dotnet-common\src\THNETII.Common.Cli.About\THNETII.Common.Cli.About.csproj", "{E3BA7CA6-ED1E-4929-848C-E696588A7B20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Common.Cli.About", "src\THNETII.Common.Cli.About\THNETII.Common.Cli.About.csproj", "{E3BA7CA6-ED1E-4929-848C-E696588A7B20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
