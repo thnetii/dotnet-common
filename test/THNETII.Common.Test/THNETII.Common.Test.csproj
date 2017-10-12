@@ -14,6 +14,7 @@
 
   <ItemGroup Label="ProjectReferences">
     <ProjectReference Include="..\..\src\THNETII.Common\THNETII.Common.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.Common.Cli\THNETII.Common.Cli.csproj" />
     <ProjectReference Include="..\..\src\THNETII.Security.JOSE\THNETII.Security.JOSE.csproj" />
   </ItemGroup>
 
@@ -33,6 +34,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LinkBase>Security.JOSE\Test</LinkBase>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common.Cli\Test\" />
   </ItemGroup>
 
 </Project>
