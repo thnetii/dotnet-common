@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard1.5</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DebugType>portable</DebugType>
 
-    <!--<NetStandardImplicitPackageVersion>2.0.0-preview2-final</NetStandardImplicitPackageVersion>-->
     <Description>TH-NETII .NET Common Command-line Interface library</Description>
   </PropertyGroup>
 
@@ -13,7 +12,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
-    <PackageReference Include="CommandLineParser" Version="2.1.1-beta" />
+    <!--<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="2.0.0-preview2-final" />-->
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.0.0" />
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

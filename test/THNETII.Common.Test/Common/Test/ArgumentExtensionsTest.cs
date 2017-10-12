@@ -40,6 +40,7 @@ namespace THNETII.Common.Test
             Assert.Same(str, str.ThrowIfNullOrWhiteSpace(nameof(str)));
         }
 
+        [Fact]
         public void ThrowIfNullOrWhiteSpaceThrowsArgumentNullExceptionIfArgumentNull()
         {
             string str = null;
