@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace THNETII.Common.Collections.Generic
 {
@@ -17,6 +18,7 @@ namespace THNETII.Common.Collections.Generic
         /// <summary>
         /// Returns a default reference equality comparer for the type specified by the generic argument.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1000")]
         public static ReferenceEqualityComparer<T> Default => @default;
 
         /// <summary>
@@ -33,6 +35,7 @@ namespace THNETII.Common.Collections.Generic
         /// <param name="x">The first object instance.</param>
         /// <param name="y">The second object reference.</param>
         /// <returns><c>true</c> if <paramref name="x"/> is the same instance as <paramref name="y"/> or if both are <c>null</c>; otherwise, <c>false</c>.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1000")]
         public static bool StaticEquals(T x, T y) => ReferenceEquals(x, y);
 
         /// <summary>

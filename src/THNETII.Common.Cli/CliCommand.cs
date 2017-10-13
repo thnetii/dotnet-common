@@ -104,7 +104,7 @@ namespace THNETII.Common.Cli
             app.ThrowIfNull(nameof(app));
             for (int i = 0; i < app.RemainingArguments.Count; i++)
             {
-                if (!app.RemainingArguments[i].StartsWith("-"))
+                if (!app.RemainingArguments[i].StartsWith("-", StringComparison.Ordinal))
                 {
                     argumentIndex = i;
                     return app.RemainingArguments[i];

@@ -13,7 +13,14 @@ namespace THNETII.Common.Cli
 
     public class CliBuilder<TCommand> where TCommand : CliCommand
     {
+        /// <summary>
+        /// The default command-line option template string that is used for the help option in a CLI.
+        /// </summary>
         public const string DefaultHelpTemplate = @"-?|-h|--help";
+
+        /// <summary>
+        /// The default command-line option template string that is used for the version option in a CLI.
+        /// </summary>
         public const string DefaultVersionTemplate = @"--version";
 
         public Assembly ExecutingAssembly { get; }
@@ -34,7 +41,12 @@ namespace THNETII.Common.Cli
             };
         }
 
+
+#if NETSTANDARD2_0
+        public CliBuilder(bool useEntryAssembly = true) : this(useEntryAssembly ? Assembly.GetEntryAssembly() : typeof(TCommand).Assembly) { }
+#else
         public CliBuilder() : this(typeof(TCommand)) { }
+#endif
 
         public CliBuilder(Type programType) : this(programType.ThrowIfNull(nameof(programType)).GetTypeInfo().Assembly) { }
 
@@ -66,12 +78,22 @@ namespace THNETII.Common.Cli
         private bool inheritedHelpOption = false;
         private bool inheritedVersionOption = false;
 
+        /// <summary>
+        /// Adds an action to be executed prior to running a CLI command in order to add configuration sources for the Application.
+        /// </summary>
+        /// <param name="configureAction">The action to execute on the Application configuration builder.</param>
+        /// <returns>The current instance to allow for chaining method invocations in a functional-style.</returns>
         public CliBuilder<TCommand> Configuration(Action<IConfigurationBuilder> configureAction)
         {
             commandActions.Add((_, execActions) => execActions.Add((configBuilder, _1, _2) => configureAction?.Invoke(configBuilder)));
             return this;
         }
 
+        /// <summary>
+        /// Add an action to be executed prior to running a CLI command in order to add services to the Application DI-container.
+        /// </summary>
+        /// <param name="configureServices">The action to execute on the Service Collection of the Application DI-container.</param>
+        /// <returns>The current instance to allow for chaining method invocations in a functional-style.</returns>
         public CliBuilder<TCommand> ConfigureServices(Action<IServiceCollection> configureServices)
         {
             commandActions.Add((_, execActions) => execActions.Add((_0, services, _2) => configureServices?.Invoke(services)));
@@ -84,6 +106,12 @@ namespace THNETII.Common.Cli
             return this;
         }
 
+        /// <summary>
+        /// Adds a help option to the CLI command.
+        /// </summary>
+        /// <param name="template"></param>
+        /// <param name="inherited"></param>
+        /// <returns></returns>
         public CliBuilder<TCommand> AddHelpOption(string template = DefaultHelpTemplate, bool inherited = true)
             => AddHelpOption(cli => cli.HelpOption(template), inherited);
 

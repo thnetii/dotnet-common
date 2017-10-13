@@ -283,6 +283,31 @@ namespace THNETII.Common.IO
             return BaseStream.FlushAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Reads a sequence of bytes from the base stream and advances the position within the stream by the number of bytes read.
+        /// <para>A copy of the read bytes is written to the <see cref="ReadCopy"/> stream if it is specified.</para>
+        /// </summary>
+        /// <param name="buffer">
+        /// An array of bytes. When this method returns, the buffer contains the specified
+        /// byte array with the values between <paramref name="offset"/> and <c>(<paramref name="offset"/> + <paramref name="count"/> - 1)</c> replaced by
+        /// the bytes read from the current source.
+        /// </param>
+        /// <param name="offset">
+        /// The zero-based byte offset in <paramref name="buffer"/> at which to begin storing the data read
+        /// from the current stream.
+        /// </param>
+        /// <param name="count">The maximum number of bytes to be read from the stream.</param>
+        /// <returns>
+        /// The total number of bytes read into the buffer. This can be less than the number
+        /// of bytes requested if that many bytes are not currently available, or 0 (zero)
+        /// if the end of the stream has been reached.
+        /// </returns>
+        /// <exception cref="ArgumentException">The sum of <paramref name="offset"/> and <paramref name="count"/> is larger than the buffer length.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="buffer"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="offset"/> or <paramref name="count"/> is negative.</exception>
+        /// <exception cref="IOException">An I/O error occurs.</exception>
+        /// <exception cref="NotSupportedException">The source stream does not support reading.</exception>
+        /// <exception cref="ObjectDisposedException">Methods were called after the stream was closed.</exception>
         public override int Read(byte[] buffer, int offset, int count)
         {
             var bytesRead = BaseStream.Read(buffer, offset, count);
@@ -290,20 +315,23 @@ namespace THNETII.Common.IO
             return bytesRead;
         }
 
+        /// <inheritdoc />
         public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
-            var bytesRead = await BaseStream.ReadAsync(buffer, offset, count, cancellationToken);
+            var bytesRead = await BaseStream.ReadAsync(buffer, offset, count, cancellationToken).ConfigureAwait(false);
             if (ReadCopy != null)
-                await ReadCopy.WriteAsync(buffer, offset, bytesRead, cancellationToken);
+                await ReadCopy.WriteAsync(buffer, offset, bytesRead, cancellationToken).ConfigureAwait(false);
             return bytesRead;
         }
 
+        /// <inheritdoc />
         public override void Write(byte[] buffer, int offset, int count)
         {
             BaseStream.Write(buffer, offset, count);
             WriteCopy?.Write(buffer, offset, count);
         }
 
+        /// <inheritdoc />
         public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             if (WriteCopy != null)
@@ -311,11 +339,34 @@ namespace THNETII.Common.IO
             return BaseStream.WriteAsync(buffer, offset, count, cancellationToken);
         }
 
+        /// <summary>
+        /// Always throws a <see cref="NotSupportedException"/>.
+        /// </summary>
+        /// <param name="offset">Ignored. A byte offset relative to the <paramref name="origin"/> parameter.</param>
+        /// <param name="origin">Ignored. A value of type <see cref="SeekOrigin"/> indicating the reference point used to obtain the new position.</param>
+        /// <returns>The new position within the current stream.</returns>
+        /// <remarks>
+        /// Instances derived from <see cref="CopyIOStream"/> by default do not support seeking in order to keep the read and write copies consistent.
+        /// However, if the source stream is seekable you can call <see cref="Stream.Seek"/> on the <see cref="BaseStream"/> member. Note that doing so
+        /// can potentially create garbled or discontinuous content in the read and/or write copies on subsequent I/O operations.
+        /// </remarks>
+        /// <exception cref="NotSupportedException">Instances of <see cref="CopyIOStream"/> do not support seeking.</exception>
         public override long Seek(long offset, SeekOrigin origin)
-            => throw GetGeneralInvalidOperationException(nameof(Seek));
+            => throw GetGeneralNotSupportedExceptionException(nameof(Seek));
 
+        /// <summary>
+        /// Always throws a <see cref="NotSupportedException"/>.
+        /// </summary>
+        /// <param name="value">Ignored. The desired length of the current stream in bytes.</param>
+        /// <remarks>
+        /// Instances derived from <see cref="CopyIOStream"/> by default do not support setting the length.
+        /// However, if the underlying streams support it, you can call <see cref="Stream.SetLength"/> individually on the 
+        /// <see cref="BaseStream"/>, <see cref="ReadCopy"/> and <see cref="WriteCopy"/> members. Note that doing so
+        /// must take into account that <see cref="SetLength"/> might not succeed on all three members.
+        /// </remarks>
+        /// <exception cref="NotSupportedException">Instances of <see cref="CopyIOStream"/> do not support setting the length of the stream.</exception>
         public override void SetLength(long value)
-            => throw GetGeneralInvalidOperationException(nameof(SetLength));
+            => throw GetGeneralNotSupportedExceptionException(nameof(SetLength));
 
         private int GetReadTimeout() => GetTimeout(s => s.ReadTimeout, ReadCopy);
         private int GetWriteTimeout() => GetTimeout(s => s.WriteTimeout, WriteCopy);
@@ -323,11 +374,14 @@ namespace THNETII.Common.IO
         {
             if (BaseStream.CanTimeout)
             {
-                var baseTimeout = unchecked((uint)timeoutGetter(BaseStream));
+                // Casts to uint to ensure that negative timeout values (infinite timeouts)
+                // are valued greater than a specified non-negative timeout.
+                uint baseTimeout = unchecked((uint)timeoutGetter(BaseStream));
                 if (copyStream?.CanTimeout ?? false)
                 {
-                    var copyTimeout = unchecked((uint)copyStream.WriteTimeout);
-                    return unchecked((int)Math.Min(baseTimeout, copyTimeout));
+                    uint copyTimeout = unchecked((uint)copyStream.WriteTimeout);
+                    uint minimumTimeout = Math.Min(baseTimeout, copyTimeout);
+                    return unchecked((int)minimumTimeout);
                 }
                 else
                     return unchecked((int)baseTimeout);
@@ -335,11 +389,11 @@ namespace THNETII.Common.IO
             else if (copyStream?.CanTimeout ?? false)
                 return copyStream.WriteTimeout;
             else
-                throw GetGeneralInvalidOperationException("Timeout");
+                throw GetGeneralNotSupportedExceptionException("Timeout");
         }
 
         [SuppressMessage("Microsoft.Globalization", "CA1305", Justification = "String Formatting not affected by Globalization.")]
-        private InvalidOperationException GetGeneralInvalidOperationException(string memberName)
-            => new InvalidOperationException($"This operation is not supported on the {GetType()} type. Invoke the {memberName} member on the underlying stream.");
+        private NotSupportedException GetGeneralNotSupportedExceptionException(string memberName)
+            => new NotSupportedException($"This operation is not supported on the {GetType()} type. Invoke the {memberName} member on the underlying stream.");
     }
 }
