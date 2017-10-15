@@ -44,7 +44,7 @@ namespace THNETII.Common.Test
         public void ThrowIfNullOrWhiteSpaceThrowsArgumentNullExceptionIfArgumentNull()
         {
             string str = null;
-            Assert.Throws<ArgumentNullException>(nameof(str), () => str.ThrowIfNullOrWhiteSpace(nameof(str)));
+            Assert.Throws<ArgumentNullException>(() => str.ThrowIfNullOrWhiteSpace(nameof(str)));
         }
 
         [Theory]

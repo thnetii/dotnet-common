@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
 namespace THNETII.Common.Test
@@ -12,6 +13,7 @@ namespace THNETII.Common.Test
         }
 
         [Fact]
+        [SuppressMessage("Microsoft.Design", "CA1305", Justification = "int.ToString() return value not relevant for test case.")]
         public void NewConversionTupleWithNullComparer()
         {
             var conv = new ConversionTuple<int, string>(i => i.ToString(), rawEqualityComparer: null);
