@@ -15,10 +15,18 @@ namespace THNETII.Common.Cli
         /// </summary>
         public const string DefaultVersionTemplate = @"--version";
 
+        private Action<CommandLineApplication> initializeAction;
+        private Action<CommandLineApplication> commandBuildAction;
         private Action<IConfigurationBuilder> configureAction;
         private Action<IConfiguration, IServiceCollection> configureServices;
         private bool inheritedHelpOption;
         private bool inheritedVersionOption;
+
+        public CliBuilder<TCommand> InitializeCommandLineApplication(Action<CommandLineApplication> initializeAction)
+        {
+            this.initializeAction += initializeAction;
+            return this;
+        }
 
         /// <summary>
         /// Adds an action to be executed prior to running a CLI command in order to add configuration sources for the Application.
@@ -51,14 +59,59 @@ namespace THNETII.Common.Cli
         }
 
         public CliBuilder<TCommand> AddHelpOption()
+            => AddHelpOption(inherited: true);
+
+        public CliBuilder<TCommand> AddHelpOption(bool inherited)
             => throw new NotImplementedException();
 
         public CliBuilder<TCommand> AddHelpOption(string template)
+            => AddHelpOption(template, inherited: true);
+
+        public CliBuilder<TCommand> AddHelpOption(string template, bool inherited)
             => throw new NotImplementedException();
+
+        public CliBuilder<TCommand> AddVersionOption(string shortVersionString, string longVersionString)
+            => AddVersionOption(shortVersionString, longVersionString, inherited: false);
+
+        public CliBuilder<TCommand> AddVersionOption(string shortVersionString, string longVersionString, bool inherited)
+            => throw new NotImplementedException();
+
+        public CliBuilder<TCommand> AddVersionOption(string template, string shortVersionString, string longVersionString)
+            => AddVersionOption(template, shortVersionString, longVersionString, inherited: false);
+
+        public CliBuilder<TCommand> AddVersionOption(string template, string shortVersionString, string longVersionString, bool inherited)
+            => throw new NotImplementedException();
+
+        public CliBuilder<TCommand> AddVersionOption(Func<string> shortVersionGetter, Func<string> longVersionGetter)
+            => AddVersionOption(shortVersionGetter, longVersionGetter, inherited: false);
+
+        public CliBuilder<TCommand> AddVersionOption(Func<string> shortVersionGetter, Func<string> longVersionGetter, bool inherited)
+            => throw new NotImplementedException();
+
+        public CliBuilder<TCommand> AddVersionOption(string template, Func<string> shortVersionGetter, Func<string> longVersionGetter)
+            => AddVersionOption(template, shortVersionGetter, longVersionGetter, inherited: false);
+
+        public CliBuilder<TCommand> AddVersionOption(string template, Func<string> shortVersionGetter, Func<string> longVersionGetter, bool inherited)
+            => throw new NotImplementedException();
+
+        public CliBuilder<TCommand> AddVerboseOption()
+            => AddVerboseOption(optionConfiguration: null);
+
+        public CliBuilder<TCommand> AddVerboseOption(string optionConfigurationDictionaryKey)
+            => AddVerboseOption(optionConfiguration: null);
+
+        public CliBuilder<TCommand> AddVerboseOption(Action<CommandOption> optionConfiguration)
+            => AddVerboseOption(optionConfiguration, optionDictionaryConfiguration: null);
+
+        private CliBuilder<TCommand> AddVerboseOption(Action<CommandOption> optionConfiguration, Action<CommandOption, IDictionary<string, string>> optionDictionaryConfiguration)
+        {
+            throw new NotImplementedException();
+        }
 
         public virtual CommandLineApplication Build()
         {
-            throw new NotImplementedException();
+            var app = new CommandLineApplication(throwOnUnexpectedArg: false);
+            initializeAction?.Invoke(app);
         }
 
         private class NestedCliBuilder<TSubCommand> : CliBuilder<TSubCommand> where TSubCommand : CliCommand

@@ -168,5 +168,16 @@ namespace THNETII.Common.Cli.Test
             Assert.NotNull(cliapp.OptionHelp);
             Assert.Equal(helpTemplate, cliapp.OptionHelp.Template);
         }
+
+        [Fact]
+        public void AddVersionOptionCreatesVersionOptionWithStrings()
+        {
+            var builder = new CliBuilder<CliCommand>();
+            builder.AddVersionOption("v1.2.3-test", "v1.2.3.4");
+            var cliapp = builder.Build();
+            Assert.NotNull(cliapp.OptionVersion);
+            Assert.NotNull(cliapp.ShortVersionGetter);
+            Assert.NotNull(cliapp.LongVersionGetter);
+        }
     }
 }
