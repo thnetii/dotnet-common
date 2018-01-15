@@ -5,123 +5,88 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
+using THNETII.Common.Cli.Infrastructure;
 
 namespace THNETII.Common.Cli
 {
+    using ConfigureCommandAction = Action<CliCommandDefinition>;
+
     public class CliBuilder<TCommand> where TCommand : CliCommand
     {
-        /// <summary>
-        /// The default command-line option template string that is used for the version option in a CLI.
-        /// </summary>
-        public const string DefaultVersionTemplate = @"--version";
+        private static readonly string[] emptyArguments = new string[0];
 
-        private Action<CommandLineApplication> initializeAction;
-        private Action<CommandLineApplication> commandBuildAction;
-        private Action<IConfigurationBuilder> configureAction;
-        private Action<IConfiguration, IServiceCollection> configureServices;
-        private bool inheritedHelpOption;
-        private bool inheritedVersionOption;
+        private Action<CliCommandDefinition> configureCommand;
+        private ServiceProviderOptions serviceProviderOptions;
 
-        public CliBuilder<TCommand> InitializeCommandLineApplication(Action<CommandLineApplication> initializeAction)
+        public CliBuilder<TCommand> WithCommandDetails(ConfigureCommandAction configureCommand)
         {
-            this.initializeAction += initializeAction;
+            this.configureCommand += configureCommand;
             return this;
         }
 
-        /// <summary>
-        /// Adds an action to be executed prior to running a CLI command in order to add configuration sources for the Application.
-        /// </summary>
-        /// <param name="configureAction">The action to execute on the Application configuration builder.</param>
-        /// <returns>The current instance to allow for chaining method invocations in a functional-style.</returns>
-        public CliBuilder<TCommand> AddConfiguration(Action<IConfigurationBuilder> configureAction)
-        {
-            this.configureAction += configureAction;
-            return this;
-        }
-
-        /// <summary>
-        /// Add an action to be executed prior to running a CLI command in order to add services to the Application DI-container.
-        /// </summary>
-        /// <param name="configureServices">The action to execute on the Service Collection of the Application DI-container.</param>
-        /// <returns>The current instance to allow for chaining method invocations in a functional-style.</returns>
-        public CliBuilder<TCommand> ConfigureServices(Action<IServiceCollection> configureServices)
-            => ConfigureServices((_, services) => configureServices?.Invoke(services));
-
-        /// <summary>
-        /// Add an action to be executed prior to running a CLI command in order to add services to the Application DI-container.
-        /// </summary>
-        /// <param name="configureServices">The action to execute on the Service Collection of the Application DI-container.</param>
-        /// <returns>The current instance to allow for chaining method invocations in a functional-style.</returns>
-        public CliBuilder<TCommand> ConfigureServices(Action<IConfiguration, IServiceCollection> configureServices)
-        {
-            this.configureServices += configureServices;
-            return this;
-        }
-
-        public CliBuilder<TCommand> AddHelpOption()
-            => AddHelpOption(inherited: true);
-
-        public CliBuilder<TCommand> AddHelpOption(bool inherited)
-            => throw new NotImplementedException();
-
-        public CliBuilder<TCommand> AddHelpOption(string template)
-            => AddHelpOption(template, inherited: true);
-
-        public CliBuilder<TCommand> AddHelpOption(string template, bool inherited)
-            => throw new NotImplementedException();
-
-        public CliBuilder<TCommand> AddVersionOption(string shortVersionString, string longVersionString)
-            => AddVersionOption(shortVersionString, longVersionString, inherited: false);
-
-        public CliBuilder<TCommand> AddVersionOption(string shortVersionString, string longVersionString, bool inherited)
-            => throw new NotImplementedException();
-
-        public CliBuilder<TCommand> AddVersionOption(string template, string shortVersionString, string longVersionString)
-            => AddVersionOption(template, shortVersionString, longVersionString, inherited: false);
-
-        public CliBuilder<TCommand> AddVersionOption(string template, string shortVersionString, string longVersionString, bool inherited)
-            => throw new NotImplementedException();
-
-        public CliBuilder<TCommand> AddVersionOption(Func<string> shortVersionGetter, Func<string> longVersionGetter)
-            => AddVersionOption(shortVersionGetter, longVersionGetter, inherited: false);
-
-        public CliBuilder<TCommand> AddVersionOption(Func<string> shortVersionGetter, Func<string> longVersionGetter, bool inherited)
-            => throw new NotImplementedException();
-
-        public CliBuilder<TCommand> AddVersionOption(string template, Func<string> shortVersionGetter, Func<string> longVersionGetter)
-            => AddVersionOption(template, shortVersionGetter, longVersionGetter, inherited: false);
-
-        public CliBuilder<TCommand> AddVersionOption(string template, Func<string> shortVersionGetter, Func<string> longVersionGetter, bool inherited)
-            => throw new NotImplementedException();
-
-        public CliBuilder<TCommand> AddVerboseOption()
-            => AddVerboseOption(optionConfiguration: null);
-
-        public CliBuilder<TCommand> AddVerboseOption(string optionConfigurationDictionaryKey)
-            => AddVerboseOption(optionConfiguration: null);
-
-        public CliBuilder<TCommand> AddVerboseOption(Action<CommandOption> optionConfiguration)
-            => AddVerboseOption(optionConfiguration, optionDictionaryConfiguration: null);
-
-        private CliBuilder<TCommand> AddVerboseOption(Action<CommandOption> optionConfiguration, Action<CommandOption, IDictionary<string, string>> optionDictionaryConfiguration)
+        public CliBuilder<TCommand> WithServiceCollection(Action<IServiceCollection> configureServices)
         {
             throw new NotImplementedException();
         }
 
-        public virtual CommandLineApplication Build()
+        public CliBuilder<TCommand> WithConfigurationBuilder(Action<IConfigurationBuilder> configurationBuilder)
         {
-            var app = new CommandLineApplication(throwOnUnexpectedArg: false);
-            initializeAction?.Invoke(app);
+            throw new NotImplementedException();
         }
 
-        private class NestedCliBuilder<TSubCommand> : CliBuilder<TSubCommand> where TSubCommand : CliCommand
-        {
-            public CliBuilder<TCommand> Parent { get; }
+        public CliBuilder<TCommand> WithHelpOption() => WithHelpOption(_ => { });
 
-            public NestedCliBuilder(CliBuilder<TCommand> parent) : base()
+        public CliBuilder<TCommand> WithHelpOption(Action<CliOptionDefinition> configureOption)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CliBuilder<TCommand> WithVersionOption() => WithVersionOption(_ => { });
+
+        public CliBuilder<TCommand> WithVersionOption(Action<CliOptionDefinition> configureOption)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CliBuilder<TCommand> WithOption(Action<CliOptionDefinition> configureOption)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CliBuilder<TCommand> WithArgument(Action<CliArgumentDefinition> configureArgument)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CliBuilder<TCommand> WithSubCommand<TSubCommand>(Action<CliBuilder<TSubCommand>> configureCommand)
+            where TSubCommand : CliCommand
+        {
+            throw new NotImplementedException();
+        }
+
+        protected TResult DoExecute<TResult>(CommandLineApplication app, string[] args, Func<TCommand, CommandLineApplication, TResult> commandExecute)
+        {
+            var commandDefinition = new CliCommandDefinition();
+            configureCommand?.Invoke(commandDefinition);
+            ICommandLineApplicationConfigure commandConfigure = commandDefinition;
+            commandConfigure.ConfigureApplication(app);
+
+            TResult executeResult = default;
+            app.OnExecute(() =>
             {
-                Parent = parent;
-            }
+                var serviceCollection = new ServiceCollection();
+
+                var serviceProvider = serviceProviderOptions == null
+                    ? serviceCollection.BuildServiceProvider()
+                    : serviceCollection.BuildServiceProvider(serviceProviderOptions)
+                    ;
+
+                var cmd = serviceProvider.GetRequiredService<TCommand>();
+                executeResult = commandExecute(cmd, app);
+            });
+            app.Execute(args ?? emptyArguments);
+            return executeResult;
         }
     }
 }

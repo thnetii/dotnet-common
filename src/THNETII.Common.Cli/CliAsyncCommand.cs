@@ -1,6 +1,7 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace THNETII.Common.Cli
@@ -21,7 +22,7 @@ namespace THNETII.Common.Cli
         /// </summary>
         /// <param name="app">The command-line application instance that executes the command.</param>
         /// <returns>A task instance that upon completion contains the Operating System exit code that indicated whether the command was executed successfully.</returns>
-        public virtual Task<int> RunAsync(CommandLineApplication app)
+        public virtual Task<int> RunAsync(CommandLineApplication app, CancellationToken cancellationToken = default)
             => Task.FromResult(base.Run(app));
 
         /// <inheritdoc />
