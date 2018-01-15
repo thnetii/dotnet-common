@@ -6,9 +6,21 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/test/THNETII.Common.Test/bin/Debug/netcoreapp1.1/THNETII.Common.Test.dll",
+            "program": "${workspaceRoot}/bin/Debug/netcoreapp2.0/THNETII.Common.Test.dll",
             "args": [],
             "cwd": "${workspaceRoot}/test/THNETII.Common.Test",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "THNETII.Common.Cli.Sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceRoot}/bin/Debug/netcoreapp2.0/THNETII.Common.Cli.Sample.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}/sample/THNETII.Common.Cli.Sample",
             "console": "internalConsole",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart"
