@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace THNETII.Common
 {
@@ -84,5 +86,7 @@ namespace THNETII.Common
             }
             return s;
         }
+
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> enumerable) => enumerable ?? Enumerable.Empty<T>();
     }
 }
