@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A779530B-DED1-41B2-8A20-B021C3D6EC8B}"
 	ProjectSection(SolutionItems) = preProject
@@ -45,6 +45,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Common.Cli.Extensio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Security.JOSE.Cli", "src\THNETII.Security.JOSE.Cli\THNETII.Security.JOSE.Cli.csproj", "{B3032B93-73DF-48A7-A71D-C963ED499663}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{067FDB70-253A-438E-88AB-2773BEEF990C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THNETII.Logging.EventSource", "src\THNETII.Logging.EventSource\THNETII.Logging.EventSource.csproj", "{07483125-B3BD-4CA7-B37F-3E4311BAF694}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THNETII.SystemNet.EventLogging.Sample", "sample\THNETII.SystemNet.EventLogging.Sample\THNETII.SystemNet.EventLogging.Sample.csproj", "{7EF62A32-134D-4439-9E3B-B2C1ACC096A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +85,14 @@ Global
 		{B3032B93-73DF-48A7-A71D-C963ED499663}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3032B93-73DF-48A7-A71D-C963ED499663}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3032B93-73DF-48A7-A71D-C963ED499663}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07483125-B3BD-4CA7-B37F-3E4311BAF694}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07483125-B3BD-4CA7-B37F-3E4311BAF694}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07483125-B3BD-4CA7-B37F-3E4311BAF694}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07483125-B3BD-4CA7-B37F-3E4311BAF694}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EF62A32-134D-4439-9E3B-B2C1ACC096A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EF62A32-134D-4439-9E3B-B2C1ACC096A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EF62A32-134D-4439-9E3B-B2C1ACC096A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EF62A32-134D-4439-9E3B-B2C1ACC096A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +106,8 @@ Global
 		{71E34419-F7A3-4A28-87F8-DB5DD32CE891} = {A67B4F51-60BF-485A-BA42-DAC64ED4885A}
 		{99D61D2B-DCD3-4B40-8213-4C76FB183A53} = {331613E4-9D79-4254-AC6C-C118A863AA66}
 		{B3032B93-73DF-48A7-A71D-C963ED499663} = {331613E4-9D79-4254-AC6C-C118A863AA66}
+		{07483125-B3BD-4CA7-B37F-3E4311BAF694} = {331613E4-9D79-4254-AC6C-C118A863AA66}
+		{7EF62A32-134D-4439-9E3B-B2C1ACC096A1} = {067FDB70-253A-438E-88AB-2773BEEF990C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1BDA8D3-891E-4F91-BFEA-B8B23CFA3678}
