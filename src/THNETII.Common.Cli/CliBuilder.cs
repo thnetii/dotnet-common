@@ -14,7 +14,7 @@ namespace THNETII.Common.Cli
 
     public class CliBuilder<TCommand> where TCommand : CliCommand
     {
-        private static readonly string[] emptyArguments = new string[0];
+        private static readonly string[] emptyArguments = Array.Empty<string>();
 
         private Action<CliCommandDefinition> configureCommand;
         private ServiceProviderOptions serviceProviderOptions;
@@ -31,36 +31,6 @@ namespace THNETII.Common.Cli
         }
 
         public CliBuilder<TCommand> WithConfigurationBuilder(Action<IConfigurationBuilder> configurationBuilder)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CliBuilder<TCommand> WithHelpOption() => WithHelpOption(_ => { });
-
-        public CliBuilder<TCommand> WithHelpOption(Action<CliOptionDefinition> configureOption)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CliBuilder<TCommand> WithVersionOption() => WithVersionOption(_ => { });
-
-        public CliBuilder<TCommand> WithVersionOption(Action<CliOptionDefinition> configureOption)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CliBuilder<TCommand> WithOption(Action<CliOptionDefinition> configureOption)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CliBuilder<TCommand> WithArgument(Action<CliArgumentDefinition> configureArgument)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CliBuilder<TCommand> WithSubCommand<TSubCommand>(Action<CliBuilder<TSubCommand>> configureCommand)
-            where TSubCommand : CliCommand
         {
             throw new NotImplementedException();
         }
