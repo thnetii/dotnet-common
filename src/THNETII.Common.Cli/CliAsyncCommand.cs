@@ -15,6 +15,12 @@ namespace THNETII.Common.Cli
         public CliAsyncCommand() : base() { }
 
         /// <inheritdoc />
+        public CliAsyncCommand(ILogger<CliAsyncCommand> logger) : base(logger) { }
+
+        /// <inheritdoc />
+        public CliAsyncCommand(ILogger logger) : base(logger) { }
+
+        /// <inheritdoc />
         public CliAsyncCommand(IConfiguration configuration, ILogger<CliAsyncCommand> logger = null) : base(configuration, logger) { }
 
         /// <summary>
