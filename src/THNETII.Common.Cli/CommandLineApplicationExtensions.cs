@@ -4,26 +4,42 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-
+using THNETII.Common.Collections.Generic;
 
 namespace THNETII.Common.Cli
 {
+    using CommandLineApplicationComparer = WeakReferenceEqualityComparer<CommandLineApplication>;
     using CommandLineApplicationWR = WeakReference<CommandLineApplication>;
     using ConfigurationBuilderAction = Action<IConfigurationBuilder>;
-    using ConfigureServicesAction = Action<IConfiguration, IServiceCollection>;
+    using ConfigurationBuilderDictionary = ConcurrentDictionary<
+        WeakReference<CommandLineApplication>,
+        Action<IConfigurationBuilder>
+        >;
+    using ConfigureArgumentAction = Action<CommandArgument>;
+    using ConfigureCommandAction = Action<CommandLineApplication>;
+    using ConfigureOnExecuteDictionary = ConcurrentDictionary<
+        WeakReference<CommandLineApplication>,
+        Action<Action<CliCommand>>
+        >;
     using ConfigureOptionAction = Action<CommandOption>;
+    using ConfigureServicesAction = Action<IConfiguration, IServiceCollection>;
+    using ConfigureServicesDictionary = ConcurrentDictionary<
+        WeakReference<CommandLineApplication>,
+        Action<IConfiguration, IServiceCollection>
+        >;
 
     public static class CommandLineApplicationExtensions
     {
-        private static readonly IEqualityComparer<CommandLineApplicationWR> comp = WeakReferenceComparer.GetDefault<CommandLineApplication>();
-        private static readonly ConcurrentDictionary<CommandLineApplicationWR, ConfigurationBuilderAction> allConfigurationBuilders =
-            new ConcurrentDictionary<CommandLineApplicationWR, ConfigurationBuilderAction>(comp);
-        private static readonly ConcurrentDictionary<CommandLineApplicationWR, ConfigureServicesAction> allConfigureServices =
-            new ConcurrentDictionary<CommandLineApplicationWR, ConfigureServicesAction>(comp);
+        private static readonly CommandLineApplicationComparer comp = CommandLineApplicationComparer.Default;
+        private static readonly ConfigurationBuilderDictionary configureConfigurationDict =
+            new ConfigurationBuilderDictionary(comp);
+        private static readonly ConfigureServicesDictionary configureServicesDict =
+            new ConfigureServicesDictionary(comp);
+        private static readonly ConfigureOnExecuteDictionary configureOnExecuteDict =
+            new ConfigureOnExecuteDictionary(comp);
 
         private static void ClearDisposedKeys<TRef, TValue>(this ConcurrentDictionary<WeakReference<TRef>, TValue> dictionary)
             where TRef : class
@@ -40,44 +56,92 @@ namespace THNETII.Common.Cli
 
         private static void ClearDisposed()
         {
-            allConfigureServices.ClearDisposedKeys();
+            configureServicesDict.ClearDisposedKeys();
         }
 
-        private static CommandLineApplicationWR GetWeakReference(this CommandLineApplication app)
-            => new CommandLineApplicationWR(app.ThrowIfNull(nameof(app)));
-
-        public static CommandLineApplication WithServiceCollection(this CommandLineApplication app, ConfigureServicesAction configureServices)
+        public static CommandLineApplication WithConfigurationBuilder(
+            this CommandLineApplication app,
+            ConfigurationBuilderAction configureConfiguration)
         {
-            var weak = app.GetWeakReference();
-            allConfigureServices.AddOrUpdate(
-                weak, configureServices,
-                (_, prevConfigureServices) => prevConfigureServices + configureServices);
+            var weak = new CommandLineApplicationWR(
+                app.ThrowIfNull(nameof(app)));
+            configureConfigurationDict.AddOrUpdate(
+                weak, configureConfiguration,
+                (_, p) => p + configureConfiguration);
             return app;
         }
 
-        private static string GetOptionTemplateString(char? symbol, string shortName, string longName, string valueName)
+        public static CommandLineApplication WithServiceCollection(
+            this CommandLineApplication app, 
+            ConfigureServicesAction configureServices)
         {
-            var template = string.Join("|", new[]
-            {
-                symbol.HasValue ? "-" + symbol : null,
-                string.IsNullOrEmpty(shortName) ? null : '-' + shortName,
-                string.IsNullOrEmpty(longName) ? null : "--" + longName
-            }.Where(s => s != null));
-            if (template.Length == 0 || string.IsNullOrEmpty(valueName))
-                return template;
-            return template + '<' + valueName + '>';
+            var weak = new CommandLineApplicationWR(
+                app.ThrowIfNull(nameof(app)));
+            configureServicesDict.AddOrUpdate(
+                weak, configureServices,
+                (_, p) => p + configureServices);
+            return app;
         }
 
         public static CommandLineApplication WithOption(
             this CommandLineApplication app,
-            string template, CommandOptionType optionType, 
-            ConfigureOptionAction configureOption)
+            string template, CommandOptionType optionType,
+            ConfigureOptionAction configureOption = null)
         {
-            var option = app.ThrowIfNull(nameof(app)).Option(
+            app.ThrowIfNull(nameof(app)).Option(
                 template,
-                description: null,
-                optionType: optionType);
-            configureOption?.Invoke(option);
+                null, // description
+                optionType,
+                configureOption ?? (_ => { })
+                );
+            return app;
+        }
+
+        public static CommandLineApplication WithArgument(
+            this CommandLineApplication app,
+            string name,
+            ConfigureArgumentAction configureArgument = null)
+        {
+            app.ThrowIfNull(nameof(app)).Argument(
+                name,
+                null, // description
+                configureArgument ?? (_ => { })
+                );
+            return app;
+        }
+
+        public static CommandLineApplication WithSubCommand<TCommand>(this CommandLineApplication app,
+            string name, ConfigureCommandAction configureCommand)
+            where TCommand : CliCommand
+        {
+            var subApp = app.ThrowIfNull(nameof(app)).Command(
+                name,
+                configureCommand ?? (_ => { }),
+                app.ThrowOnUnexpectedArgument
+                );
+            var weak = new CommandLineApplicationWR(subApp);
+            configureOnExecuteDict[weak] = GetOnExecute<TCommand>(weak);
+            return app;
+        }
+
+        public static CommandLineApplication WithArgumentSeparator(this CommandLineApplication app,
+            bool allowArgumentSeparator = true)
+        {
+            app.ThrowIfNull(nameof(app)).AllowArgumentSeparator = allowArgumentSeparator;
+            return app;
+        }
+
+        public static CommandLineApplication WithDescription(this CommandLineApplication app,
+            string description)
+        {
+            app.ThrowIfNull(nameof(app)).Description = description;
+            return app;
+        }
+
+        public static CommandLineApplication WithErrorWriter(this CommandLineApplication app,
+            TextWriter errorWriter)
+        {
+            app.ThrowIfNull(nameof(app)).Error = errorWriter ?? Console.Error;
             return app;
         }
 
@@ -99,24 +163,25 @@ namespace THNETII.Common.Cli
             string[] args,
             CancellationToken cancellationToken)
             where T : CliAsyncCommand
-            => DoExecuteCommand<T, Task<int>>(app, args,
-                cmd => cmd.RunAsync(app, cancellationToken));
+            => DoExecuteCommand<T, Task<int>>(app, args, cmd =>
+            {
+                if (cmd is CliAsyncCommand asyncCmd)
+                    return asyncCmd.RunAsync(app, cancellationToken);
+                return Task.Run(() => cmd.Run(app), cancellationToken);
+            });
 
-        private static void ConfigureOnExecute<TCommand>(
-            CommandLineApplication app, 
-            Action<TCommand> commandExecute)
+        private static Action<Action<CliCommand>> GetOnExecute<TCommand>(CommandLineApplicationWR weak)
             where TCommand : CliCommand
         {
-            var weak = app.GetWeakReference();
-            app.OnExecute(() =>
+            return commandExecute =>
             {
                 var configBuilder = new ConfigurationBuilder();
-                if (allConfigurationBuilders.TryGetValue(weak, out var configureConfigurationBuilder))
+                if (configureConfigurationDict.TryGetValue(weak, out var configureConfigurationBuilder))
                     configureConfigurationBuilder(configBuilder);
                 var config = configBuilder.Build();
                 var serviceCollection = new ServiceCollection();
                 serviceCollection.AddSingleton<IConfiguration>(config);
-                if (allConfigureServices.TryGetValue(weak, out var configureServices))
+                if (configureServicesDict.TryGetValue(weak, out var configureServices))
                     configureServices(config, serviceCollection);
                 serviceCollection.AddSingleton<TCommand>();
                 var serviceProvider = serviceCollection.BuildServiceProvider();
@@ -125,21 +190,31 @@ namespace THNETII.Common.Cli
                     var cmd = serviceProvider.GetRequiredService<TCommand>();
                     commandExecute(cmd);
                 }
-            });
+            };
         }
 
         private static TResult DoExecuteCommand<TCommand, TResult>(
             CommandLineApplication app,
             string[] args,
-            Func<TCommand, TResult> commandExecute)
+            Func<CliCommand, TResult> commandExecute)
             where TCommand : CliCommand
         {
             if (app is null)
                 throw new ArgumentNullException(nameof(app));
 
-
             TResult result = default;
-            ConfigureOnExecute<TCommand>(app, cmd => result = commandExecute(cmd));
+            void commandExecuteAction(CliCommand cmd) => result = commandExecute(cmd);
+
+            foreach (var subcmd in app.Commands)
+            {
+                var subWeak = new CommandLineApplicationWR(subcmd);
+                if (configureOnExecuteDict.TryGetValue(subWeak, out var subOnExecute))
+                    subcmd.OnExecute(() => subOnExecute(commandExecuteAction));
+            }
+            var onExecute = configureOnExecuteDict.GetOrAdd(
+                new CommandLineApplicationWR(app),
+                GetOnExecute<TCommand>);
+            app.OnExecute(() => onExecute(commandExecuteAction));
             app.Execute(args ?? Array.Empty<string>());
             return result;
         }
