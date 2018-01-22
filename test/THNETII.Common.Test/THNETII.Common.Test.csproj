@@ -13,7 +13,6 @@
   <ItemGroup Label="ProjectReferences">
     <ProjectReference Include="..\..\src\THNETII.Common\THNETII.Common.csproj" />
     <ProjectReference Include="..\..\src\THNETII.Common.Cli\THNETII.Common.Cli.csproj" />
-    <ProjectReference Include="..\..\src\THNETII.Security.JOSE\THNETII.Security.JOSE.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="PackageReferences">
@@ -24,14 +23,6 @@
 
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <!--<Folder Include="Security.JOSE\Test\ietf-jose-cookbook\jwk" />-->
-    <Content Include="..\..\src\THNETII.Security.JOSE\ietf-jose-cookbook\jwk\*.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <LinkBase>Security.JOSE\Test</LinkBase>
-    </Content>
   </ItemGroup>
 
 </Project>

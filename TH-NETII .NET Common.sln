@@ -1,14 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A779530B-DED1-41B2-8A20-B021C3D6EC8B}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		.gitmodules = .gitmodules
 		AllRules.ruleset = AllRules.ruleset
 		Directory.Build.props = Directory.Build.props
 		LICENSE = LICENSE
@@ -19,8 +18,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Common.Test", "test\THNETII.Common.Test\THNETII.Common.Test.csproj", "{976E4384-2206-493F-81F7-72BC185223E4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{331613E4-9D79-4254-AC6C-C118A863AA66}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Security.JOSE", "src\THNETII.Security.JOSE\THNETII.Security.JOSE.csproj", "{3D51AB34-F377-4E39-8ED1-E6C8848FA74A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Common", "src\THNETII.Common\THNETII.Common.csproj", "{C13AC37C-0BF2-4A75-AA92-CF51379A1F2A}"
 EndProject
@@ -43,8 +40,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rfc", "rfc", "{71E34419-F7A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Common.Cli.Extensions", "src\THNETII.Common.Cli.Extensions\THNETII.Common.Cli.Extensions.csproj", "{99D61D2B-DCD3-4B40-8213-4C76FB183A53}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Security.JOSE.Cli", "src\THNETII.Security.JOSE.Cli\THNETII.Security.JOSE.Cli.csproj", "{B3032B93-73DF-48A7-A71D-C963ED499663}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,10 +50,6 @@ Global
 		{976E4384-2206-493F-81F7-72BC185223E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{976E4384-2206-493F-81F7-72BC185223E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{976E4384-2206-493F-81F7-72BC185223E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D51AB34-F377-4E39-8ED1-E6C8848FA74A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D51AB34-F377-4E39-8ED1-E6C8848FA74A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D51AB34-F377-4E39-8ED1-E6C8848FA74A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D51AB34-F377-4E39-8ED1-E6C8848FA74A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C13AC37C-0BF2-4A75-AA92-CF51379A1F2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C13AC37C-0BF2-4A75-AA92-CF51379A1F2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C13AC37C-0BF2-4A75-AA92-CF51379A1F2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,23 +66,17 @@ Global
 		{99D61D2B-DCD3-4B40-8213-4C76FB183A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99D61D2B-DCD3-4B40-8213-4C76FB183A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99D61D2B-DCD3-4B40-8213-4C76FB183A53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3032B93-73DF-48A7-A71D-C963ED499663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3032B93-73DF-48A7-A71D-C963ED499663}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3032B93-73DF-48A7-A71D-C963ED499663}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3032B93-73DF-48A7-A71D-C963ED499663}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{976E4384-2206-493F-81F7-72BC185223E4} = {A1768F41-219C-424C-92B8-695477251F6A}
-		{3D51AB34-F377-4E39-8ED1-E6C8848FA74A} = {331613E4-9D79-4254-AC6C-C118A863AA66}
 		{C13AC37C-0BF2-4A75-AA92-CF51379A1F2A} = {331613E4-9D79-4254-AC6C-C118A863AA66}
 		{FEA67DCB-E1BA-46F8-A8F2-201A7059D18E} = {331613E4-9D79-4254-AC6C-C118A863AA66}
 		{321034C6-6189-4FA5-A710-9D303CBA1482} = {331613E4-9D79-4254-AC6C-C118A863AA66}
 		{71E34419-F7A3-4A28-87F8-DB5DD32CE891} = {A67B4F51-60BF-485A-BA42-DAC64ED4885A}
 		{99D61D2B-DCD3-4B40-8213-4C76FB183A53} = {331613E4-9D79-4254-AC6C-C118A863AA66}
-		{B3032B93-73DF-48A7-A71D-C963ED499663} = {331613E4-9D79-4254-AC6C-C118A863AA66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1BDA8D3-891E-4F91-BFEA-B8B23CFA3678}

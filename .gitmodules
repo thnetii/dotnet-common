@@ -1,3 +1,0 @@
-﻿[submodule "ietf-jose-cookbook"]
-	path = src/THNETII.Security.JOSE/ietf-jose-cookbook
-	url = https://github.com/ietf-jose/cookbook.git
