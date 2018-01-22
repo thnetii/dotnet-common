@@ -23,19 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Common", "src\THNET
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Common.DataContractSerializer", "src\THNETII.Common.DataContractSerializer\THNETII.Common.DataContractSerializer.csproj", "{321034C6-6189-4FA5-A710-9D303CBA1482}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{A67B4F51-60BF-485A-BA42-DAC64ED4885A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rfc", "rfc", "{71E34419-F7A3-4A28-87F8-DB5DD32CE891}"
-	ProjectSection(SolutionItems) = preProject
-		doc\rfc\rfc7165.html = doc\rfc\rfc7165.html
-		doc\rfc\rfc7515.html = doc\rfc\rfc7515.html
-		doc\rfc\rfc7516.html = doc\rfc\rfc7516.html
-		doc\rfc\rfc7517.html = doc\rfc\rfc7517.html
-		doc\rfc\rfc7518.html = doc\rfc\rfc7518.html
-		doc\rfc\rfc7519.html = doc\rfc\rfc7519.html
-		doc\rfc\rfc7520.html = doc\rfc\rfc7520.html
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,7 +49,6 @@ Global
 		{976E4384-2206-493F-81F7-72BC185223E4} = {A1768F41-219C-424C-92B8-695477251F6A}
 		{C13AC37C-0BF2-4A75-AA92-CF51379A1F2A} = {331613E4-9D79-4254-AC6C-C118A863AA66}
 		{321034C6-6189-4FA5-A710-9D303CBA1482} = {331613E4-9D79-4254-AC6C-C118A863AA66}
-		{71E34419-F7A3-4A28-87F8-DB5DD32CE891} = {A67B4F51-60BF-485A-BA42-DAC64ED4885A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1BDA8D3-891E-4F91-BFEA-B8B23CFA3678}
