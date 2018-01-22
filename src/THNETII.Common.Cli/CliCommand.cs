@@ -16,13 +16,13 @@ namespace THNETII.Common.Cli
         /// Gets the Configuration instance containing application configuration data for this command.
         /// <para>Property value may be <c>null</c>.</para>
         /// </summary>
-        public IConfiguration Configuration { get; }
+        public virtual IConfiguration Configuration { get; }
 
         /// <summary>
-        /// Gets a logger instance for this command instance that can be used to write formatted log output to one or more configured output mediums.
+        /// Gets a logger instance for this command instance that can be used to write formatted log output to one or more configured logging providers.
         /// <para>Property value may be <c>null</c>.</para>
         /// </summary>
-        public ILogger Logger { get; }
+        public virtual ILogger Logger { get; }
 
         /// <summary>
         /// Creates a new default CLI command instance that does not use any configuration data or logger instances.
@@ -30,14 +30,31 @@ namespace THNETII.Common.Cli
         public CliCommand() { }
 
         /// <summary>
+        /// Creates a new default CLI command instance using the specified logger.
+        /// </summary>
+        /// <param name="logger">An optional logger instance for this command. May be <c>null</c>.</param>
+        public CliCommand(ILogger<CliCommand> logger) : this()
+        {
+            Logger = logger;
+        }
+
+        /// <summary>
+        /// Creates a new default CLI command instance using the specified logger.
+        /// </summary>
+        /// <param name="logger">An optional logger instance to use for logging. May be <c>null</c>.</param>
+        public CliCommand(ILogger logger) : this()
+        {
+            Logger = logger;
+        }
+
+        /// <summary>
         /// Creates a new default CLI command instance using the specified configuration data and logger instance.
         /// </summary>
         /// <param name="configuration">The configuration data that the CLI command should use. May be <c>null</c>.</param>
         /// <param name="logger">An optional logger instance for this command. May be <c>null</c>.</param>
-        public CliCommand(IConfiguration configuration, ILogger<CliCommand> logger = null) : this()
+        public CliCommand(IConfiguration configuration, ILogger<CliCommand> logger = null) : this(logger)
         {
             Configuration = configuration;
-            Logger = logger;
         }
 
         /// <summary>
@@ -91,7 +108,7 @@ namespace THNETII.Common.Cli
         /// </summary>
         /// <param name="app">The command-line application currently being executed.</param>
         /// <returns>The first command-line argument that might be a command, or <c>null</c> if no command-like argument could be found.</returns>
-        protected string FindUnrecognizedCommand(CommandLineApplication app) => FindUnrecognizedCommand(app, out var _);
+        protected static string FindUnrecognizedCommand(CommandLineApplication app) => FindUnrecognizedCommand(app, out var _);
 
         /// <summary>
         /// Gets the first arguments in the list of remaining arguments in the executing command line application that does not start with an option-indicating hyphen (<c>'-'</c>) character.
@@ -99,7 +116,7 @@ namespace THNETII.Common.Cli
         /// <param name="app">The command-line application currently being executed.</param>
         /// <param name="argumentIndex">An out variable that receives the index in the list of remaining arguments where the unrecognized command is located. Set to <c>-1</c> if no argument was found.</param>
         /// <returns>The first command-line argument that might be a command, or <c>null</c> if no command-like argument could be found.</returns>
-        protected string FindUnrecognizedCommand(CommandLineApplication app, out int argumentIndex)
+        protected static string FindUnrecognizedCommand(CommandLineApplication app, out int argumentIndex)
         {
             app.ThrowIfNull(nameof(app));
             for (int i = 0; i < app.RemainingArguments.Count; i++)
