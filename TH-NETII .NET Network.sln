@@ -30,6 +30,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Security.JOSE.Test"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Networking.Http", "src\THNETII.Networking.Http\THNETII.Networking.Http.csproj", "{90E51F6D-C0C9-487A-8192-A521D2E33E26}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rfc", "rfc", "{6874F8BA-0431-4F6F-AF3B-562E0E6082E5}"
+	ProjectSection(SolutionItems) = preProject
+		doc\rfc\rfc7165.html = doc\rfc\rfc7165.html
+		doc\rfc\rfc7515.html = doc\rfc\rfc7515.html
+		doc\rfc\rfc7516.html = doc\rfc\rfc7516.html
+		doc\rfc\rfc7517.html = doc\rfc\rfc7517.html
+		doc\rfc\rfc7518.html = doc\rfc\rfc7518.html
+		doc\rfc\rfc7519.html = doc\rfc\rfc7519.html
+		doc\rfc\rfc7520.html = doc\rfc\rfc7520.html
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
