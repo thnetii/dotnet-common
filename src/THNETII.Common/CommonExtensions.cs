@@ -87,6 +87,26 @@ namespace THNETII.Common
             return s;
         }
 
+        /// <summary>
+        /// Returns the specified array instance or a sero-length array of the same type if the specified arrays is <c>null</c>.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of the array.</typeparam>
+        /// <param name="array">The array to check against <c>null</c>.</param>
+        /// <returns>
+        /// Returns <paramref name="array"/> if it is non-<c>null</c>; otherwise, a zero-length <typeparamref name="T"/>-array is returned.
+        /// The return value of this method is guaranteed to be non-<c>null</c>.
+        /// </returns>
+        public static T[] ZeroLengthIfNull<T>(this T[] array) => array ?? Array.Empty<T>();
+
+        /// <summary>
+        /// Returns the specified <see cref="IEnumerable{T}"/> instance, or an empty <see cref="IEnumerable{T}"/> if the specified enumerable is <c>null</c>.
+        /// </summary>
+        /// <typeparam name="T">The type that is being enumerated by <paramref name="enumerable"/>.</typeparam>
+        /// <param name="enumerable">The enumerable to check against <c>null</c>.</param>
+        /// <returns>
+        /// Returns <paramref name="enumerable"/> if it is non-<c>null</c>; otherwise, an empty <see cref="IEnumerable{T}"/> is returned.
+        /// The return value of this method is guaranteed to be non-<c>null</c>.
+        /// </returns>
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> enumerable) => enumerable ?? Enumerable.Empty<T>();
     }
 }
