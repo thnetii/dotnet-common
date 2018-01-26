@@ -82,17 +82,17 @@ namespace THNETII.Logging.EventSource
                 {
                     var matchResult = new KeyValuePair<string, LogLevel>(configItem.Key, logLevel);
                     if (eventSource.Name.StartsWith(configItem.Key, StringComparison.OrdinalIgnoreCase))
-                        return (Key: configItem.Key, Value: logLevel, MatchClass: 0);
+                        return (configItem.Key, Value: logLevel, MatchClass: 0);
                     else
                     {
                         var nsName = eventSource.Name.Replace('-', '.');
                         if (nsName.StartsWith(configItem.Key, StringComparison.OrdinalIgnoreCase))
-                            return (Key: configItem.Key, Value: logLevel, MatchClass: 0);
+                            return (configItem.Key, Value: logLevel, MatchClass: 0);
                         var msNsName = "Microsoft." + configItem.Key;
                         if (nsName.StartsWith(msNsName, StringComparison.OrdinalIgnoreCase))
-                            return (Key: configItem.Key, Value: logLevel, MatchClass: 1);
+                            return (configItem.Key, Value: logLevel, MatchClass: 1);
                         if (string.Equals("Default", configItem.Key, StringComparison.OrdinalIgnoreCase))
-                            return (Key: configItem.Key, Value: logLevel, MatchClass: 2);
+                            return (configItem.Key, Value: logLevel, MatchClass: 2);
                     }
                 }
                 return (Key: null, Value: logLevel, MatchClass: int.MaxValue);
@@ -180,7 +180,7 @@ namespace THNETII.Logging.EventSource
             }
         }
 
-        private string LogMessageFormatter(object instance, Exception exception)
+        private static string LogMessageFormatter(object instance, Exception exception)
         {
             var logMessage = (instance?.ToString()).IfNotNullOrWhiteSpace(otherwise: string.Empty);
             if (exception != null)
