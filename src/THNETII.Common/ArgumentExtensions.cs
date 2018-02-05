@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace THNETII.Common
@@ -6,6 +7,7 @@ namespace THNETII.Common
     /// <summary>
     /// Provides extension methods to be used for method argument validation.
     /// </summary>
+    [DebuggerStepThrough]
     public static class ArgumentExtensions
     {
         /// <summary>

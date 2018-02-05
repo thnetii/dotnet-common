@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace THNETII.Common
@@ -7,6 +8,7 @@ namespace THNETII.Common
     /// <summary>
     /// Provides common extension methods for .NET types.
     /// </summary>
+    [DebuggerStepThrough]
     public static class CommonExtensions
     {
         /// <summary>
