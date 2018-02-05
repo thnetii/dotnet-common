@@ -18,8 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3FE280F9-5D3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.AppFramework.Cli", "src\THNETII.AppFramework.Cli\THNETII.AppFramework.Cli.csproj", "{47CABDB6-D409-49D8-A170-54D3B5B14A5E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.AppFramework.Cli.About", "src\THNETII.AppFramework.Cli.About\THNETII.AppFramework.Cli.About.csproj", "{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.AppFramework.Cli.Extensions", "src\THNETII.AppFramework.Cli.Extensions\THNETII.AppFramework.Cli.Extensions.csproj", "{22D6B871-4EAC-4841-ABD1-95E262C4BACC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C363028D-F1B1-44FA-B7A2-20625450A24E}"
@@ -44,7 +42,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.DependencyInjection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.DependencyInjection.Nesting.Test", "test\THNETII.DependencyInjection.Nesting.Test\THNETII.DependencyInjection.Nesting.Test.csproj", "{05BB4947-5718-4A8D-AF89-6F7D8A7464E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THNETII.DependencyInjection.Configuration", "src\THNETII.DependencyInjection.Configuration\THNETII.DependencyInjection.Configuration.csproj", "{A2E8F07A-6147-4C2A-B5E3-18316C2B7F2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.DependencyInjection.Configuration", "src\THNETII.DependencyInjection.Configuration\THNETII.DependencyInjection.Configuration.csproj", "{A2E8F07A-6147-4C2A-B5E3-18316C2B7F2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,18 +66,6 @@ Global
 		{47CABDB6-D409-49D8-A170-54D3B5B14A5E}.Release|x64.Build.0 = Release|Any CPU
 		{47CABDB6-D409-49D8-A170-54D3B5B14A5E}.Release|x86.ActiveCfg = Release|Any CPU
 		{47CABDB6-D409-49D8-A170-54D3B5B14A5E}.Release|x86.Build.0 = Release|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Debug|x64.Build.0 = Debug|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Debug|x86.Build.0 = Debug|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Release|x64.ActiveCfg = Release|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Release|x64.Build.0 = Release|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Release|x86.ActiveCfg = Release|Any CPU
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C}.Release|x86.Build.0 = Release|Any CPU
 		{22D6B871-4EAC-4841-ABD1-95E262C4BACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{22D6B871-4EAC-4841-ABD1-95E262C4BACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22D6B871-4EAC-4841-ABD1-95E262C4BACC}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -218,7 +204,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{47CABDB6-D409-49D8-A170-54D3B5B14A5E} = {3FE280F9-5D38-4A3F-A722-8B59A4EEAA29}
-		{2CB874F3-B513-4CEF-86B0-F5E8A01AFF7C} = {3FE280F9-5D38-4A3F-A722-8B59A4EEAA29}
 		{22D6B871-4EAC-4841-ABD1-95E262C4BACC} = {3FE280F9-5D38-4A3F-A722-8B59A4EEAA29}
 		{451755B4-8251-45F0-9193-98EDBE155428} = {C363028D-F1B1-44FA-B7A2-20625450A24E}
 		{376FEAFC-900E-4555-910C-ACDAA012DB1C} = {3FE280F9-5D38-4A3F-A722-8B59A4EEAA29}
