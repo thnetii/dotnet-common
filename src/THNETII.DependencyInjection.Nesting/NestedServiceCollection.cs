@@ -18,7 +18,8 @@ namespace THNETII.DependencyInjection.Nesting
             = new ServiceDescriptorExceptionList();
         private readonly IServiceCollection nestedServices;
 
-        private int InheritedCount => (InheritedServices?.Count ?? 0) - rootProxyDescriptors.Count;
+        private int InheritedCount
+            => (InheritedServices?.Count ?? 0) - rootProxyDescriptors.Count;
 
         public TKey Key { get; }
 
@@ -34,23 +35,42 @@ namespace THNETII.DependencyInjection.Nesting
             InheritedServices = inheritedServices;
             this.inheritedServices = inheritedServices.EmptyIfNull()
                 .Except(rootProxyDescriptors,
-                    ReferenceEqualityComparer<ServiceDescriptor>.Default);
+                    ReferenceEqualityComparer<ServiceDescriptor>.Default)
+                .Select(desc => GetProxyDescriptorForNested(desc));
             nestedServices = new ServiceCollection();
         }
 
-        private ServiceDescriptor GetRootProxyDescriptor(ServiceDescriptor serviceDescriptor)
+        private ServiceDescriptor GetProxyDescriptorForNested(
+            ServiceDescriptor rootServiceDescriptor)
         {
-            var serviceTypeRef = serviceDescriptor.ServiceType
+            var serviceTypeRef = rootServiceDescriptor.ServiceType
 #if NETSTANDARD1_3
                     .GetTypeInfo()
 #endif
                     ;
             if (serviceTypeRef.IsGenericTypeDefinition)
-                return serviceDescriptor;
-            return new ServiceDescriptor(serviceDescriptor.ServiceType,
+                return rootServiceDescriptor;
+            return new ServiceDescriptor(rootServiceDescriptor.ServiceType,
+                nsp => nsp.GetRequiredService<RootServiceProviderAccessor>()
+                    .RootServiceProvider.GetService(
+                        rootServiceDescriptor.ServiceType),
+                rootServiceDescriptor.Lifetime);
+        }
+
+        private ServiceDescriptor GetProxyDescriptorForRoot(
+            ServiceDescriptor nestedServiceDescriptor)
+        {
+            var serviceTypeRef = nestedServiceDescriptor.ServiceType
+#if NETSTANDARD1_3
+                    .GetTypeInfo()
+#endif
+                    ;
+            if (serviceTypeRef.IsGenericTypeDefinition)
+                return nestedServiceDescriptor;
+            return new ServiceDescriptor(nestedServiceDescriptor.ServiceType,
                 rsp => rsp.GetNestedServiceProvider<TFamily, TKey>(Key)
-                    .GetService(serviceDescriptor.ServiceType),
-                serviceDescriptor.Lifetime);
+                    .GetService(nestedServiceDescriptor.ServiceType),
+                nestedServiceDescriptor.Lifetime);
         }
 
 #if !NETSTANDARD1_3
@@ -75,7 +95,7 @@ namespace THNETII.DependencyInjection.Nesting
             {
                 int beforeAdd = InheritedServices.Count;
                 bool ensureAddProxy = false;
-                var rootProxyDescriptor = GetRootProxyDescriptor(serviceDescriptor);
+                var rootProxyDescriptor = GetProxyDescriptorForRoot(serviceDescriptor);
                 switch (RootServicesAddBehavior)
                 {
                     case RootServicesAddBehavior.Add:
@@ -109,8 +129,6 @@ namespace THNETII.DependencyInjection.Nesting
         public IEnumerator<ServiceDescriptor> GetEnumerator()
         {
             return inheritedServices
-                .Except(rootProxyDescriptors,
-                    ReferenceEqualityComparer<ServiceDescriptor>.Default)
                 .Concat(nestedServices)
                 .GetEnumerator();
         }
@@ -131,7 +149,8 @@ namespace THNETII.DependencyInjection.Nesting
 
         public int Count => InheritedCount + nestedServices.Count;
 
-        bool ICollection<ServiceDescriptor>.IsReadOnly => nestedServices.IsReadOnly;
+        bool ICollection<ServiceDescriptor>.IsReadOnly
+            => nestedServices.IsReadOnly;
 
         int IList<ServiceDescriptor>.IndexOf(ServiceDescriptor item)
         {
@@ -187,7 +206,8 @@ namespace THNETII.DependencyInjection.Nesting
         bool ICollection<ServiceDescriptor>.Contains(ServiceDescriptor item)
             => inheritedServices.Contains(item) && nestedServices.Contains(item);
 
-        void ICollection<ServiceDescriptor>.CopyTo(ServiceDescriptor[] array, int arrayIndex)
+        void ICollection<ServiceDescriptor>.CopyTo(ServiceDescriptor[] array,
+            int arrayIndex)
         {
             int i = 0;
             for (var enumerator = inheritedServices.GetEnumerator();
