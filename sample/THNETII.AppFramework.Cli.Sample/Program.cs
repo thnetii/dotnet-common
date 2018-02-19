@@ -1,4 +1,5 @@
 ﻿using System;
+using THNETII.AppFramework.Cli;
 
 namespace THNETII.Common.Cli.Sample
 {
