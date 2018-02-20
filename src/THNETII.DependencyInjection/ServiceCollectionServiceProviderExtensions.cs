@@ -5,6 +5,10 @@ using System.Reflection;
 
 namespace THNETII.DependencyInjection
 {
+    /// <summary>
+    /// Provides extension methods for the <see cref="IServiceCollection"/>
+    /// interface to build <see cref="IServiceProvider"/> instances.
+    /// </summary>
     public static class ServiceCollectionServiceProviderExtensions
     {
         private static IServiceProvider BuildServiceProvider<TContainerBuilder>(
@@ -17,11 +21,24 @@ namespace THNETII.DependencyInjection
 
         private static MethodInfo BuildServiceProviderInfo =
             typeof(ServiceCollectionServiceProviderExtensions)
-            .GetMethod(
-                nameof(BuildServiceProvider),
-                BindingFlags.NonPublic | BindingFlags.Static
-                );
+            .GetMethod(nameof(BuildServiceProvider),
+                BindingFlags.NonPublic | BindingFlags.Static);
 
+        /// <summary>
+        /// Creates an <see cref="IServiceProvider"/> containing services from the provided <see cref="IServiceCollection"/>.
+        /// <para> If possible, a registered <see cref="IServiceProviderFactory{TContainerBuilder}"/> will be used to create the <see cref="IServiceProvider"/> instance.</para>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> containing service descriptors.</param>
+        /// <returns>A new <see cref="IServiceProvider"/> instance.</returns>
+        /// <remarks>
+        /// If <paramref name="services"/> contains a <see cref="ServiceDescriptor"/> with the <see cref="IServiceProviderFactory{TContainerBuilder}"/> type,
+        /// this extension method will create a new service provider factory and use it to create the serivice provider.
+        /// <para>
+        /// If <paramref name="services"/> does not contain any <see cref="IServiceProviderFactory{TContainerBuilder}"/> service descriptors,
+        /// a default <see cref="IServiceProvider"/> is created by calling <see cref="ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection)"/>.
+        /// </para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> is <c>null</c>.</exception>
         public static IServiceProvider Build(this IServiceCollection services)
         {
             if (services == null)
@@ -36,7 +53,7 @@ namespace THNETII.DependencyInjection
 
             /// <summary>
             /// Filter predicate to filter for <see cref="ServiceDescriptor"/>
-            /// instances containing <see cref="IServiceProviderFactory{}"/>
+            /// instances containing <see cref="IServiceProviderFactory{TContainerBuilder}"/>
             /// as the <see cref="ServiceDescriptor.ServiceType"/>.
             /// </summary>
             bool factoryPredicate(ServiceDescriptor desc)
