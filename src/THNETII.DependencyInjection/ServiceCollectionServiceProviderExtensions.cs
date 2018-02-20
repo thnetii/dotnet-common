@@ -92,9 +92,6 @@ namespace THNETII.DependencyInjection
                         null,
                         new[] { factoryService, services }
                         );
-                    // The default service provider might be disposable
-                    if (defaultServiceProvider is IDisposable disp)
-                        disp.Dispose();
                 }
             }
             return serviceProvider ?? defaultServiceProvider;
