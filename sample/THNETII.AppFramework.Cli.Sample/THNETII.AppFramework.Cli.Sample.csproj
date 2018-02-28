@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\THNETII.AppFramework.Cli\THNETII.AppFramework.Cli.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.AppFramework.Cli.Builder\THNETII.AppFramework.Cli.Builder.csproj" />
     <ProjectReference Include="..\..\src\THNETII.AppFramework.Cli.Extensions\THNETII.AppFramework.Cli.Extensions.csproj" />
   </ItemGroup>
 
