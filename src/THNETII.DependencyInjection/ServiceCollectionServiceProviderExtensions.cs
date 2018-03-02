@@ -51,11 +51,6 @@ namespace THNETII.DependencyInjection
             // services for an injected Service Provider Factory.
             var defaultServiceProvider = services.BuildServiceProvider();
 
-            /// <summary>
-            /// Filter predicate to filter for <see cref="ServiceDescriptor"/>
-            /// instances containing <see cref="IServiceProviderFactory{TContainerBuilder}"/>
-            /// as the <see cref="ServiceDescriptor.ServiceType"/>.
-            /// </summary>
             bool factoryPredicate(ServiceDescriptor desc)
             {
 #if NETSTANDARD1_3
