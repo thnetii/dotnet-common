@@ -22,6 +22,19 @@ namespace THNETII.Common
         public static T IfNotNull<T>(this T x, T otherwise) => x != null ? x : otherwise;
 
         /// <summary>
+        /// Checks whether the specified value is not <c>null</c> and returns it through the out-parameter.
+        /// </summary>
+        /// <typeparam name="T">The type to return. <typeparamref name="T"/> should be a type where checks against <c>null</c> are sensible.</typeparam>
+        /// <param name="x">The value to check against <c>null</c>.</param>
+        /// <param name="value">Always returns back the value of <paramref name="x"/>.</param>
+        /// <returns><c>true</c> if <paramref name="x"/> is not <c>null</c>; otherwise, <c>false</c>.</returns>
+        public static bool TryNotNull<T>(this T x, out T value)
+        {
+            value = x;
+            return value != null;
+        }
+
+        /// <summary>
         /// Guards a value or an instance against being <c>null</c>, creating an alternative default value if the check fails.
         /// </summary>
         /// <typeparam name="T">The type to return. <typeparamref name="T"/> should be a type where checks against <c>null</c> are sensible.</typeparam>
@@ -40,6 +53,18 @@ namespace THNETII.Common
         /// <returns>The value of <paramref name="s"/> if <paramref name="s"/> is neither <c>null</c> nor the empty string; otherwise, the value of <paramref name="otherwise"/> is returned.</returns>
         /// <remarks>This extension method is a convenience method that allows for functional-style chaining invocations instead of having to write an equivalent <c>if</c>-statement.</remarks>
         public static string IfNotNullOrEmpty(this string s, string otherwise) => string.IsNullOrEmpty(s) ? otherwise : s;
+
+        /// <summary>
+        /// Checks whether the specified string is neither <c>null</c> nor empty and returns it through the out-parameter.
+        /// </summary>
+        /// <param name="s">The string to check against <c>null</c> or the empty string.</param>
+        /// <param name="value">Always returns back the value of <paramref name="s"/>.</param>
+        /// <returns><c>true</c> if <paramref name="s"/> is neither <c>null</c> nor the empty string; otherwise, <c>false</c>.</returns>
+        public static bool TryNotNullOrEmpty(this string s, out string value)
+        {
+            value = s;
+            return string.IsNullOrEmpty(value);
+        }
 
         /// <summary>
         /// Guards a value or an instance against being <c>null</c>, creating an alternative default value if the check fails.
@@ -69,6 +94,18 @@ namespace THNETII.Common
         /// <returns>The value of <paramref name="s"/> if <paramref name="s"/> is neither <c>null</c>, the empty string nor whitespace-only; otherwise, the value of <paramref name="otherwise"/> is returned.</returns>
         /// <remarks>This extension method is a convenience method that allows for functional-style chaining invocations instead of having to write an equivalent <c>if</c>-statement.</remarks>
         public static string IfNotNullOrWhiteSpace(this string s, string otherwise) => string.IsNullOrWhiteSpace(s) ? otherwise : s;
+
+        /// <summary>
+        /// Checks whether the specified string is neither <c>null</c>, empty nor white-space only and returns it through the out-parameter.
+        /// </summary>
+        /// <param name="s">The string to check against <c>null</c>, the empty string and white-space only.</param>
+        /// <param name="value">Always returns back the value of <paramref name="s"/>.</param>
+        /// <returns><c>true</c> if <paramref name="s"/> is neither <c>null</c>, the empty string nor white-space only; otherwise, <c>false</c>.</returns>
+        public static bool TryNotNullOrWhiteSpace(this string s, out string value)
+        {
+            value = s;
+            return string.IsNullOrWhiteSpace(value);
+        }
 
         /// <summary>
         /// Guards a string against being <c>null</c>, empty or whitespace-only, creating an alternative default value if the check fails.
