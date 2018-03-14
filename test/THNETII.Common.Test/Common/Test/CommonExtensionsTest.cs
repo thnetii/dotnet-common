@@ -177,7 +177,7 @@ namespace THNETII.Common.Test
         [InlineData("\r\n")]
         public void ThrowsIfInstanceNullOrWhitespaceAndFactoryNull(string test)
         {
-            Assert.ThrowsAny<ArgumentNullException>(() => test.IfNotNullOrEmpty(otherwiseFactory: null));
+            Assert.ThrowsAny<ArgumentNullException>(() => test.IfNotNullOrWhiteSpace(otherwiseFactory: null));
         }
     }
 }

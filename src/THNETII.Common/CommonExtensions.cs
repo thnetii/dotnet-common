@@ -43,7 +43,14 @@ namespace THNETII.Common
         /// <returns>The value of <paramref name="x"/> if <paramref name="x"/> is not <c>null</c>; otherwise, the value returned from <paramref name="otherwiseFactory"/> is returned.</returns>
         /// <remarks>This extension method is a convenience method that allows for functional-style chaining invocations instead of having to write an equivalent <c>if</c>-statement.</remarks>
         /// <exception cref="ArgumentNullException"><paramref name="otherwiseFactory"/> is <c>null</c>.</exception>
-        public static T IfNotNull<T>(this T x, Func<T> otherwiseFactory) => x != null ? x : otherwiseFactory();
+        public static T IfNotNull<T>(this T x, Func<T> otherwiseFactory)
+        {
+            if (x != null)
+                return x;
+            else if (otherwiseFactory == null)
+                throw new ArgumentNullException(nameof(otherwiseFactory));
+            return otherwiseFactory();
+        }
 
         /// <summary>
         /// Guards a string against being <c>null</c> or empty, returning an alternative default value if the check fails.
