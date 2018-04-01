@@ -235,7 +235,7 @@ namespace THNETII.Common
         public override string ToString()
         {
             return HasValue
-                ? value.ToString()
+                ? (value is object obj && obj is null) ? nullString : value.ToString()
                 : $"{nameof(Maybe<T>)}<{typeof(T)}>.{nameof(NoValue)}";
         }
 
