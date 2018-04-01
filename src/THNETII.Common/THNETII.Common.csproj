@@ -8,5 +8,9 @@
     
     <Description>TH-NETII .NET Common library</Description>
   </PropertyGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.0" />
+  </ItemGroup>
 
 </Project>
