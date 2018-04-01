@@ -8,6 +8,15 @@ namespace THNETII.Common
     /// </summary>
     public static class Maybe
     {
+        /// <summary>
+        /// Convenience Constructor for a <see cref="Maybe{T}"/> structure that supports
+        /// type inference with the specified argument.
+        /// </summary>
+        /// <typeparam name="T">The underlying type of the new <see cref="Maybe{T}"/> structure.</typeparam>
+        /// <param name="value">The value of the initialized <see cref="Maybe{T}"/> structure.</param>
+        /// <returns>An initialized <see cref="Maybe{T}"/> structure that is initialized to the specified <paramref name="value"/>.</returns>
+        public static Maybe<T> Create<T>(T value) => new Maybe<T>(value);
+
         private static readonly Type openMaybeType = typeof(Maybe<>);
 
         /// <summary>
@@ -51,8 +60,27 @@ namespace THNETII.Common
             return 0;
         }
 
+        /// <summary>
+        /// Checks the equality of two <see cref="Maybe{T}"/> structures.
+        /// </summary>
+        /// <typeparam name="T">The common underlying type of both <see cref="Maybe{T}"/> values.</typeparam>
+        /// <param name="m1">A <see cref="Maybe{T}"/> structure to be checked for equality against the other specified value.</param>
+        /// <param name="m2">A <see cref="Maybe{T}"/> structure to be checked for equality against the other specified value.</param>
+        /// <returns>
+        /// <c>true</c> if both <paramref name="m1"/> and <paramref name="m2"/> are unset, or set to the same underlying value;
+        /// otherwise, <c>false</c>.
+        /// </returns>
         public static bool Equals<T>(Maybe<T> m1, Maybe<T> m2) => m1 == m2;
 
+        /// <summary>
+        /// Gets the underlying type of a type reference for a <see cref="Maybe{T}"/> type.
+        /// </summary>
+        /// <param name="maybeType">A type reference for a <see cref="Maybe{T}"/> structure. This parameter must not be <c>null</c>.</param>
+        /// <returns>
+        /// A type reference for the underlying type of the specified <see cref="Maybe{T}"/> type,
+        /// or <c>null</c> if no <see cref="Maybe{T}"/> was specified.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="maybeType"/> is <c>null</c>.</exception>
         public static Type GetUnderlyingType(Type maybeType)
         {
             var mt = maybeType.ThrowIfNull(nameof(maybeType))
