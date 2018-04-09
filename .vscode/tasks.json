@@ -1,0 +1,30 @@
+{
+    "version": "0.1.0",
+    "command": "dotnet",
+    "isShellCommand": true,
+    "args": [],
+    "tasks": [
+        {
+            "taskName": "restore",
+            "args": [
+                "${workspaceRoot}/TH-NETII .NET Common.sln"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "build",
+            "args": [
+                "${workspaceRoot}/TH-NETII .NET Common.sln"
+            ],
+            "isBuildCommand": true,
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "test",
+            "args": [
+                "${workspaceRoot}/test/THNETII.Common.Test/THNETII.Common.Test.csproj"
+            ],
+            "isTestCommand": true
+        }
+    ]
+}

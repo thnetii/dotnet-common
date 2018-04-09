@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    
+    <RootNamespace>THNETII</RootNamespace>
+
+    <Description>TH-NETII .NET Common Repository Unit Tests</Description>
+  </PropertyGroup>
+
+  <ItemGroup Label="ProjectReferences">
+    <ProjectReference Include="..\..\src\THNETII.Common\THNETII.Common.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.Common.DataContractSerializer\THNETII.Common.DataContractSerializer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="PackageReferences">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="xunit" Version="2.3.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+</Project>
