@@ -11,11 +11,6 @@
             public const string Html = "html";
         }
 
-        public static class ContainsUppercase
-        {
-            public static readonly string Html = Key.Html.ToUpperInvariant();
-        }
-
-        public const string Html = Key.Plain + "/" + Key.Html;
+        public const string Html = Key.Text + "/" + Key.Html;
     }
 }

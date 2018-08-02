@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http.Headers;
-using System.Text;
+using THNETII.Common;
 
 namespace THNETII.Networking.Http
 {
@@ -13,7 +12,9 @@ namespace THNETII.Networking.Http
                 return trueIfNoMediaType;
             else if (string.IsNullOrWhiteSpace(contentType.MediaType))
                 return trueIfNoMediaType;
-            return contentType.MediaType.ToUpperInvariant().Contains(HttpWellKnownMediaType.ContainsUppercase.Html);
+            return contentType.MediaType.Contains(
+                HttpWellKnownMediaType.Key.Html,
+                StringComparison.OrdinalIgnoreCase);
         }
     }
 }
