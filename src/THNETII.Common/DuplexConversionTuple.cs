@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace THNETII.Common
 {
@@ -8,7 +9,7 @@ namespace THNETII.Common
     /// </summary>
     /// <typeparam name="TRaw">The type of the source value.</typeparam>
     /// <typeparam name="TConvert">The type of the converted value.</typeparam>
-    public class DuplexConversionTuple<TRaw, TConvert> : ConversionTuple<TRaw, TConvert>
+    public class DuplexConversionTuple<TRaw, TConvert> : ConversionTuple<TRaw, TConvert>, IEquatable<DuplexConversionTuple<TRaw, TConvert>>
     {
         private static readonly Func<TConvert, TConvert, bool> defaultConvertEqualityCheckFunction = GetEqualityCheckFunction<TConvert>();
 
@@ -32,20 +33,20 @@ namespace THNETII.Common
             get => base.ConvertedValue;
             set
             {
-                var localCached = cachedTuple;
+                var localCache = cache;
                 TRaw localRaw;
-                if (localCached != null && convertedEquals(localCached.Item2, value))
-                    localRaw = localCached.Item1;
+                if (cacheInitalized && convertedEquals(localCache.converted, value))
+                    localRaw = localCache.raw;
                 else
                 {
                     localRaw = rawReverseConvert(value);
-                    localCached = Tuple.Create(localRaw, value);
+                    localCache = (localRaw, value);
                 }
-                lock (sync)
-                {
-                    rawValue = localRaw;
-                    cachedTuple = localCached;
-                }
+                while (Interlocked.Exchange(ref sync, 1) != 0) ;
+                rawValue = localRaw;
+                cache = localCache;
+                sync = 0;
+                cacheInitalized = true;
             }
         }
 
@@ -151,5 +152,15 @@ namespace THNETII.Common
             this.rawReverseConvert = rawReverseConvert ?? throw new ArgumentNullException(nameof(rawReverseConvert));
             this.convertedEquals = convertedEquals ?? throw new ArgumentNullException(nameof(convertedEquals));
         }
+
+        /// <inheritdoc />
+        public bool Equals(DuplexConversionTuple<TRaw, TConvert> other) =>
+            base.Equals(other);
+
+        /// <inheritdoc />
+        public override bool Equals(object obj) => base.Equals(obj);
+
+        /// <inheritdoc />
+        public override int GetHashCode() => base.GetHashCode();
     }
 }

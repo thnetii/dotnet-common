@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Threading;
 using THNETII.Common.Collections.Generic;
 
 namespace THNETII.Common
@@ -10,26 +12,45 @@ namespace THNETII.Common
     /// </summary>
     /// <typeparam name="TRaw">The type of the source value.</typeparam>
     /// <typeparam name="TConvert">The type of the source raw value is converted into.</typeparam>
-    public class ConversionTuple<TRaw, TConvert>
+    public class ConversionTuple<TRaw, TConvert> : IEquatable<ConversionTuple<TRaw, TConvert>>
     {
         private static readonly Func<TRaw, TRaw, bool> defaultRawEqualityCheckFunction = GetEqualityCheckFunction<TRaw>();
 
         /// <summary>
-        /// Synchronization lock object. All changes to either <see cref="rawValue"/> or <see cref="cachedTuple"/> should be guarded by locking <see cref="sync"/> in order to ensure thread safety.
+        /// Synchronization lock object. All changes to either <see cref="rawValue"/> or <see cref="cache"/> should be guarded by locking <see cref="sync"/> in order to ensure thread safety.
         /// </summary>
-        protected readonly object sync = new object();
+        [SuppressMessage(null, "CA1051", Justification = "Member only visible internally.")]
+        internal protected int sync;
+
+        /// <summary>
+        /// Flag that signals whether the local cache of the tuple has been previously
+        /// written to during the Tuple's lifetime.
+        /// </summary>
+        /// <remarks>
+        /// This flag prevents conversion errors for intial default-value assignments.
+        /// When the <see cref="ConversionTuple{TRaw, TConvert}"/> instance is first created
+        /// the local cache is populated with the default values for <typeparamref name="TRaw"/> and <typeparamref name="TConvert"/>.
+        /// Depending on the conversion function the default value may not be the correct desired
+        /// value to be stored in the cache.
+        /// </remarks>
+        [SuppressMessage(null, "CA1051", Justification = "Member only visible internally.")]
+        internal protected bool cacheInitalized = false;
 
         private readonly Func<TRaw, TConvert> rawConvert;
         private readonly Func<TRaw, TRaw, bool> rawEquals;
+
         /// <summary>
         /// The field storing the current raw source value.
         /// </summary>
-        protected TRaw rawValue;
+        [SuppressMessage(null, "CA1051", Justification = "Member only visible internally.")]
+        internal protected TRaw rawValue;
+
         /// <summary>
         /// The field storing the the tuple containing the source value and the converted value of the last performed conversion.
         /// </summary>
         /// <remarks>If <see cref="Tuple{TRaw, TConvert}.Item1"/> is evaluated as being equal to <see cref="rawValue"/>, <see cref="Tuple{TRaw, TConvert}.Item2"/> contains a valid converted value of the source value.</remarks>
-        protected Tuple<TRaw, TConvert> cachedTuple;
+        [SuppressMessage(null, "CA1051", Justification = "Member only visible internally.")]
+        internal protected (TRaw raw, TConvert converted) cache;
 
         /// <summary>
         /// Gets or sets the source value for the conversion.
@@ -40,7 +61,12 @@ namespace THNETII.Common
         public TRaw RawValue
         {
             get => rawValue;
-            set { lock (sync) { rawValue = value; } }
+            set
+            {
+                while (Interlocked.Exchange(ref sync, 1) != 0) ;
+                rawValue = value;
+                sync = 0;
+            }
         }
 
         /// <summary>
@@ -58,38 +84,43 @@ namespace THNETII.Common
             get
             {
                 TRaw localRaw;
-                Tuple<TRaw, TConvert> localCached;
-                lock (sync)
+                (TRaw raw, TConvert converted) localCache;
+                while (Interlocked.Exchange(ref sync, 1) != 0) ;
+                localRaw = rawValue;
+                localCache = cache;
+                sync = 0;
+
+                if (!cacheInitalized || !rawEquals(localRaw, localCache.raw))
                 {
-                    localRaw = rawValue;
-                    localCached = cachedTuple;
+                    localCache = (localRaw, rawConvert(localRaw));
+                    while (Interlocked.Exchange(ref sync, 1) != 0) ;
+                    if (rawEquals(rawValue, localCache.raw))
+                        cache = localCache;
+                    sync = 0;
                 }
 
-                if (localCached == null || !rawEquals(localRaw, localCached.Item1))
-                {
-                    localCached = Tuple.Create(localRaw, rawConvert(localRaw));
-                    lock (sync)
-                    {
-                        if (rawEquals(rawValue, localCached.Item1))
-                            cachedTuple = localCached;
-                    }
-                }
-
-                return localCached.Item2;
+                cacheInitalized = true;
+                return localCache.converted;
             }
         }
 
         /// <summary>
         /// Clears the cache of the last performed conversion, forcing the next access to <see cref="ConvertedValue"/> to perform a conversion of <see cref="RawValue"/> to <typeparamref name="TConvert"/>.
         /// </summary>
-        public void ClearCache() => cachedTuple = null;
+        public void ClearCache()
+        {
+            while (Interlocked.Exchange(ref sync, 1) != 0) ;
+            cacheInitalized = false;
+            cache = default;
+            sync = 0;
+        }
 
         /// <summary>
         /// Returns the equality check function to use to check for equality between two values of type <typeparamref name="T"/>.
         /// </summary>
-        /// <typeparam name="T">The type to check equality for. Typically this will be either <typeparamref name="TRaw"/> or <typeparamref name="TConvert"/>.</typeparam>
+        /// <typeparam name="T">The type to check equality for. Both reference and value types are allowed.</typeparam>
         /// <returns>The default comparison function for <typeparamref name="T"/> (as specified by <see cref="EqualityComparer{T}.Equals(T, T)"/>), or the reference equality function (as specified by <see cref="object.ReferenceEquals(object, object)"/> for reference types.</returns>
-        protected static Func<T, T, bool> GetEqualityCheckFunction<T>()
+        internal protected static Func<T, T, bool> GetEqualityCheckFunction<T>()
         {
             if (typeof(T).GetTypeInfo().IsValueType)
                 return EqualityComparer<T>.Default.Equals;
@@ -127,5 +158,45 @@ namespace THNETII.Common
             this.rawConvert = rawConvert ?? throw new ArgumentNullException(nameof(rawConvert));
             this.rawEquals = rawEquals ?? throw new ArgumentNullException(nameof(rawEquals));
         }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (obj is ConversionTuple<TRaw, TConvert> other)
+                return this == other;
+            return false;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode() => rawValue?.GetHashCode() ?? default;
+
+        /// <inheritdoc />
+        public static bool operator ==(ConversionTuple<TRaw, TConvert> left, ConversionTuple<TRaw, TConvert> right)
+        {
+            if (left is null)
+                return right is null;
+            else if (right is null)
+                return false;
+            return left.rawEquals == right.rawEquals
+                && left.rawConvert == right.rawConvert
+                && left.rawEquals(left.rawValue, right.rawValue)
+                ;
+        }
+
+        /// <inheritdoc />
+        public static bool operator !=(ConversionTuple<TRaw, TConvert> left, ConversionTuple<TRaw, TConvert> right)
+        {
+            if (left is null)
+                return !(right is null);
+            else if (right is null)
+                return true;
+            return left.rawEquals != right.rawEquals
+                || left.rawConvert != right.rawConvert
+                || !left.rawEquals(left.rawValue, right.rawValue)
+                ;
+        }
+
+        /// <inheritdoc />
+        public bool Equals(ConversionTuple<TRaw, TConvert> other) => this == other;
     }
 }
