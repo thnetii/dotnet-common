@@ -14,8 +14,6 @@ namespace THNETII.Common
     /// <typeparam name="TConvert">The type of the source raw value is converted into.</typeparam>
     public class ConversionTuple<TRaw, TConvert> : IEquatable<ConversionTuple<TRaw, TConvert>>
     {
-        private static readonly Func<TRaw, TRaw, bool> defaultRawEqualityCheckFunction = GetEqualityCheckFunction<TRaw>();
-
         /// <summary>
         /// Synchronization lock object. All changes to either <see cref="rawValue"/> or <see cref="cache"/> should be guarded by locking <see cref="sync"/> in order to ensure thread safety.
         /// </summary>
@@ -83,11 +81,9 @@ namespace THNETII.Common
         {
             get
             {
-                TRaw localRaw;
-                (TRaw raw, TConvert converted) localCache;
                 while (Interlocked.Exchange(ref sync, 1) != 0) ;
-                localRaw = rawValue;
-                localCache = cache;
+                var localRaw = rawValue;
+                var localCache = cache;
                 sync = 0;
 
                 if (!cacheInitalized || !rawEquals(localRaw, localCache.raw))
@@ -141,7 +137,7 @@ namespace THNETII.Common
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="rawConvert"/> is <c>null</c>.</exception>
         public ConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer = null)
-            : this(rawConvert, (rawEqualityComparer != null ? rawEqualityComparer.Equals : defaultRawEqualityCheckFunction)) { }
+            : this(rawConvert, (rawEqualityComparer != null ? rawEqualityComparer.Equals : GetEqualityCheckFunction<TRaw>())) { }
 
         /// <summary>
         /// Creates a new conversion tuple with the specified conversion and equality functions.
