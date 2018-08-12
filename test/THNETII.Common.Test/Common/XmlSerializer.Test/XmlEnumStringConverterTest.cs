@@ -30,7 +30,7 @@ namespace THNETII.Common.XmlSerializer.Test
         [InlineData(nameof(TestEnum.Fourth))]
         public static void CanParseEnumFieldName(string name)
         {
-            Assert.Equal(Enum.Parse<TestEnum>(name), XmlEnumStringConverter<TestEnum>.Parse(name));
+            Assert.Equal(Enum.Parse<TestEnum>(name), XmlEnumStringConverter.Parse<TestEnum>(name));
         }
 
         [Theory]
@@ -40,7 +40,7 @@ namespace THNETII.Common.XmlSerializer.Test
         [InlineData(Four, TestEnum.Fourth)]
         public static void CanParseEnumAttributeName(string name, TestEnum expected)
         {
-            Assert.Equal(expected, XmlEnumStringConverter<TestEnum>.Parse(name));
+            Assert.Equal(expected, XmlEnumStringConverter.Parse<TestEnum>(name));
         }
     }
 }

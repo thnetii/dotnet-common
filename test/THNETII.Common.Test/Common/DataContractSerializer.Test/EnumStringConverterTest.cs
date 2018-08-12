@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Runtime.Serialization;
 using Xunit;
 
@@ -31,7 +30,7 @@ namespace THNETII.Common.DataContractSerializer.Test
         [InlineData(nameof(TestEnum.Fourth))]
         public static void CanParseEnumFieldName(string name)
         {
-            Assert.Equal(Enum.Parse<TestEnum>(name), EnumStringConverter<TestEnum>.Parse(name));
+            Assert.Equal(Enum.Parse<TestEnum>(name), EnumStringConverter.Parse<TestEnum>(name));
         }
 
         [Theory]
@@ -41,7 +40,7 @@ namespace THNETII.Common.DataContractSerializer.Test
         [InlineData(Four, TestEnum.Fourth)]
         public static void CanParseEnumAttributeName(string name, TestEnum expected)
         {
-            Assert.Equal(expected, EnumStringConverter<TestEnum>.Parse(name));
+            Assert.Equal(expected, EnumStringConverter.Parse<TestEnum>(name));
         }
     }
 }
