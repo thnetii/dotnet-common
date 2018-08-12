@@ -13,13 +13,12 @@ namespace THNETII.Common.Collections.Generic
     /// </remarks>
     public class ReferenceEqualityComparer<T> : IEqualityComparer<T>
     {
-        private static readonly ReferenceEqualityComparer<T> @default = new ReferenceEqualityComparer<T>();
-
         /// <summary>
         /// Returns a default reference equality comparer for the type specified by the generic argument.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1000")]
-        public static ReferenceEqualityComparer<T> Default => @default;
+        public static ReferenceEqualityComparer<T> Default { get; } =
+            new ReferenceEqualityComparer<T>();
 
         /// <summary>
         /// Determines whether two instances of type <typeparamref name="T"/> refer to the same object instance.
