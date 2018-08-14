@@ -6,18 +6,22 @@ using System.Linq;
 
 namespace THNETII.DependencyInjection.Nesting
 {
-    public class ServiceDescriptorExceptionList : ICollection<ServiceDescriptor>
+    internal class ServiceDescriptorExceptionCollection : ICollection<ServiceDescriptor>
     {
         private readonly IDictionary<Type, LinkedList<ServiceDescriptor>> serviceDescriptors =
             new Dictionary<Type, LinkedList<ServiceDescriptor>>();
 
+        /// <inheritdoc />
         public IEnumerable<ServiceDescriptor> GetEnumerable()
             => serviceDescriptors.Values.SelectMany(l => l);
 
+        /// <inheritdoc />
         public int Count => serviceDescriptors.Values.Sum(l => l.Count);
 
+        /// <inheritdoc />
         public bool IsReadOnly => serviceDescriptors.IsReadOnly;
 
+        /// <inheritdoc />
         public void Add(ServiceDescriptor item)
         {
             if (!serviceDescriptors.TryGetValue(item.ServiceType, out var list))
@@ -28,6 +32,7 @@ namespace THNETII.DependencyInjection.Nesting
             list.AddLast(item);
         }
 
+        /// <inheritdoc />
         public void Clear()
         {
             foreach (var list in serviceDescriptors.Values)
@@ -35,6 +40,7 @@ namespace THNETII.DependencyInjection.Nesting
             serviceDescriptors.Clear();
         }
 
+        /// <inheritdoc />
         public bool Contains(ServiceDescriptor item)
         {
             if (serviceDescriptors.TryGetValue(item.ServiceType, out var list))
@@ -42,6 +48,7 @@ namespace THNETII.DependencyInjection.Nesting
             return false;
         }
 
+        /// <inheritdoc />
         public bool Contains(ServiceDescriptor item,
             IEqualityComparer<ServiceDescriptor> comparer)
         {
@@ -50,6 +57,7 @@ namespace THNETII.DependencyInjection.Nesting
             return false;
         }
 
+        /// <inheritdoc />
         public void CopyTo(ServiceDescriptor[] array, int arrayIndex)
         {
             foreach (var list in serviceDescriptors.Values)
@@ -59,6 +67,7 @@ namespace THNETII.DependencyInjection.Nesting
             }
         }
 
+        /// <inheritdoc />
         public IEnumerator<ServiceDescriptor> GetEnumerator()
             => GetEnumerable().GetEnumerator();
 
@@ -85,12 +94,15 @@ namespace THNETII.DependencyInjection.Nesting
             return -1;
         }
 
+        /// <inheritdoc />
         public int IndexOf(ServiceDescriptor item) => IndexOf(item, (x, y) => x == y);
 
+        /// <inheritdoc />
         public int IndexOf(ServiceDescriptor item,
             IEqualityComparer<ServiceDescriptor> comparer)
             => IndexOf(item, (x, y) => comparer.Equals(x, y));
 
+        /// <inheritdoc />
         public bool Remove(ServiceDescriptor item)
         {
             if (serviceDescriptors.TryGetValue(item.ServiceType, out var list))
@@ -98,6 +110,7 @@ namespace THNETII.DependencyInjection.Nesting
             return false;
         }
 
+        /// <inheritdoc />
         public bool Remove(ServiceDescriptor item,
             IEqualityComparer<ServiceDescriptor> comparer)
         {
@@ -115,21 +128,22 @@ namespace THNETII.DependencyInjection.Nesting
             return false;
         }
 
+        /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
-    public static class ServiceDescriptorExceptionListExtensions
+    internal static class ServiceDescriptorExceptionCollectionExtensions
     {
         public static IEnumerable<ServiceDescriptor> Except(
             this IEnumerable<ServiceDescriptor> serviceDescriptors,
-            ServiceDescriptorExceptionList exceptionList)
+            ServiceDescriptorExceptionCollection exceptionList)
         {
             return serviceDescriptors.Where(d => !exceptionList.Contains(d));
         }
 
         public static IEnumerable<ServiceDescriptor> Except(
             this IEnumerable<ServiceDescriptor> serviceDescriptors,
-            ServiceDescriptorExceptionList exceptionList,
+            ServiceDescriptorExceptionCollection exceptionList,
             IEqualityComparer<ServiceDescriptor> equalityComparer)
         {
             return serviceDescriptors.Where(d => !exceptionList.Contains(d, equalityComparer));

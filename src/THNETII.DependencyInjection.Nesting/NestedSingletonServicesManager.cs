@@ -6,13 +6,29 @@ using THNETII.Common;
 
 namespace THNETII.DependencyInjection.Nesting
 {
+    /// <summary>
+    /// A singleton dependency injection service that manages nested service
+    /// provider instances under a root service provider.
+    /// <para>
+    /// This class should be used in conjunction with the <see cref="NestedScopedServicesManager{TFamily, TKey}"/>
+    /// to properly enforce nested scoping boundaries.
+    /// </para>
+    /// </summary>
+    /// <typeparam name="TFamily">The type for the family of the nested containers this manager is managing.</typeparam>
+    /// <typeparam name="TKey">The type of the key for the nested service container the instance is managing.</typeparam>
     public class NestedSingletonServicesManager<TFamily, TKey>
     {
-        private readonly IDictionary<TKey, IServiceCollection>
-             nestedServices;
+        private readonly IDictionary<TKey, IServiceCollection> nestedServices;
         private readonly IDictionary<TKey, WeakReference<IServiceProvider>> nestedServiceProviders;
         private readonly IServiceProvider rootServiceProvider;
 
+        /// <summary>
+        /// Creates a new nested singleton manager instance using the specified
+        /// parent service container and the nested service collections.
+        /// </summary>
+        /// <param name="rootServiceProvider">The parent container that is shared by the nested containers that are to be managed.</param>
+        /// <param name="nestedServices">The nested service collections that have been registered for the specified root service provider. Must not be <c>null</c>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="nestedServices"/> is <c>null</c>.</exception>
         public NestedSingletonServicesManager(IServiceProvider rootServiceProvider,
             IEnumerable<INestedServiceCollection<TFamily, TKey>> nestedServices)
         {
@@ -30,6 +46,15 @@ namespace THNETII.DependencyInjection.Nesting
                 keyComparer);
         }
 
+        /// <summary>
+        /// Retrieves or creates a service provider using the service container
+        /// with the specified key.
+        /// </summary>
+        /// <param name="key">The key of the service container to use.</param>
+        /// <returns>
+        /// An <see cref="IServiceProvider"/> instance resolving the services
+        /// registered to the container with the specified key.
+        /// </returns>
         public IServiceProvider GetServiceProvider(TKey key)
         {
             lock (nestedServiceProviders)

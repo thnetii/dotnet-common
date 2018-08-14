@@ -19,7 +19,7 @@ namespace THNETII.DependencyInjection
             return factory.CreateServiceProvider(builder);
         }
 
-        private static MethodInfo BuildServiceProviderInfo =
+        private static readonly MethodInfo BuildServiceProviderInfo =
             typeof(ServiceCollectionServiceProviderExtensions)
             .GetMethod(nameof(BuildServiceProvider),
                 BindingFlags.NonPublic | BindingFlags.Static);
