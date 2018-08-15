@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace THNETII.Common.DataContractSerializer.Test
+namespace THNETII.Common.Serialization.Test
 {
     public static class BooleanStringConverterTest
     {

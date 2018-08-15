@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using THNETII.Common.Serialization;
 using Xunit;
 
-namespace THNETII.Common.DataContractSerializer.Test
+namespace THNETII.Common.XmlSerializer.Test
 {
-    public static class EnumStringConverterTest
+    public static class XmlEnumStringConverterTest
     {
         public const string One = nameof(One);
         public const string Two = nameof(Two);
@@ -13,13 +14,13 @@ namespace THNETII.Common.DataContractSerializer.Test
 
         public enum TestEnum
         {
-            [EnumMember(Value = One)]
+            [XmlEnum("One")]
             First = 1,
-            [EnumMember(Value = Two)]
+            [XmlEnum("Two")]
             Second = 2,
-            [EnumMember(Value = Three)]
+            [XmlEnum("Three")]
             Third = 3,
-            [EnumMember(Value = Four)]
+            [XmlEnum("Four")]
             Fourth = 4,
         }
 
@@ -30,7 +31,7 @@ namespace THNETII.Common.DataContractSerializer.Test
         [InlineData(nameof(TestEnum.Fourth))]
         public static void CanParseEnumFieldName(string name)
         {
-            Assert.Equal(Enum.Parse<TestEnum>(name), EnumStringConverter.Parse<TestEnum>(name));
+            Assert.Equal(Enum.Parse<TestEnum>(name), XmlEnumStringConverter.Parse<TestEnum>(name));
         }
 
         [Theory]
@@ -40,7 +41,7 @@ namespace THNETII.Common.DataContractSerializer.Test
         [InlineData(Four, TestEnum.Fourth)]
         public static void CanParseEnumAttributeName(string name, TestEnum expected)
         {
-            Assert.Equal(expected, EnumStringConverter.Parse<TestEnum>(name));
+            Assert.Equal(expected, XmlEnumStringConverter.Parse<TestEnum>(name));
         }
     }
 }

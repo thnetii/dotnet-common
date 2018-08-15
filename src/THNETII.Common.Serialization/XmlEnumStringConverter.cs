@@ -3,34 +3,37 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
+using System.Xml.Serialization;
 
-namespace THNETII.Common.DataContractSerializer
+namespace THNETII.Common.Serialization
 {
+#if !NETSTANDARD1_3
     /// <summary>
     /// Helper class that provides Enum-String Conversions that honour the
-    /// <see cref="EnumMemberAttribute"/> applied to values of the enumeration
-    /// type.
+    /// <see cref="XmlEnumAttribute"/> applied to values of an enumeration type.
     /// </summary>
-    public static class EnumStringConverter
+    public static class XmlEnumStringConverter
     {
-        private static class EnumValues<T> where T : struct, Enum
+        private class EnumValues<T> where T : struct, Enum
         {
             public static readonly Type TypeRef = typeof(T);
             public static readonly IDictionary<string, T> StringToValue = InitializeStringToValueDictionary();
             public static readonly IDictionary<T, string> ValueToString = InitializeValueToStringDictionary();
 
+            [SuppressMessage("Microsoft.Usage", "CA2208", Target = "System.ArgumentException")]
             static void InitializeConversionDictionary(Action<string, T> dictionaryAddValueAction)
             {
                 var ti = TypeRef.GetTypeInfo();
+                if (!ti.IsEnum)
+                    throw new ArgumentException($"Type Argument must represent an Enum type", nameof(T));
+
                 foreach (var fi in ti.DeclaredFields.Where(i => i.IsStatic))
                 {
-                    var enumMemberAttr = fi.GetCustomAttribute<EnumMemberAttribute>();
+                    var enumMemberAttr = fi.GetCustomAttribute<XmlEnumAttribute>();
                     if (enumMemberAttr == null)
                         continue;
                     T v = (T)fi.GetValue(null);
-                    string s = enumMemberAttr.IsValueSetExplicitly ? enumMemberAttr.Value : fi.Name;
+                    string s = enumMemberAttr.Name.IfNotNull(fi.Name);
                     dictionaryAddValueAction(s, v);
                 }
             }
@@ -69,8 +72,8 @@ namespace THNETII.Common.DataContractSerializer
         /// <param name="s">A string containing the name, serialization name or value to convert.</param>
         /// <returns>The converted value as an instance of <typeparamref name="T"/>.</returns>
         /// <remarks>
-        /// The serialization name refers to the value specified in for the <see cref="EnumMemberAttribute.Value"/> member of an 
-        /// <see cref="EnumMemberAttribute"/> applied to one of the enumerated constants of the <typeparamref name="T"/> enumeration type.
+        /// The serialization name refers to the value specified in for the <see cref="XmlEnumAttribute.Name"/> member of an 
+        /// <see cref="XmlEnumAttribute"/> applied to one of the enumerated constants of the <typeparamref name="T"/> enumeration type.
         /// </remarks>
         [SuppressMessage("Microsoft.Design", "CA1000")]
         public static T Parse<T>(string s) where T : struct, Enum
@@ -110,7 +113,8 @@ namespace THNETII.Common.DataContractSerializer
         /// if <paramref name="s"/> cannot be converted to <typeparamref name="T"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1000")]
-        public static T ParseOrDefault<T>(string s, T @default) where T : struct, Enum
+        public static T ParseOrDefault<T>(string s, T @default)
+            where T : struct, Enum
         {
             if (TryParse(s, out T value))
                 return value;
@@ -133,7 +137,7 @@ namespace THNETII.Common.DataContractSerializer
         /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <c>null</c>.</exception>
         [SuppressMessage("Microsoft.Design", "CA1000")]
         public static T ParseOrDefault<T>(string s, Func<T> defaultFactory)
-            where T : struct, Enum
+             where T : struct, Enum
         {
             if (TryParse(s, out T value))
                 return value;
@@ -158,7 +162,7 @@ namespace THNETII.Common.DataContractSerializer
         /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <c>null</c>.</exception>
         [SuppressMessage("Microsoft.Design", "CA1000")]
         public static T ParseOrDefault<T>(string s, Func<string, T> defaultFactory)
-            where T : struct, Enum
+             where T : struct, Enum
         {
             if (TryParse(s, out T value))
                 return value;
@@ -201,7 +205,8 @@ namespace THNETII.Common.DataContractSerializer
         /// </returns>
         /// <remarks>If this method returns <c>false</c>, the out-value of the <paramref name="value"/> parameter is not defined.</remarks>
         [SuppressMessage("Microsoft.Design", "CA1000")]
-        public static bool TryParse<T>(string s, out T value) where T : struct, Enum
+        public static bool TryParse<T>(string s, out T value)
+            where T : struct, Enum
         {
             if (s != null && EnumValues<T>.StringToValue.TryGetValue(s, out value))
                 return true;
@@ -215,7 +220,7 @@ namespace THNETII.Common.DataContractSerializer
         /// <param name="value">The value of <typeparamref name="T"/> to serialize.</param>
         /// <returns>
         /// A string containing either the serialization name if the constant equal to <paramref name="value"/> 
-        /// has an <see cref="EnumMemberAttribute"/> applied to it; otherwise, the return value of <see cref="Enum.ToString()"/> for
+        /// has an <see cref="XmlEnumAttribute"/> applied to it; otherwise, the return value of <see cref="Enum.ToString()"/> for
         /// the specified value.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1000")]
@@ -226,4 +231,5 @@ namespace THNETII.Common.DataContractSerializer
             return value.ToString();
         }
     }
+#endif // !NETSTANDARD1_3
 }
