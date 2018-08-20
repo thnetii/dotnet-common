@@ -22,7 +22,7 @@ namespace THNETII.Common.Serialization
     /// <item>
     /// Using the <see cref="int.TryParse(string, NumberStyles, IFormatProvider, out int)"/>
     /// using a <see cref="NumberStyles"/> value of <see cref="NumberStyles.HexNumber"/>.
-    /// The string may be prefixed with <c>"0x"</c> (case-insensitive).
+    /// The string must be prefixed with <c>"0x"</c> (case-insensitive).
     /// Non-zero converted integer values convert to <c>true</c>,
     /// <c>0</c> (zero) converts to <c>false</c>.
     /// </item>
@@ -151,9 +151,11 @@ namespace THNETII.Common.Serialization
             ReadOnlySpan<char> startTrimmed = s.AsSpan().TrimStart();
             var hasHexPrefix = startTrimmed.StartsWith(hexPrefixSpan, StringComparison.OrdinalIgnoreCase);
             if (hasHexPrefix)
+            {
                 s = startTrimmed.Slice(hexPrefixSpan.Length).ToString();
-            if (int.TryParse(s, NumberStyles.HexNumber, default, out intValue))
-                    return true; 
+                if (int.TryParse(s, NumberStyles.HexNumber, default, out intValue))
+                    return true;
+            }
             intValue = default;
             return false;
         }

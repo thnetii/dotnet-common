@@ -77,8 +77,6 @@ namespace THNETII.Common.Serialization.Test
         [InlineData("0x1")]
         [InlineData("0xFFFFFFFF")]
         [InlineData("0xDEADBEEF")]
-        [InlineData("FFFFFFFF")]
-        [InlineData("DEADBEEF")]
         public static void ParseNonZeroStringAsTrue(string s) =>
             Assert.True(BooleanStringConverter.Parse(s));
 
@@ -108,8 +106,6 @@ namespace THNETII.Common.Serialization.Test
         [InlineData("0x1")]
         [InlineData("0xFFFFFFFF")]
         [InlineData("0xDEADBEEF")]
-        [InlineData("FFFFFFFF")]
-        [InlineData("DEADBEEF")]
         public static void ParseWhiteSpaceSurroundedStringAsTrue(string s)
         {
             Assert.All(whiteSpace.SelectMany(ws => GetWhiteSpaceSurrounded(ws, s)),
