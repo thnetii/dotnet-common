@@ -70,7 +70,7 @@ namespace THNETII.Common
         public static bool TryNotNullOrEmpty(this string s, out string value)
         {
             value = s;
-            return string.IsNullOrEmpty(value);
+            return !string.IsNullOrEmpty(value);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace THNETII.Common
         public static bool TryNotNullOrWhiteSpace(this string s, out string value)
         {
             value = s;
-            return string.IsNullOrWhiteSpace(value);
+            return !string.IsNullOrWhiteSpace(value);
         }
 
         /// <summary>
