@@ -42,7 +42,7 @@ namespace THNETII.Common.Collections.Generic.Test
 
         [Fact]
         public void FirstIndexedOfEmptyThrows() =>
-            Assert.Throws<InvalidOperationException>(() => FirstIndexed(GetEmpty()));
+            Assert.ThrowsAny<Exception>(() => FirstIndexed(GetEmpty()));
 
         [Fact]
         public void FirstIndexedReturnsFirstT()
@@ -88,7 +88,7 @@ namespace THNETII.Common.Collections.Generic.Test
 
         [Fact]
         public void LastIndexedOfEmptyThrows() =>
-            Assert.Throws<InvalidOperationException>(() => LastIndexed(GetEmpty()));
+            Assert.ThrowsAny<Exception>(() => LastIndexed(GetEmpty()));
 
         [Fact]
         public void LastIndexedReturnsLastT()
@@ -134,7 +134,7 @@ namespace THNETII.Common.Collections.Generic.Test
 
         [Fact]
         public void ElementAtIndexOfEmptyThrows() =>
-            Assert.Throws<InvalidOperationException>(() => ElementAtIndex(GetEmpty(), default));
+            Assert.ThrowsAny<Exception>(() => ElementAtIndex(GetEmpty(), default));
 
         [Fact]
         public void ElementAtIndexReturnsElementAtT()
