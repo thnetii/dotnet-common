@@ -157,6 +157,7 @@ namespace THNETII.Common
         public Maybe(T value) : this()
         {
             Value = value;
+            hasValue = true;
         }
 
         /// <summary>
