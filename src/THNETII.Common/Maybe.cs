@@ -94,31 +94,14 @@ namespace THNETII.Common
         }
     }
 
-    /// <summary>
-    /// Defines the non-generic cotracts for maybe-types.
-    /// </summary>
-    public interface IMaybe
-    {
         /// <summary>
-        /// Gets a value indicating whether the current maybe-instance has been
-        /// assigned a value or not.
-        /// </summary>
-        bool HasValue { get; }
-
-        /// <summary>
-        /// Marks the maybe-instance as unassigned.
-        /// </summary>
-        void Unset();
-    }
-
-    /// <summary>
     /// Represents a value of type <typeparamref name="T"/> which may or may not be assigned.
     /// </summary>
     /// <typeparam name="T">The underlying value type of the <see cref="Maybe{T}"/> generic type.</typeparam>
     /// <remarks>
     /// This type is similar to the <see cref="Nullable{T}"/> type, but also allows for marking a reference as unset.
     /// </remarks>
-    public struct Maybe<T> : IEquatable<Maybe<T>>, IEquatable<T>, IMaybe
+    public struct Maybe<T> : IEquatable<Maybe<T>>, IEquatable<T>
     {
         private static readonly string nullString = $"{null}";
 #pragma warning disable CA1000 // Do not declare static members on generic types
