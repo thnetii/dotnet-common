@@ -1,4 +1,10 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.IO;
+using System.Net.Http;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using THNETII.Common;
 
 namespace THNETII.Networking.Http
 {
@@ -23,6 +29,21 @@ namespace THNETII.Networking.Http
             if (httpContent == null)
                 return false;
             return httpContent.Headers.ContentType.IsJson(trueIfNoMediaType);
+        }
+
+        public static async Task<StreamReader> ReadAsStreamReaderAsync(this HttpContent httpContent)
+        {
+            var readStreamTask = httpContent.ThrowIfNull(nameof(httpContent))
+                .ReadAsStreamAsync();
+            var charset = httpContent.Headers.ContentType?.CharSet;
+            Encoding encoding = null;
+            if (!string.IsNullOrWhiteSpace(charset))
+            {
+                try { encoding = Encoding.GetEncoding(charset); }
+                catch (ArgumentException) { }
+            }
+            var stream = await readStreamTask.ConfigureAwait(continueOnCapturedContext: false);
+            return encoding is null ? new StreamReader(stream) : new StreamReader(stream, encoding);
         }
     }
 }
