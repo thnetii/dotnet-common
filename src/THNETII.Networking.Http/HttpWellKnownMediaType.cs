@@ -21,5 +21,11 @@
         public const string ApplicationJson = Application + "/" + Json;
         public const string ApplicationOctetStream = Application + "/" + OctetStream;
         #endregion
+        #region UTF-8 Full Media Types
+        public const string TextPlainUtf8 = TextPlain + "; charset=utf-8";
+        public const string TextHtmlUtf8 = TextHtml + "; charset=utf-8";
+        public const string TextXmlUtf8 = TextXml + "; charset=utf-8";
+        public const string ApplicationJsonUtf8 = ApplicationJson + "; charset=utf-8";
+        #endregion
     }
 }
