@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <LangVersion>7.2</LangVersion>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\THNETII.Common\THNETII.Common.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.Common.Cli\THNETII.Common.Cli.csproj" />
+  </ItemGroup>
+
+</Project>
