@@ -11,29 +11,29 @@ namespace THNETII.Common.Serialization
     /// A <see cref="string"/> value can be converted to a <see cref="bool"/> value
     /// according to the following rules (in listed order)
     /// <list type="number">
-    /// <item>Using the <see cref="bool.TryParse(string, out bool)"/> method.</item>
-    /// <item><c>null</c> is converted to <c>false</c>.</item>
-    /// <item>
+    /// <item><term>Using the <see cref="bool.TryParse(string, out bool)"/> method.</term></item>
+    /// <item><term><c>null</c> is converted to <c>false</c>.</term></item>
+    /// <item><term>
     /// Using the <see cref="int.TryParse(string, NumberStyles, IFormatProvider, out int)"/>
     /// using a <see cref="NumberStyles"/> value of <see cref="NumberStyles.Any"/>.
     /// Non-zero converted integer values convert to <c>true</c>,
     /// <c>0</c> (zero) converts to <c>false</c>.
-    /// </item>
-    /// <item>
+    /// </term></item>
+    /// <item><term>
     /// Using the <see cref="int.TryParse(string, NumberStyles, IFormatProvider, out int)"/>
     /// using a <see cref="NumberStyles"/> value of <see cref="NumberStyles.HexNumber"/>.
     /// The string must be prefixed with <c>"0x"</c> (case-insensitive).
     /// Non-zero converted integer values convert to <c>true</c>,
     /// <c>0</c> (zero) converts to <c>false</c>.
-    /// </item>
-    /// <item>
+    /// </term></item>
+    /// <item><term>
     /// If the string <c>"yes"</c> starts with the input, the input is converted
     /// to <c>true</c> (case-insensitive). E.g. <c>"yes"</c> and <c>"y"</c>.
-    /// </item>
-    /// <item>
+    /// </term></item>
+    /// <item><term>
     /// If the string <c>"no"</c> starts with the input, the input is converted
     /// to <c>false</c> (case-insensitive). E.g. <c>"no"</c> and <c>"n"</c>.
-    /// </item>
+    /// </term></item>
     /// </list>
     /// All inputs may be pre- or suffixed with white-space characters.
     /// The input string is trimmed if necessary. Empty or white-space-only strings
