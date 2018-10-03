@@ -9,7 +9,8 @@
           "exclude": [
             "**/bin/**",
             "**/obj/**",
-            "_site/**"
+            "_site/**",
+            "src/THNETII.Security.JOSE.Cli/**"
           ],
           "src": "../../"
         }
