@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -63,7 +64,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Security.JOSE.Test"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Common.Serialization", "src\THNETII.Common.Serialization\THNETII.Common.Serialization.csproj", "{99122299-6F8E-4D42-B47C-5D0E7481ADDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THNETII.Common.Cli", "src\THNETII.Common.Cli\THNETII.Common.Cli.csproj", "{2DDE35D0-6BC4-439F-9BF0-2B2BDAF25E97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.Common.Cli", "src\THNETII.Common.Cli\THNETII.Common.Cli.csproj", "{2DDE35D0-6BC4-439F-9BF0-2B2BDAF25E97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docfx", "docfx", "{A607496C-32C1-4483-B80A-A1DC79475703}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THNETII.Common.DocFx", "docfx\THNETII.Common.DocFx\THNETII.Common.DocFx.csproj", "{E237A61D-EDA3-4C58-82A2-77CAED766965}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -255,6 +260,18 @@ Global
 		{2DDE35D0-6BC4-439F-9BF0-2B2BDAF25E97}.Release|x64.Build.0 = Release|Any CPU
 		{2DDE35D0-6BC4-439F-9BF0-2B2BDAF25E97}.Release|x86.ActiveCfg = Release|Any CPU
 		{2DDE35D0-6BC4-439F-9BF0-2B2BDAF25E97}.Release|x86.Build.0 = Release|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Debug|x64.Build.0 = Debug|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Debug|x86.Build.0 = Debug|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Release|x64.ActiveCfg = Release|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Release|x64.Build.0 = Release|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Release|x86.ActiveCfg = Release|Any CPU
+		{E237A61D-EDA3-4C58-82A2-77CAED766965}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -278,6 +295,7 @@ Global
 		{A29EE997-2061-46E4-AB44-0367B714811C} = {A1768F41-219C-424C-92B8-695477251F6A}
 		{99122299-6F8E-4D42-B47C-5D0E7481ADDE} = {331613E4-9D79-4254-AC6C-C118A863AA66}
 		{2DDE35D0-6BC4-439F-9BF0-2B2BDAF25E97} = {331613E4-9D79-4254-AC6C-C118A863AA66}
+		{E237A61D-EDA3-4C58-82A2-77CAED766965} = {A607496C-32C1-4483-B80A-A1DC79475703}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1BDA8D3-891E-4F91-BFEA-B8B23CFA3678}

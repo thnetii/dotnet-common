@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)bin\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="docfx.console" Version="2.39.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\THNETII.Common.Cli\THNETII.Common.Cli.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.Common.Serialization\THNETII.Common.Serialization.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.Common\THNETII.Common.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.DependencyInjection.Configuration\THNETII.DependencyInjection.Configuration.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.DependencyInjection.Nesting\THNETII.DependencyInjection.Nesting.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.DependencyInjection\THNETII.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.Logging.EventSource\THNETII.Logging.EventSource.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.Networking.Http\THNETII.Networking.Http.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.Security.JOSE\THNETII.Security.JOSE.csproj" />
+  </ItemGroup>
+
+</Project>
