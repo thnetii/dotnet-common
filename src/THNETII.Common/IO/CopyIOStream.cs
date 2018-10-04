@@ -111,10 +111,10 @@ namespace THNETII.Common.IO
             CloseBaseStream = closeBaseStream;
 
             ReadCopy = readCopy;
-            CloseReadCopy = readCopy != null ? closeReadCopy : false;
+            CloseReadCopy = !(readCopy is null) ? closeReadCopy : false;
 
             WriteCopy = writeCopy;
-            CloseWriteCopy = writeCopy != null ? closeWriteCopy : false;
+            CloseWriteCopy = !(writeCopy is null) ? closeWriteCopy : false;
         }
 
         /// <summary>
@@ -272,13 +272,13 @@ namespace THNETII.Common.IO
         /// <inheritdoc />
         public override Task FlushAsync(CancellationToken cancellationToken)
         {
-            if (ReadCopy != null)
+            if (!(ReadCopy is null))
             {
-                if (WriteCopy != null)
+                if (!(WriteCopy is null))
                     return Task.WhenAll(BaseStream.FlushAsync(cancellationToken), ReadCopy.FlushAsync(cancellationToken), WriteCopy.FlushAsync(cancellationToken));
                 return Task.WhenAll(BaseStream.FlushAsync(cancellationToken), ReadCopy.FlushAsync(cancellationToken));
             }
-            else if (WriteCopy != null)
+            else if (!(WriteCopy is null))
                 return Task.WhenAll(BaseStream.FlushAsync(cancellationToken), WriteCopy.FlushAsync(cancellationToken));
             return BaseStream.FlushAsync(cancellationToken);
         }
@@ -319,7 +319,7 @@ namespace THNETII.Common.IO
         public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             var bytesRead = await BaseStream.ReadAsync(buffer, offset, count, cancellationToken).ConfigureAwait(false);
-            if (ReadCopy != null)
+            if (!(ReadCopy is null))
                 await ReadCopy.WriteAsync(buffer, offset, bytesRead, cancellationToken).ConfigureAwait(false);
             return bytesRead;
         }
@@ -334,7 +334,7 @@ namespace THNETII.Common.IO
         /// <inheritdoc />
         public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
-            if (WriteCopy != null)
+            if (!(WriteCopy is null))
                 return Task.WhenAll(BaseStream.WriteAsync(buffer, offset, count, cancellationToken), WriteCopy.WriteAsync(buffer, offset, count, cancellationToken));
             return BaseStream.WriteAsync(buffer, offset, count, cancellationToken);
         }

@@ -30,10 +30,10 @@ namespace THNETII.Common.Serialization
                 foreach (var fi in ti.DeclaredFields.Where(i => i.IsStatic))
                 {
                     var enumMemberAttr = fi.GetCustomAttribute<XmlEnumAttribute>();
-                    if (enumMemberAttr == null)
+                    if (enumMemberAttr is null)
                         continue;
                     T v = (T)fi.GetValue(null);
-                    string s = enumMemberAttr.Name.IfNotNull(fi.Name);
+                    string s = enumMemberAttr.Name.NotNull(fi.Name);
                     dictionaryAddValueAction(s, v);
                 }
             }
@@ -43,7 +43,7 @@ namespace THNETII.Common.Serialization
                 var stringToValue = new Dictionary<string, T>(StringComparer.OrdinalIgnoreCase);
                 InitializeConversionDictionary((s, v) =>
                 {
-                    if (s == null)
+                    if (s is null)
                         return;
                     if (!stringToValue.ContainsKey(s))
                         stringToValue[s] = v;
@@ -78,7 +78,7 @@ namespace THNETII.Common.Serialization
         [SuppressMessage("Microsoft.Design", "CA1000")]
         public static T Parse<T>(string s) where T : struct, Enum
         {
-            if (s != null && EnumValues<T>.StringToValue.TryGetValue(s, out T value))
+            if (!(s is null) && EnumValues<T>.StringToValue.TryGetValue(s, out T value))
                 return value;
             return (T)Enum.Parse(EnumValues<T>.TypeRef, s, ignoreCase: true);
         }
@@ -141,7 +141,7 @@ namespace THNETII.Common.Serialization
         {
             if (TryParse(s, out T value))
                 return value;
-            else if (defaultFactory == null)
+            else if (defaultFactory is null)
                 throw new ArgumentNullException(nameof(defaultFactory));
             return defaultFactory();
         }
@@ -166,7 +166,7 @@ namespace THNETII.Common.Serialization
         {
             if (TryParse(s, out T value))
                 return value;
-            else if (defaultFactory == null)
+            else if (defaultFactory is null)
                 throw new ArgumentNullException(nameof(defaultFactory));
             return defaultFactory(s);
         }
@@ -208,7 +208,7 @@ namespace THNETII.Common.Serialization
         public static bool TryParse<T>(string s, out T value)
             where T : struct, Enum
         {
-            if (s != null && EnumValues<T>.StringToValue.TryGetValue(s, out value))
+            if (!(s is null) && EnumValues<T>.StringToValue.TryGetValue(s, out value))
                 return true;
             return Enum.TryParse(s, out value);
         }

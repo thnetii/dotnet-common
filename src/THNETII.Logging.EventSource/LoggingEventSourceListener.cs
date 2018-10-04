@@ -73,7 +73,7 @@ namespace THNETII.Logging.EventSource
 
         protected override void OnEventSourceCreated(System.Diagnostics.Tracing.EventSource eventSource)
         {
-            if (eventSource == null)
+            if (eventSource is null)
                 return;
             var matchingConfigItem = Configuration?.GetSection("LogLevel")?.AsEnumerable(makePathsRelative: true).Select(configItem =>
             {
@@ -96,10 +96,10 @@ namespace THNETII.Logging.EventSource
                     }
                 }
                 return (Key: null, Value: logLevel, MatchClass: int.MaxValue);
-            }).Where(kvp => kvp.Key != null)
+            }).Where(kvp => !(kvp.Key is null))
             .OrderBy(kvp => kvp.MatchClass).ThenByDescending(kvp => kvp.Key.Length)
             .FirstOrDefault();
-            if (matchingConfigItem != null && matchingConfigItem.HasValue && !string.IsNullOrWhiteSpace(matchingConfigItem.Value.Key))
+            if (!(matchingConfigItem is null) && matchingConfigItem.HasValue && !string.IsNullOrWhiteSpace(matchingConfigItem.Value.Key))
             {
                 EnableEvents(eventSource, matchingConfigItem.Value.Value.ToEventLevel());
             }
@@ -114,11 +114,11 @@ namespace THNETII.Logging.EventSource
 
         protected override void OnEventWritten(EventWrittenEventArgs eventData)
         {
-            if (eventData == null)
+            if (eventData is null)
                 return;
             var category = eventData.EventSource?.Name;
             var logger = loggers.GetOrAdd(category, CreateLogger);
-            if (logger == null)
+            if (logger is null)
                 return;
 
             var logLevel = eventData.Level.ToLogLevel();
@@ -182,8 +182,8 @@ namespace THNETII.Logging.EventSource
 
         private static string LogMessageFormatter(object instance, Exception exception)
         {
-            var logMessage = (instance?.ToString()).IfNotNullOrWhiteSpace(otherwise: string.Empty);
-            if (exception != null)
+            var logMessage = (instance?.ToString()).NotNullOrWhiteSpace(otherwise: string.Empty);
+            if (!(exception is null))
             {
                 if (logMessage.Length > 0)
                     logMessage += Environment.NewLine;

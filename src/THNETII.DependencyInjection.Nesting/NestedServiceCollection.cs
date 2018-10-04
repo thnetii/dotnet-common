@@ -109,7 +109,7 @@ namespace THNETII.DependencyInjection.Nesting
 
         private void RegisterDescriptorInInheritedServiceCollection(ServiceDescriptor serviceDescriptor)
         {
-            if (InheritedServices != null)
+            if (!(InheritedServices is null))
             {
                 int beforeAdd = InheritedServices.Count;
                 bool ensureAddProxy = false;
@@ -179,7 +179,7 @@ namespace THNETII.DependencyInjection.Nesting
         {
             int result = inheritedServices
                 .Select((d, i) => d == item ? (int?)i : null)
-                .FirstOrDefault(i => i != null) ?? -1;
+                .FirstOrDefault(i => !(i is null)) ?? -1;
             if (result < 0)
             {
                 result = nestedServices.IndexOf(item);

@@ -24,9 +24,9 @@ namespace THNETII.Common
         /// <seealso cref="string.Contains(string)"/>
         public static bool Contains(this string s, string value, StringComparison comparisonType)
         {
-            if (s == null)
+            if (s is null)
                 throw new ArgumentNullException(nameof(s));
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             var v = value.AsSpan();
             for (var remaining = s.AsSpan(); remaining.Length >= value.Length;

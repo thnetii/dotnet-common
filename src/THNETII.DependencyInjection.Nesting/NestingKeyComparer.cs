@@ -14,7 +14,7 @@ namespace THNETII.DependencyInjection.Nesting
         {
             var keyComparer = rootServiceProvider?
                 .GetService<IEqualityComparer<TKey>>();
-            if (keyComparer != null)
+            if (!(keyComparer is null))
                 return keyComparer;
             else if (KeyIsStringType)
             {

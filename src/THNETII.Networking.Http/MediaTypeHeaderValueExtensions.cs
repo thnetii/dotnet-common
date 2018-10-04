@@ -8,7 +8,7 @@ namespace THNETII.Networking.Http
     {
         public static bool ContainsMediaType(this MediaTypeHeaderValue contentType, string mediaType, bool trueIfNoMediaType = true)
         {
-            if (contentType == null)
+            if (contentType is null)
                 return trueIfNoMediaType;
             else if (string.IsNullOrWhiteSpace(contentType.MediaType))
                 return trueIfNoMediaType;

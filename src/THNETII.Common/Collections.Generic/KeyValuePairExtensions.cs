@@ -75,6 +75,6 @@ namespace THNETII.Common.Collections.Generic
         /// structure if <paramref name="tuple"/> is <c>null</c>.
         /// </returns>
         public static KeyValuePair<TKey, TValue> AsKeyValuePair<TKey, TValue>(this Tuple<TKey, TValue> tuple) =>
-            tuple == null ? default : new KeyValuePair<TKey, TValue>(tuple.Item1, tuple.Item2);
+            tuple is null ? default : new KeyValuePair<TKey, TValue>(tuple.Item1, tuple.Item2);
     }
 }

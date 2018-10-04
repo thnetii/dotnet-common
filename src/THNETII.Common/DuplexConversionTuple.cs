@@ -106,7 +106,7 @@ namespace THNETII.Common
         /// <param name="convertedEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Specify <c>null</c> to use default equality checks.</param>
         /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/> or <paramref name="rawReverseConvert"/> are <c>null</c>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer, Func<TConvert, TRaw> rawReverseConvert, IEqualityComparer<TConvert> convertedEqualityComparer)
-            : this(rawConvert, rawEqualityComparer, rawReverseConvert, convertedEqualityComparer != null ? convertedEqualityComparer.Equals : GetEqualityCheckFunction<TConvert>()) { }
+            : this(rawConvert, rawEqualityComparer, rawReverseConvert, !(convertedEqualityComparer is null) ? convertedEqualityComparer.Equals : GetEqualityCheckFunction<TConvert>()) { }
 
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions.
@@ -117,7 +117,7 @@ namespace THNETII.Common
         /// <param name="convertedEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Specify <c>null</c> to use default equality checks.</param>
         /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/>, <paramref name="rawEquals"/> or <paramref name="rawReverseConvert"/> are <c>null</c>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TRaw, TRaw, bool> rawEquals, Func<TConvert, TRaw> rawReverseConvert, IEqualityComparer<TConvert> convertedEqualityComparer)
-            : this(rawConvert, rawEquals, rawReverseConvert, convertedEqualityComparer != null ? convertedEqualityComparer.Equals : GetEqualityCheckFunction<TConvert>()) { }
+            : this(rawConvert, rawEquals, rawReverseConvert, !(convertedEqualityComparer is null) ? convertedEqualityComparer.Equals : GetEqualityCheckFunction<TConvert>()) { }
 
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions.

@@ -11,28 +11,21 @@ namespace THNETII.Common.Test
             var instance = new object();
             var magic = new object();
 
-            Assert.Same(instance, instance.IfNotNull(otherwise: magic));
+            Assert.Same(instance, instance.NotNull(otherwise: magic));
         }
 
         [Fact]
         public void IfNotNullAcceptsOtherwiseNull()
         {
             var instance = new object();
-            Assert.Same(instance, instance.IfNotNull(otherwise: null));
-        }
-
-        [Fact]
-        public void ValueTypeIfNotNullReturnsValue()
-        {
-            int test = 42;
-            Assert.StrictEqual(test, test.IfNotNull(default(int)));
+            Assert.Same(instance, instance.NotNull(otherwise: null));
         }
 
         [Fact]
         public void ReturnsSameStringInstanceIfNeitherNullNorEmpty()
         {
             string test = "TEST";
-            Assert.Same(test, test.IfNotNullOrEmpty("magic"));
+            Assert.Same(test, test.NotNullOrEmpty("magic"));
         }
 
         [Theory]
@@ -41,14 +34,14 @@ namespace THNETII.Common.Test
         public void ReturnsOtherwiseIfStringEitherNullOrEmpty(string input)
         {
             string alternate = "ALTERNATE";
-            Assert.Same(alternate, input.IfNotNullOrEmpty(otherwise: alternate));
+            Assert.Same(alternate, input.NotNullOrEmpty(otherwise: alternate));
         }
 
         [Fact]
         public void ReturnsSameStringInstanceIfNeitherNullNorEmptyNorWhiteSpace()
         {
             string test = "TEST";
-            Assert.Same(test, test.IfNotNullOrWhiteSpace("magic"));
+            Assert.Same(test, test.NotNullOrWhiteSpace("magic"));
         }
 
         [Theory]
@@ -60,7 +53,7 @@ namespace THNETII.Common.Test
         public void ReturnsOtherwiseIfStringEitherNullOrEmptyOrWhiteSpace(string input)
         {
             string alternate = "ALTERNATE";
-            Assert.Same(alternate, input.IfNotNullOrWhiteSpace(otherwise: alternate));
+            Assert.Same(alternate, input.NotNullOrWhiteSpace(otherwise: alternate));
         }
 
         [Fact]
@@ -73,7 +66,7 @@ namespace THNETII.Common.Test
                 invoked = true;
                 return new object();
             }
-            Assert.Same(test, test.IfNotNull(otherwiseFactory: otherwiseFactory));
+            Assert.Same(test, test.NotNull(otherwiseFactory: otherwiseFactory));
             Assert.False(invoked);
         }
 
@@ -87,7 +80,7 @@ namespace THNETII.Common.Test
                 invoked = true;
                 return "OTHERWISE";
             }
-            Assert.Same(test, test.IfNotNullOrEmpty(otherwiseFactory: otherwiseFactory));
+            Assert.Same(test, test.NotNullOrEmpty(otherwiseFactory: otherwiseFactory));
             Assert.False(invoked);
         }
 
@@ -101,7 +94,7 @@ namespace THNETII.Common.Test
                 invoked = true;
                 return "OTHERWISE";
             }
-            Assert.Same(test, test.IfNotNullOrWhiteSpace(otherwiseFactory: otherwiseFactory));
+            Assert.Same(test, test.NotNullOrWhiteSpace(otherwiseFactory: otherwiseFactory));
             Assert.False(invoked);
         }
 
@@ -115,7 +108,7 @@ namespace THNETII.Common.Test
                 return new object();
             }
             object test = null;
-            Assert.NotSame(test, test.IfNotNull(otherwiseFactory: otherwiseFactory));
+            Assert.NotSame(test, test.NotNull(otherwiseFactory: otherwiseFactory));
             Assert.True(invoked);
         }
 
@@ -131,7 +124,7 @@ namespace THNETII.Common.Test
                 invoked = true;
                 return otherwiseValue;
             }
-            Assert.Equal(otherwiseValue, test.IfNotNullOrEmpty(otherwiseFactory: otherwiseFactory));
+            Assert.Equal(otherwiseValue, test.NotNullOrEmpty(otherwiseFactory: otherwiseFactory));
             Assert.True(invoked);
         }
 
@@ -150,7 +143,7 @@ namespace THNETII.Common.Test
                 invoked = true;
                 return otherwiseValue;
             }
-            Assert.Equal(otherwiseValue, test.IfNotNullOrWhiteSpace(otherwiseFactory: otherwiseFactory));
+            Assert.Equal(otherwiseValue, test.NotNullOrWhiteSpace(otherwiseFactory: otherwiseFactory));
             Assert.True(invoked);
         }
 
@@ -158,7 +151,7 @@ namespace THNETII.Common.Test
         public void ThrowsIfInstanceAndFactoryNull()
         {
             object test = null;
-            Assert.ThrowsAny<ArgumentNullException>(() => test.IfNotNull(otherwiseFactory: null));
+            Assert.ThrowsAny<ArgumentNullException>(() => test.NotNull(otherwiseFactory: null));
         }
 
         [Theory]
@@ -166,7 +159,7 @@ namespace THNETII.Common.Test
         [InlineData("")]
         public void ThrowsIfInstanceNullOrEmptyAndFactoryNull(string test)
         {
-            Assert.ThrowsAny<ArgumentNullException>(() => test.IfNotNullOrEmpty(otherwiseFactory: null));
+            Assert.ThrowsAny<ArgumentNullException>(() => test.NotNullOrEmpty(otherwiseFactory: null));
         }
 
         [Theory]
@@ -177,7 +170,7 @@ namespace THNETII.Common.Test
         [InlineData("\r\n")]
         public void ThrowsIfInstanceNullOrWhitespaceAndFactoryNull(string test)
         {
-            Assert.ThrowsAny<ArgumentNullException>(() => test.IfNotNullOrWhiteSpace(otherwiseFactory: null));
+            Assert.ThrowsAny<ArgumentNullException>(() => test.NotNullOrWhiteSpace(otherwiseFactory: null));
         }
     }
 }

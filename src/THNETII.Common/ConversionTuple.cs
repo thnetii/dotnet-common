@@ -137,7 +137,7 @@ namespace THNETII.Common
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="rawConvert"/> is <c>null</c>.</exception>
         public ConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer = null)
-            : this(rawConvert, (rawEqualityComparer != null ? rawEqualityComparer.Equals : GetEqualityCheckFunction<TRaw>())) { }
+            : this(rawConvert, (!(rawEqualityComparer is null) ? rawEqualityComparer.Equals : GetEqualityCheckFunction<TRaw>())) { }
 
         /// <summary>
         /// Creates a new conversion tuple with the specified conversion and equality functions.

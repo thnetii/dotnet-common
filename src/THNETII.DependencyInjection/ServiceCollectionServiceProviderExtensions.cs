@@ -41,7 +41,7 @@ namespace THNETII.DependencyInjection
         /// <exception cref="ArgumentNullException"><paramref name="services"/> is <c>null</c>.</exception>
         public static IServiceProvider Build(this IServiceCollection services)
         {
-            if (services == null)
+            if (services is null)
             {
                 throw new ArgumentNullException(nameof(services));
             }
@@ -68,12 +68,12 @@ namespace THNETII.DependencyInjection
 
             // The last ServiceDescriptor is significant.
             var factoryDescriptor = services.LastOrDefault(factoryPredicate);
-            if (factoryDescriptor != null)
+            if (!(factoryDescriptor is null))
             {
                 // Get ServiceProviderFactory Instance
                 var factoryService = defaultServiceProvider
                     .GetService(factoryDescriptor.ServiceType);
-                if (factoryService != null)
+                if (!(factoryService is null))
                 {
                     var miGeneric = BuildServiceProviderInfo;
                     // Construct a generic method for the <code>TContainerBuilder</code>

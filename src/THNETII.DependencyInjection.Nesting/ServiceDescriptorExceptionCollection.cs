@@ -85,7 +85,7 @@ namespace THNETII.DependencyInjection.Nesting
                 {
                     var matchTuple = kvp.Value.Select((d, idx) => (d, idx))
                         .FirstOrDefault(t => predicate(t.d, item));
-                    if (matchTuple.d == null)
+                    if (matchTuple.d is null)
                         return -1;
                     return preIdx + matchTuple.idx;
 
@@ -116,7 +116,7 @@ namespace THNETII.DependencyInjection.Nesting
         {
             if (serviceDescriptors.TryGetValue(item.ServiceType, out var list))
             {
-                for (var nd = list.First; nd != null; nd = nd.Next)
+                for (var nd = list.First; !(nd is null); nd = nd.Next)
                 {
                     if (comparer.Equals(item, nd.Value))
                     {

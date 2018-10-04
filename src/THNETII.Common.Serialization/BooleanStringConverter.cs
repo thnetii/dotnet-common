@@ -121,7 +121,7 @@ namespace THNETII.Common.Serialization
         {
             if (TryParse(s, out bool value))
                 return value;
-            if (defaultFactory == null)
+            if (defaultFactory is null)
                 throw new ArgumentNullException(nameof(defaultFactory));
             return defaultFactory();
         }
@@ -162,7 +162,7 @@ namespace THNETII.Common.Serialization
 
         private static bool TryParseAlternative(string s, out bool alternateResult)
         {
-            if (s == null)
+            if (s is null)
             {
                 alternateResult = false;
                 return true;

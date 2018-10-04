@@ -7,7 +7,7 @@ using THNETII.DependencyInjection.Configuration;
 
 namespace THNETII.DependencyInjection.Nesting.Test
 {
-    public class ConfigurationNestingTest
+    public static class ConfigurationNestingTest
     {
         public class TestService
         {
