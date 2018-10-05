@@ -8,6 +8,25 @@ namespace THNETII.Common.Cli
     /// Contains the state of current and original Console foreground and background color settings.
     /// <para>The context should be used in a <c>using</c>-block to ensure proper resetting of console colors.</para>
     /// </summary>
+    /// <example>
+    /// <code lang="CSharp">
+    /// using System;
+    /// using THNETII.Common.Cli;
+    ///
+    /// class Program
+    /// {
+    ///     static void Main(string[] args)
+    ///     {
+    ///         Console.WriteLine("This text is written normally.");
+    ///         using (var context = new ConsoleColorContext(ConsoleColor.Red))
+    ///         {
+    ///             Console.WriteLine("This text is written using red foreground coloring.");
+    ///         }
+    ///         Console.WriteLine("This text is written normally again.");
+    ///     }
+    /// }
+    /// </code>
+    /// </example>
     public sealed class ConsoleColorContext : IDisposable
     {
         private int disposed;
@@ -122,6 +141,12 @@ namespace THNETII.Common.Cli
         /// <param name="fgColorOriginal">The original foregorund console color to reset to when the context is disposed, or <c>null</c> if the foreground color should not be reset.</param>
         /// <param name="bgColorOriginal">The original background console color to reset to when the context is disposed, or <c>null</c> if the background color should not be reset.</param>
         /// <param name="set">If <c>true</c> (default), the context will be applied by calling <see cref="Set"/> immediately. If <c>false</c>, <see cref="Set"/> must be invoked manually at an appropiate time.</param>
+        /// <exception cref="InvalidOperationException">
+        /// The color specified for either the foreground color or the background color is not a valid member of <see cref="ConsoleColor"/>.
+        /// The <see cref="Exception.InnerException"/> property contains the <see cref="ArgumentException"/> thrown from the set invocation to <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.
+        /// </exception>
+        /// <exception cref="System.Security.SecurityException">The user does not have permission to set the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
+        /// <exception cref="System.IO.IOException">An I/O error occurred while attempting to write to the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
         public ConsoleColorContext(
             ConsoleColor? fgColor,
             ConsoleColor? bgColor,
@@ -145,8 +170,12 @@ namespace THNETII.Common.Cli
         /// </summary>
         /// <param name="fgColor">The foreground console color to set, or <c>null</c> if the foreground color should not be modified.</param>
         /// <param name="bgColor">The background console color to set, or <c>null</c> if the background color should not be modified.</param>
-        /// <exception cref="System.Security.SecurityException">The user does not have permission to get the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
-        /// <exception cref="System.IO.IOException">An I/O error occurred while attempting to read the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
+        /// <exception cref="System.Security.SecurityException">The user does not have permission to get or set the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
+        /// <exception cref="System.IO.IOException">An I/O error occurred while attempting to read from or write to the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
+        /// <exception cref="InvalidOperationException">
+        /// The color specified for either the foreground color or the background color is not a valid member of <see cref="ConsoleColor"/>.
+        /// The <see cref="Exception.InnerException"/> property contains the <see cref="ArgumentException"/> thrown from the set invocation to <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.
+        /// </exception>
         public ConsoleColorContext(ConsoleColor? fgColor = default, ConsoleColor? bgColor = default)
             : this(fgColor, bgColor, fgColor.HasValue ? Console.ForegroundColor : default, bgColor.HasValue ? Console.BackgroundColor : default)
         { }
@@ -160,8 +189,8 @@ namespace THNETII.Common.Cli
         /// The color specified for either the foreground color or the background color is not a valid member of <see cref="ConsoleColor"/>.
         /// The <see cref="Exception.InnerException"/> property contains the <see cref="ArgumentException"/> thrown from the set invocation to <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.
         /// </exception>
-        /// <exception cref="System.Security.SecurityException">The user does not have permission to get the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
-        /// <exception cref="System.IO.IOException">An I/O error occurred while attempting to read the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
+        /// <exception cref="System.Security.SecurityException">The user does not have permission to set the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
+        /// <exception cref="System.IO.IOException">An I/O error occurred while attempting to write to the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
         /// <seealso cref="ChangeForegroundColor"/>
         /// <seealso cref="ForegroundColor"/>
         /// <seealso cref="ChangeBackgroundColor"/>
@@ -195,8 +224,8 @@ namespace THNETII.Common.Cli
         /// The color specified for either the foreground color or the background color is not a valid member of <see cref="ConsoleColor"/>.
         /// The <see cref="Exception.InnerException"/> property contains the <see cref="ArgumentException"/> thrown from the set invocation to <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.
         /// </exception>
-        /// <exception cref="System.Security.SecurityException">The user does not have permission to get the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
-        /// <exception cref="System.IO.IOException">An I/O error occurred while attempting to read the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
+        /// <exception cref="System.Security.SecurityException">The user does not have permission to set the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
+        /// <exception cref="System.IO.IOException">An I/O error occurred while attempting to write to the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
         /// <seealso cref="ResetForegroundColor"/>
         /// <seealso cref="OriginalForegroundColor"/>
         /// <seealso cref="ResetBackgroundColor"/>
