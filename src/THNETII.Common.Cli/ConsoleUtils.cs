@@ -44,20 +44,28 @@ namespace THNETII.Common.Cli
                 throw new ArgumentNullException(nameof(asyncMain));
 
             var cts = new CancellationTokenSource();
-            Console.CancelKeyPress += (sender, e) =>
+            void OnCancelKeyPress(object senter, ConsoleCancelEventArgs e)
             {
                 // If cancellation already has been requested,
                 // do not cancel process termination signal.
                 e.Cancel = !cts.IsCancellationRequested;
 
                 cts.Cancel(throwOnFirstException: true);
-            };
+            }
+            Console.CancelKeyPress += OnCancelKeyPress;
 
             var cancelToken = cts.Token;
-            var returnValue = await asyncMain(args, cancelToken)
-                .ConfigureAwait(continueOnCapturedContext: false);
-            cancelToken.ThrowIfCancellationRequested();
-            return returnValue;
+            try
+            {
+                var returnValue = await asyncMain(args, cancelToken)
+                    .ConfigureAwait(continueOnCapturedContext: false);
+                cancelToken.ThrowIfCancellationRequested();
+                return returnValue;
+            }
+            finally
+            {
+                Console.CancelKeyPress -= OnCancelKeyPress;
+            }
         }
     }
 }
