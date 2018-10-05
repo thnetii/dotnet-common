@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(DevEnvDir)devenv.exe</StartProgram>
+    <StartArguments>/rootsuffix Roslyn</StartArguments>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Description>THNETII.Common.Analyzers</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <PackageTags>THNETII.Common.Analyzers, analyzers</PackageTags>
