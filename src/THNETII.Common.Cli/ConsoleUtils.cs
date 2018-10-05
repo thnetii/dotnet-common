@@ -6,6 +6,9 @@ namespace THNETII.Common.Cli
 {
     public static class ConsoleUtils
     {
+        public static ConsoleColorContext UseConsoleColor(ConsoleColor? fgColor = default, ConsoleColor? bgColor = default) =>
+            new ConsoleColorContext(fgColor, bgColor);
+
         public static Task RunAsync(Func<CancellationToken, Task> asyncMain)
         {
             return RunAsync(Array.Empty<string>(), (asyncMain is null)
