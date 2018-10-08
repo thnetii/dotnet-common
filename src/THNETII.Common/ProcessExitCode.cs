@@ -9,6 +9,7 @@
         /// <summary>
         /// A process exit code that indicates that the executing program completed successfully.
         /// </summary>
+        /// <value>The integer constant <c>0</c> (zero).</value>
         /// <remarks>
         /// By convention, a return code of zero means that the program completed successfully. 
         /// <para>This constant mirrors the <c>EXIT_SUCCESS</c> constant commonly defined in the <c>stdlib.h</c> header file of a native C runtime library.</para>
@@ -18,6 +19,7 @@
         /// <summary>
         /// A process exit code that indicates that the executing program terminated abnormally because of an error condition.
         /// </summary>
+        /// <value>The integer constant <c>1</c>.</value>
         /// <remarks>
         /// <para>This constant mirrors the <c>EXIT_FAILURE</c> constant commonly defined in the <c>stdlib.h</c> header file of a native C runtime library.</para>
         /// </remarks>

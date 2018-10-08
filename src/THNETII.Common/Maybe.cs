@@ -94,7 +94,7 @@ namespace THNETII.Common
         }
     }
 
-        /// <summary>
+    /// <summary>
     /// Represents a value of type <typeparamref name="T"/> which may or may not be assigned.
     /// </summary>
     /// <typeparam name="T">The underlying value type of the <see cref="Maybe{T}"/> generic type.</typeparam>
@@ -113,7 +113,6 @@ namespace THNETII.Common
 #pragma warning restore CA1000 // Do not declare static members on generic types
 
         private T value;
-        private bool hasValue;
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="Maybe{T}"/> has a valid value of its
@@ -123,7 +122,7 @@ namespace THNETII.Common
         /// to the <see cref="Maybe{T}"/>; <c>false</c> if the <see cref="Maybe{T}"/> 
         /// has no value assigned to it.
         /// </value>
-        public bool HasValue => hasValue;
+        public bool HasValue { get; private set; }
 
         /// <summary>
         /// Gets or sets the underlying value of the <see cref="Maybe{T}"/> structure.
@@ -145,7 +144,7 @@ namespace THNETII.Common
             set
             {
                 this.value = value;
-                hasValue = true;
+                HasValue = true;
             }
         }
 
@@ -157,17 +156,17 @@ namespace THNETII.Common
         public Maybe(T value) : this()
         {
             Value = value;
-            hasValue = true;
+            HasValue = true;
         }
 
         /// <summary>
         /// Clears the assigned underlying value (if any) and sets the <see cref="HasValue"/>
         /// property to <c>false</c>.
         /// </summary>
-        public void Unset()
+        public void Clear()
         {
             value = default;
-            hasValue = false;
+            HasValue = false;
         }
 
         /// <inheritdoc />
@@ -189,9 +188,9 @@ namespace THNETII.Common
         {
             if (HasValue)
             {
-                if (value is IEquatable<T> equatableValue)
-                    return equatableValue.Equals(otherValue);
-                return value.Equals(otherValue);
+                return (value is IEquatable<T> equatableValue)
+                    ? equatableValue.Equals(otherValue)
+                    : value.Equals(otherValue);
             }
             else
                 return false;
@@ -201,7 +200,11 @@ namespace THNETII.Common
         public bool Equals(Maybe<T> otherMaybe)
         {
             if (HasValue)
-                return otherMaybe.HasValue && value.Equals(otherMaybe.value);
+            {
+                return otherMaybe.HasValue && ((value is IEquatable<T> equatableValue)
+                    ? equatableValue.Equals(otherMaybe.value)
+                    : value.Equals(otherMaybe.value));
+            }
             else
                 return !otherMaybe.HasValue;
         }
