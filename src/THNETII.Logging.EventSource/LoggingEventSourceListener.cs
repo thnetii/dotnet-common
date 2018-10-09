@@ -99,7 +99,7 @@ namespace THNETII.Logging.EventSource
             }).Where(kvp => !(kvp.Key is null))
             .OrderBy(kvp => kvp.MatchClass).ThenByDescending(kvp => kvp.Key.Length)
             .FirstOrDefault();
-            if (!(matchingConfigItem is null) && matchingConfigItem.HasValue && !string.IsNullOrWhiteSpace(matchingConfigItem.Value.Key))
+            if (matchingConfigItem.HasValue && !string.IsNullOrWhiteSpace(matchingConfigItem.Value.Key))
             {
                 EnableEvents(eventSource, matchingConfigItem.Value.Value.ToEventLevel());
             }
