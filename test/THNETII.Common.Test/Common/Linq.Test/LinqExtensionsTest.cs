@@ -169,7 +169,7 @@ namespace THNETII.Common.Linq.Test
 
         [SkippableFact]
         public void ElementAtOfEmptyThrows() =>
-            Assert.Throws<InvalidOperationException>(() => ElementAt(GetEmpty(), default));
+            Assert.Throws<ArgumentOutOfRangeException>(() => ElementAt(GetEmpty(), default));
 
         [SkippableFact]
         public void ElementAtReturnsElementAtT()

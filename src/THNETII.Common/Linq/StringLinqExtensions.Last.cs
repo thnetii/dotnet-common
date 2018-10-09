@@ -12,11 +12,14 @@ namespace THNETII.Common.Linq
         /// <param name="s">The string to return the last character of.</param>
         /// <returns>The last character in <paramref name="s"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="s"/> is empty.</exception>
         /// <seealso cref="Enumerable.Last{TSource}(IEnumerable{TSource})"/>
         public static char Last(this string s)
         {
             if (s is null)
                 throw new ArgumentNullException(nameof(s));
+            else if (s.Length < 1)
+                throw new InvalidOperationException("The string is empty.");
             return s[s.Length - 1];
         }
 
@@ -32,6 +35,15 @@ namespace THNETII.Common.Linq
         public static char LastOrDefault(this string s, char @default = default) =>
             s.LastOrDefault(() => @default);
 
+        /// <summary>
+        /// Returns the last character (i.e. the character at position <c>length - 1</c>) in the string
+        /// or creates a value if the string is empty.
+        /// </summary>
+        /// <param name="s">The string to return the last character of.</param>
+        /// <param name="defaultFactory">The function to produce the return value if <paramref name="s"/> is empty.</param>
+        /// <returns>The last character in <paramref name="s"/>; or the return value of <paramref name="defaultFactory"/> if <paramref name="s"/> is empty.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="s"/> is <c>null</c>.<br/><em>-or-</em><br/><paramref name="s"/> is empty and <paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <seealso cref="Enumerable.LastOrDefault{TSource}(IEnumerable{TSource})"/>
         public static char LastOrDefault(this string s, Func<char> defaultFactory)
         {
             if (s is null)
