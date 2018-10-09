@@ -12,6 +12,7 @@ namespace THNETII.DependencyInjection.Nesting
         /// Gets a service collection of all service descriptors that are
         /// inheited from the parent service collection.
         /// </summary>
+        /// <value>An <see cref="IServiceCollection"/> containing the services inherited from the parent.</value>
         IServiceCollection InheritedServices { get; }
 
         /// <summary>
@@ -19,6 +20,11 @@ namespace THNETII.DependencyInjection.Nesting
         /// services are added to the service resolution order of the nested
         /// service container.
         /// </summary>
+        /// <value>
+        /// A value from the <see cref="THNETII.DependencyInjection.Nesting.RootServicesAddBehavior"/> enumeration,
+        /// specifying if and how services added to the nested service collection are
+        /// propagated to the parent collection.
+        /// </value>
         RootServicesAddBehavior RootServicesAddBehavior { get; set; }
     }
 
@@ -36,6 +42,7 @@ namespace THNETII.DependencyInjection.Nesting
         /// <summary>
         /// Gets the unique key of the nested service collection.
         /// </summary>
+        /// <value>The key of type <typeparamref name="TKey"/> for this nested service collection.</value>
         /// <remarks>Direct siblings should have unique keys.</remarks>
         TKey Key { get; }
     }

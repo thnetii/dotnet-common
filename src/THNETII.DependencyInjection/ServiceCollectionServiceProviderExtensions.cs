@@ -26,7 +26,7 @@ namespace THNETII.DependencyInjection
 
         /// <summary>
         /// Creates an <see cref="IServiceProvider"/> containing services from the provided <see cref="IServiceCollection"/>.
-        /// <para> If possible, a registered <see cref="IServiceProviderFactory{TContainerBuilder}"/> will be used to create the <see cref="IServiceProvider"/> instance.</para>
+        /// <para> If available, a registered <see cref="IServiceProviderFactory{TContainerBuilder}"/> will be used to create the <see cref="IServiceProvider"/> instance.</para>
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> containing service descriptors.</param>
         /// <returns>A new <see cref="IServiceProvider"/> instance.</returns>
@@ -53,11 +53,11 @@ namespace THNETII.DependencyInjection
 
             bool factoryPredicate(ServiceDescriptor desc)
             {
+                var t = desc.ServiceType
 #if NETSTANDARD1_3
-                var t = desc.ServiceType.GetTypeInfo();
-#elif NETSTANDARD2_0
-                var t = desc.ServiceType;
+                    .GetTypeInfo()
 #endif
+                    ;
                 if (t.IsGenericType)
                 {
                     var genericDef = t.GetGenericTypeDefinition();
