@@ -41,7 +41,7 @@ namespace THNETII.Common.Linq.Test
 
         [SkippableFact]
         public void FirstOfEmptyThrows() =>
-            Assert.ThrowsAny<Exception>(() => First(GetEmpty()));
+            Assert.Throws<InvalidOperationException>(() => First(GetEmpty()));
 
         [SkippableFact]
         public void FirstReturnsFirstT()
@@ -103,7 +103,7 @@ namespace THNETII.Common.Linq.Test
 
         [SkippableFact]
         public void LastOfEmptyThrows() =>
-            Assert.ThrowsAny<Exception>(() => Last(GetEmpty()));
+            Assert.Throws<InvalidOperationException>(() => Last(GetEmpty()));
 
         [SkippableFact]
         public void LastReturnsLastT()
@@ -162,17 +162,12 @@ namespace THNETII.Common.Linq.Test
         [SkippableFact]
         public void ElementAtOfNullThrows()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                try { ElementAt(null, default); }
-                catch (SkipException)
-                { throw new ArgumentNullException(); }
-            });
+            Assert.Throws<ArgumentNullException>(() => ElementAt(null, default));
         }
 
         [SkippableFact]
         public void ElementAtOfEmptyThrows() =>
-            Assert.ThrowsAny<Exception>(() => ElementAt(GetEmpty(), default));
+            Assert.Throws<InvalidOperationException>(() => ElementAt(GetEmpty(), default));
 
         [SkippableFact]
         public void ElementAtReturnsElementAtT()
@@ -216,7 +211,7 @@ namespace THNETII.Common.Linq.Test
         public void ElementAtWithNegativeThrows()
         {
             var test = GetMoreThan5ButLessThan100();
-            Assert.ThrowsAny<Exception>(() => ElementAt(test, -1));
+            Assert.Throws<ArgumentOutOfRangeException>("index", () => ElementAt(test, -1));
         }
 
         [SkippableFact]
@@ -266,7 +261,7 @@ namespace THNETII.Common.Linq.Test
         {
             const int index = 100;
             var test = GetMoreThan5ButLessThan100();
-            Assert.ThrowsAny<Exception>(() => ElementAt(test, index));
+            Assert.Throws<ArgumentOutOfRangeException>("index", () => ElementAt(test, index));
         }
 
         [SkippableFact]
