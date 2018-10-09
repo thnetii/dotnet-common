@@ -6,8 +6,22 @@ namespace THNETII.Common.Linq
 {
     public static partial class SpanLinqExtensions
     {
-        public static ref readonly T First<T>(this ReadOnlySpan<T> span) =>
-            ref span.ElementAt(0);
+        /// <summary>
+        /// Returns the first element of a read-only span.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the span.</typeparam>
+        /// <param name="span">The span to return the first element of.</param>
+        /// <returns>A read-only reference to the first element in the span.</returns>
+        /// <exception cref="InvalidOperationException"><paramref name="span"/> is empty.</exception>
+        /// <seealso cref="Enumerable.First{TSource}(IEnumerable{TSource})"/>
+        public static ref readonly T First<T>(this ReadOnlySpan<T> span)
+        {
+            try { return ref span.ElementAt(0); }
+            catch (ArgumentOutOfRangeException argExcept)
+            {
+                throw new InvalidOperationException("The span is empty.", argExcept);
+            }
+        }
 
         /// <summary>
         /// Returns a read-only reference to the first element in the span or
@@ -34,8 +48,22 @@ namespace THNETII.Common.Linq
         public static ref readonly T FirstOrDefault<T>(this ReadOnlySpan<T> span, RefReadOnlyFunc<T> defaultFactory) =>
             ref span.ElementAtOrDefault(index: 0, defaultFactory);
 
-        public static ref T First<T>(this Span<T> span) =>
-            ref span.ElementAt(0);
+        /// <summary>
+        /// Returns the first element of a span.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the span.</typeparam>
+        /// <param name="span">The span to return the first element of.</param>
+        /// <returns>A read-only reference to the first element in the span.</returns>
+        /// <exception cref="InvalidOperationException"><paramref name="span"/> is empty.</exception>
+        /// <seealso cref="Enumerable.First{TSource}(IEnumerable{TSource})"/>
+        public static ref T First<T>(this Span<T> span)
+        {
+            try { return ref span.ElementAt(0); }
+            catch (ArgumentOutOfRangeException argExcept)
+            {
+                throw new InvalidOperationException("The span is empty.", argExcept);
+            }
+        }
 
         /// <summary>
         /// Returns a reference to the first element in the span or
