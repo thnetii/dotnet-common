@@ -8,14 +8,14 @@ namespace THNETII.Common.Collections.Generic
     /// </summary>
     /// <typeparam name="T">The type of objects to compare.</typeparam>
     /// <remarks>
-    /// Although a value type can be specified for <typeparamref name="T"/>, two values cannot evaluate to reference equal, as both values are boxed and placed in different memory locations when being compared to each other.
-    /// <para>In oder to use equality comparison for value types, the <see cref="EqualityComparer{T}"/> type should be used.</para>
+    /// In oder to use equality comparison for value types, the <see cref="EqualityComparer{T}"/> type should be used.
     /// </remarks>
-    public class ReferenceEqualityComparer<T> : IEqualityComparer<T>
+    public class ReferenceEqualityComparer<T> : IEqualityComparer<T> where T : class
     {
         /// <summary>
         /// Returns a default reference equality comparer for the type specified by the generic argument.
         /// </summary>
+        /// <value>A singleton <see cref="ReferenceEqualityComparer{T}"/> instance that can be shared by all parts of the application.</value>
         [SuppressMessage("Microsoft.Design", "CA1000")]
         public static ReferenceEqualityComparer<T> Default { get; } =
             new ReferenceEqualityComparer<T>();
@@ -23,7 +23,7 @@ namespace THNETII.Common.Collections.Generic
         /// <summary>
         /// Determines whether two instances of type <typeparamref name="T"/> refer to the same object instance.
         /// </summary>
-        /// <param name="x">The first object instance.</param>
+        /// <param name="x">The first object reference.</param>
         /// <param name="y">The second object reference.</param>
         /// <returns><c>true</c> if <paramref name="x"/> is the same instance as <paramref name="y"/> or if both are <c>null</c>; otherwise, <c>false</c>.</returns>
         public bool Equals(T x, T y) => StaticEquals(x, y);
@@ -31,7 +31,7 @@ namespace THNETII.Common.Collections.Generic
         /// <summary>
         /// Determines whether two instances of type <typeparamref name="T"/> refer to the same object instance.
         /// </summary>
-        /// <param name="x">The first object instance.</param>
+        /// <param name="x">The first object reference.</param>
         /// <param name="y">The second object reference.</param>
         /// <returns><c>true</c> if <paramref name="x"/> is the same instance as <paramref name="y"/> or if both are <c>null</c>; otherwise, <c>false</c>.</returns>
         [SuppressMessage("Microsoft.Design", "CA1000")]

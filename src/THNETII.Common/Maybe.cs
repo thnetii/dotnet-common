@@ -169,7 +169,32 @@ namespace THNETII.Common
             HasValue = false;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Determines whether the current instance is equal to the specified object.
+        /// </summary>
+        /// <param name="obj">The object to compare to.</param>
+        /// <returns><c>true</c> if the current instance is equal to <paramref name="obj"/>; otherwise, <c>false</c>.</returns>
+        /// <remarks>
+        /// <para>
+        /// Equality between two <see cref="Maybe{T}"/> values is determined by satisfying any of the following criteria:
+        /// <list type="number">
+        /// <item><term>The <see cref="HasValue"/> of both <see cref="Maybe{T}"/> values returns <c>false</c>.</term></item>
+        /// <item><term>The <see cref="HasValue"/> of both <see cref="Maybe{T}"/> values returns <c>true</c> and <br/>the <see cref="Value"/> property of both <see cref="Maybe{T}"/> is equal.</term></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Equality between a <see cref="Maybe{T}"/> and a value of type <typeparamref name="T"/> is commutative and determined by satisfying all of the following criteria:
+        /// <list type="number">
+        /// <item><term>The <see cref="HasValue"/> of the <see cref="Maybe{T}"/> value returns <c>true</c>.</term></item>
+        /// <item><term>The <see cref="Value"/> property of the <see cref="Maybe{T}"/> value is equal to the value of type <typeparamref name="T"/>.</term></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <typeparamref name="T"/> implements <see cref="IEquatable{T}"/>,
+        /// <see cref="Value"/> is compared using the <see cref="IEquatable{T}.Equals(T)"/> method.
+        /// Otherwise, <see cref="object.Equals(object)"/> is used.
+        /// </para>
+        /// </remarks>
         public override bool Equals(object obj)
         {
             switch (obj)
@@ -183,7 +208,25 @@ namespace THNETII.Common
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Determines whether the current instance is equal to the specified value.
+        /// </summary>
+        /// <param name="otherValue">The value of type <typeparamref name="T"/> to compare to.</param>
+        /// <returns><c>true</c> if the current instance has a value and that value is equal to <paramref name="otherValue"/>; otherwise, <c>false</c>.</returns>
+        /// <remarks>
+        /// <para>
+        /// Equality between a <see cref="Maybe{T}"/> and a value of type <typeparamref name="T"/> is commutative and determined by satisfying all of the following criteria:
+        /// <list type="number">
+        /// <item><term>The <see cref="HasValue"/> of the <see cref="Maybe{T}"/> value returns <c>true</c>.</term></item>
+        /// <item><term>The <see cref="Value"/> property of the <see cref="Maybe{T}"/> value is equal to the value of type <typeparamref name="T"/>.</term></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <typeparamref name="T"/> implements <see cref="IEquatable{T}"/>,
+        /// <see cref="Value"/> is compared using the <see cref="IEquatable{T}.Equals(T)"/> method.
+        /// Otherwise, <see cref="object.Equals(object)"/> is used.
+        /// </para>
+        /// </remarks>
         public bool Equals(T otherValue)
         {
             if (HasValue)
@@ -196,7 +239,25 @@ namespace THNETII.Common
                 return false;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Determines whether the current instance is equal to the specified <see cref="Maybe{T}"/>.
+        /// </summary>
+        /// <param name="otherMaybe">The <see cref="Maybe{T}"/> to compare to.</param>
+        /// <returns><c>true</c> if the current instance has a value and that value is equal to <paramref name="otherMaybe"/>; otherwise, <c>false</c>.</returns>
+        /// <remarks>
+        /// <para>
+        /// Equality between two <see cref="Maybe{T}"/> values is determined by satisfying any of the following criteria:
+        /// <list type="number">
+        /// <item><term>The <see cref="HasValue"/> of both <see cref="Maybe{T}"/> values returns <c>false</c>.</term></item>
+        /// <item><term>The <see cref="HasValue"/> of both <see cref="Maybe{T}"/> values returns <c>true</c> and <br/>the <see cref="Value"/> property of both <see cref="Maybe{T}"/> is equal.</term></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <typeparamref name="T"/> implements <see cref="IEquatable{T}"/>,
+        /// <see cref="Value"/> is compared using the <see cref="IEquatable{T}.Equals(T)"/> method.
+        /// Otherwise, <see cref="object.Equals(object)"/> is used.
+        /// </para>
+        /// </remarks>
         public bool Equals(Maybe<T> otherMaybe)
         {
             if (HasValue)
@@ -209,7 +270,10 @@ namespace THNETII.Common
                 return !otherMaybe.HasValue;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Returns a hash code for the current instance.
+        /// </summary>
+        /// <returns><c>0</c> (zero) if <see cref="HasValue"/> is <c>false</c> or <see cref="Value"/> is <c>null</c>; otherwise, the value obtained by invoking <see cref="object.GetHashCode"/> on <see cref="Value"/>.</returns>
         public override int GetHashCode() => HasValue ? (value?.GetHashCode() ?? 0) : 0;
 
         /// <summary>
@@ -235,7 +299,27 @@ namespace THNETII.Common
         /// </returns>
         public T GetValueOrDefault(T @default) => HasValue ? Value : @default;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Returns a <see cref="string"/> representing the current <see cref="Maybe{T}"/> value.
+        /// </summary>
+        /// <returns>
+        /// <list type="table">
+        /// <listheader><term><see cref="HasValue"/></term><description>Return Value</description></listheader>
+        /// <item>
+        /// <term><c>true</c></term>
+        /// <description>
+        /// <list type="bullet">
+        /// <item><term>The empty string (<c>&quot;&quot;</c>) if <typeparamref name="T"/> is a reference type and <see cref="Value"/> is <c>null</c>.</term></item>
+        /// <item><term>The return value from invoking <see cref="object.ToString"/> on <see cref="Value"/>.</term></item>
+        /// </list>
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <term><c>false</c></term>
+        /// <description>The string <c>Maybe&lt;<typeparamref name="T"/>&gt;.<see cref="NoValue"/></c>, with <typeparamref name="T"/> replaced by the string representation of the type <typeparamref name="T"/>.</description>
+        /// </item>
+        /// </list>
+        /// </returns>
         public override string ToString()
         {
             return HasValue
@@ -243,35 +327,167 @@ namespace THNETII.Common
                 : $"{nameof(Maybe<T>)}<{typeof(T)}>.{nameof(NoValue)}";
         }
 
+        /// <summary>
+        /// Determines whether two <see cref="Maybe{T}"/> values are equal.
+        /// </summary>
+        /// <param name="left">The conversion tuple instance on the left side of the operator.</param>
+        /// <param name="right">The conversion tuple instance on the right side of the operator.</param>
+        /// <returns><c>true</c> if <paramref name="left"/> is equal to <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        /// <remarks>
+        /// <para>
+        /// Equality between two <see cref="Maybe{T}"/> values is determined by satisfying any of the following criteria:
+        /// <list type="number">
+        /// <item><term>The <see cref="HasValue"/> of both <see cref="Maybe{T}"/> values returns <c>false</c>.</term></item>
+        /// <item><term>The <see cref="HasValue"/> of both <see cref="Maybe{T}"/> values returns <c>true</c> and <br/>the <see cref="Value"/> property of both <see cref="Maybe{T}"/> is equal.</term></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <typeparamref name="T"/> implements <see cref="IEquatable{T}"/>,
+        /// <see cref="Value"/> is compared using the <see cref="IEquatable{T}.Equals(T)"/> method.
+        /// Otherwise, <see cref="object.Equals(object)"/> is used.
+        /// </para>
+        /// </remarks>
         /// <seealso cref="Equals(Maybe{T})"/>
         public static bool operator ==(Maybe<T> left, Maybe<T> right)
             => left.Equals(right);
 
+        /// <summary>
+        /// Determines whether two <see cref="Maybe{T}"/> values are not equal.
+        /// </summary>
+        /// <param name="left">The conversion tuple instance on the left side of the operator.</param>
+        /// <param name="right">The conversion tuple instance on the right side of the operator.</param>
+        /// <returns><c>true</c> if <paramref name="left"/> is not equal to <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        /// <remarks>
+        /// <para>
+        /// Inequality between two <see cref="Maybe{T}"/> values is determined by satisfying any of the following criteria:
+        /// <list type="number">
+        /// <item><term>The <see cref="HasValue"/> property of one <see cref="Maybe{T}"/> value is <c>true</c> while the other is <c>false</c>.</term></item>
+        /// <item><term>The <see cref="HasValue"/> of both <see cref="Maybe{T}"/> values returns <c>true</c> and <br/>the <see cref="Value"/> property of of one <see cref="Maybe{T}"/> is not equal to the other.</term></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <typeparamref name="T"/> implements <see cref="IEquatable{T}"/>,
+        /// <see cref="Value"/> is compared using the <see cref="IEquatable{T}.Equals(T)"/> method.
+        /// Otherwise, <see cref="object.Equals(object)"/> is used.
+        /// </para>
+        /// </remarks>
         /// <seealso cref="Equals(Maybe{T})"/>
         public static bool operator !=(Maybe<T> left, Maybe<T> right)
             => !left.Equals(right);
 
+        /// <summary>
+        /// Determines whether a <see cref="Maybe{T}"/> value is equal to a value of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="maybe">The <see cref="Maybe{T}"/> comparand.</param>
+        /// <param name="value">The comparand of type <typeparamref name="T"/>.</param>
+        /// <returns><c>true</c> if <paramref name="maybe"/> has a value and that value is equal to <paramref name="value"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// Equality between a <see cref="Maybe{T}"/> and a value of type <typeparamref name="T"/> is commutative and determined by satisfying all of the following criteria:
+        /// <list type="number">
+        /// <item><term>The <see cref="HasValue"/> of the <see cref="Maybe{T}"/> value returns <c>true</c>.</term></item>
+        /// <item><term>The <see cref="Value"/> property of the <see cref="Maybe{T}"/> value is equal to the value of type <typeparamref name="T"/>.</term></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <typeparamref name="T"/> implements <see cref="IEquatable{T}"/>,
+        /// <see cref="Value"/> is compared using the <see cref="IEquatable{T}.Equals(T)"/> method.
+        /// Otherwise, <see cref="object.Equals(object)"/> is used.
+        /// </para>
+        /// </remarks>
         /// <seealso cref="Equals(T)"/>
         public static bool operator ==(Maybe<T> maybe, T value)
             => maybe.Equals(value);
 
+        /// <summary>
+        /// Determines whether a <see cref="Maybe{T}"/> value is equal to a value of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="maybe">The <see cref="Maybe{T}"/> comparand.</param>
+        /// <param name="value">The comparand of type <typeparamref name="T"/>.</param>
+        /// <returns><c>true</c> if <paramref name="maybe"/> has a value and that value is equal to <paramref name="value"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// Equality between a <see cref="Maybe{T}"/> and a value of type <typeparamref name="T"/> is commutative and determined by satisfying all of the following criteria:
+        /// <list type="number">
+        /// <item><term>The <see cref="HasValue"/> of the <see cref="Maybe{T}"/> value returns <c>true</c>.</term></item>
+        /// <item><term>The <see cref="Value"/> property of the <see cref="Maybe{T}"/> value is equal to the value of type <typeparamref name="T"/>.</term></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <typeparamref name="T"/> implements <see cref="IEquatable{T}"/>,
+        /// <see cref="Value"/> is compared using the <see cref="IEquatable{T}.Equals(T)"/> method.
+        /// Otherwise, <see cref="object.Equals(object)"/> is used.
+        /// </para>
+        /// </remarks>
         /// <seealso cref="Equals(T)"/>
         public static bool operator ==(T value, Maybe<T> maybe)
             => maybe.Equals(value);
 
+        /// <summary>
+        /// Determines whether a <see cref="Maybe{T}"/> value is not equal to a value of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="maybe">The <see cref="Maybe{T}"/> comparand.</param>
+        /// <param name="value">The comparand of type <typeparamref name="T"/>.</param>
+        /// <returns><c>true</c> if <paramref name="maybe"/> does not have a value or if the value is not equal to <paramref name="value"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// Inequality between a <see cref="Maybe{T}"/> and a value of type <typeparamref name="T"/> is commutative and determined by satisfying any of the following criteria:
+        /// <list type="number">
+        /// <item><term>The <see cref="HasValue"/> of the <see cref="Maybe{T}"/> value returns <c>false</c>.</term></item>
+        /// <item><term>The <see cref="Value"/> property of the <see cref="Maybe{T}"/> value is not equal to the value of type <typeparamref name="T"/>.</term></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <typeparamref name="T"/> implements <see cref="IEquatable{T}"/>,
+        /// <see cref="Value"/> is compared using the <see cref="IEquatable{T}.Equals(T)"/> method.
+        /// Otherwise, <see cref="object.Equals(object)"/> is used.
+        /// </para>
+        /// </remarks>
         /// <seealso cref="Equals(T)"/>
         public static bool operator !=(Maybe<T> maybe, T value)
             => !maybe.Equals(value);
 
+        /// <summary>
+        /// Determines whether a <see cref="Maybe{T}"/> value is not equal to a value of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="maybe">The <see cref="Maybe{T}"/> comparand.</param>
+        /// <param name="value">The comparand of type <typeparamref name="T"/>.</param>
+        /// <returns><c>true</c> if <paramref name="maybe"/> does not have a value or if the value is not equal to <paramref name="value"/>.</returns>
+        /// <remarks>
+        /// <para>
+        /// Inequality between a <see cref="Maybe{T}"/> and a value of type <typeparamref name="T"/> is commutative and determined by satisfying any of the following criteria:
+        /// <list type="number">
+        /// <item><term>The <see cref="HasValue"/> of the <see cref="Maybe{T}"/> value returns <c>false</c>.</term></item>
+        /// <item><term>The <see cref="Value"/> property of the <see cref="Maybe{T}"/> value is not equal to the value of type <typeparamref name="T"/>.</term></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// If <typeparamref name="T"/> implements <see cref="IEquatable{T}"/>,
+        /// <see cref="Value"/> is compared using the <see cref="IEquatable{T}.Equals(T)"/> method.
+        /// Otherwise, <see cref="object.Equals(object)"/> is used.
+        /// </para>
+        /// </remarks>
         /// <seealso cref="Equals(T)"/>
         public static bool operator !=(T value, Maybe<T> maybe)
             => !maybe.Equals(value);
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CA2225 // Operator overloads have named alternates
+        /// <summary>
+        /// Implicityly casts a value of type <typeparamref name="T"/> to a <see cref="Maybe{T}"/> value.
+        /// </summary>
+        /// <param name="value">The value of type <typeparamref name="T"/> to cast.</param>
+        /// <returns>A <see cref="Maybe{T}"/> whose <see cref="HasValue"/> property is <c>true</c> and whose <see cref="Value"/> is equal to <paramref name="value"/>.</returns>
+        /// <seealso cref="Maybe.Create{T}(T)"/>
         public static implicit operator Maybe<T>(T value)
             => new Maybe<T>(value);
 
+        /// <summary>
+        /// Casts the <see cref="Maybe{T}"/> value to a value of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="maybe">The <see cref="Maybe{T}"/> to cast.</param>
+        /// <returns>The <see cref="Value"/> of <paramref name="maybe"/>.</returns>
+        /// <exception cref="InvalidCastException"><paramref name="maybe"/> does not have a value. <see cref="Exception.InnerException"/> contains the <see cref="InvalidOperationException"/> thrown by accessing the <see cref="Value"/> property of <paramref name="maybe"/>.</exception>
         public static explicit operator T(Maybe<T> maybe)
         {
             try { return maybe.Value; }

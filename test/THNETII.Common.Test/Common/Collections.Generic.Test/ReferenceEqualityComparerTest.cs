@@ -69,24 +69,5 @@ namespace THNETII.Common.Collections.Generic.Test
 
             Assert.False(ReferenceEqualityComparer<string>.StaticEquals(p1, p2));
         }
-
-        [Fact]
-        public void SameValueIntNewEqualsReturnsFalse()
-        {
-            var cmp = new ReferenceEqualityComparer<int>();
-
-            Assert.False(cmp.Equals(42, 42));
-        }
-
-        [Fact]
-        public void SameValueIntDefaultEqualsReturnsFalse()
-        {
-            var cmp = ReferenceEqualityComparer<int>.Default;
-
-            Assert.False(cmp.Equals(42, 42));
-        }
-
-        [Fact]
-        public void SameValueIntStaticEqualsReturnsFalse() => Assert.False(ReferenceEqualityComparer<int>.StaticEquals(42, 42));
     }
 }

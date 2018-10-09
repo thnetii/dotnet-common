@@ -11,8 +11,8 @@ namespace THNETII.Common
         /// Returns the edit distance from the current string <paramref name="a"/> to the other string <paramref name="b"/>.
         /// <para>The edit distance between two strings, is the number of character edit operations needed in order to change one string to another.</para>
         /// </summary>
-        /// <param name="a" />
-        /// <param name="b" />
+        /// <param name="a">The original string.</param>
+        /// <param name="b">The other string to calculate the distance to.</param>
         /// <returns>The number of characters that need to be changed, inserted or deleted in <paramref name="a"/> to produce <paramref name="b"/>.</returns>
         /// <remarks>
         /// This uses the <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein distance algorithm</a> with only a linear

@@ -151,14 +151,13 @@ namespace THNETII.Common
             this.convertedEquals = convertedEquals ?? throw new ArgumentNullException(nameof(convertedEquals));
         }
 
-        /// <inheritdoc />
-        public bool Equals(DuplexConversionTuple<TRaw, TConvert> other) =>
-            base.Equals(other);
-
-        /// <inheritdoc />
-        public override bool Equals(object obj) => base.Equals(obj);
-
-        /// <inheritdoc />
-        public override int GetHashCode() => base.GetHashCode();
+        /// <summary>
+        /// Determines whether the current instance is logically equal to the specified conversion tuple instance.
+        /// </summary>
+        /// <param name="other">The conversion tuple to check against.</param>
+        /// <returns><c>true</c> if the current instance is logically equal to <paramref name="other"/>; otherwise, <c>false</c>.</returns>
+        /// <seealso cref="ConversionTuple{TRaw, TConvert}.Equals(ConversionTuple{TRaw, TConvert})"/>
+        bool IEquatable<DuplexConversionTuple<TRaw, TConvert>>.Equals(DuplexConversionTuple<TRaw, TConvert> other) =>
+            Equals(other);
     }
 }

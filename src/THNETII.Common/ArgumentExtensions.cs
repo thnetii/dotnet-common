@@ -82,7 +82,12 @@ namespace THNETII.Common
         /// <typeparam name="T">The type of the elements enumerated by <paramref name="enumerable"/>.</typeparam>
         /// <param name="enumerable">The enumerable to check against <c>null</c> or being empty.</param>
         /// <param name="name">The argument name as it appears in the calling method. Use the builtin <c>nameof</c> keyword.</param>
-        /// <returns><paramref name="enumerable"/>, to allow for chained method calls.</returns>
+        /// <returns>A wrapper around <paramref name="enumerable"/> enumerating the same elements.</returns>
+        /// <remarks>
+        /// In order to ensure that <paramref name="enumerable"/> is not empty, the enumerable has to be expanded by checking
+        /// if the first element is availble. To prevent double evaluation of the enumerable, the created enumerator is
+        /// preserved and wrapped in the new enumerable that is returned.
+        /// </remarks>
         /// <exception cref="ArgumentException"><paramref name="enumerable"/> does not contain any elements.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> is <c>null</c>.</exception>
         public static IEnumerable<T> ThrowIfNullOrEmpty<T>(this IEnumerable<T> enumerable, string name)

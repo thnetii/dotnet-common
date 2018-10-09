@@ -15,8 +15,8 @@ namespace THNETII.Common
         /// <param name="value">The string to seek.</param>
         /// <param name="comparisonType">One of the enumeration values that determines how the contents of <paramref name="s"/> and <paramref name="value"/> are compared.</param>
         /// <returns>
-        /// true if the value parameter occurs within this string, or if value is the empty
-        /// string (<c>""</c>); otherwise, false.
+        /// <c>true</c> if the <paramref name="value"/> parameter occurs within this string, or if <paramref name="value"/> is the empty
+        /// string (<c>""</c>); otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Either <paramref name="s"/> or <paramref name="value"/> is <c>null</c>.
