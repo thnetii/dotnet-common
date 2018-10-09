@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace THNETII.Common
@@ -51,7 +50,7 @@ namespace THNETII.Common
         public static string ThrowIfNullOrEmpty(this string value, string name)
         {
             if (string.IsNullOrEmpty(value))
-                throw value is null ? new ArgumentNullException(nameof(name)) : new ArgumentException("value must neither be empty, nor null.", name);
+                throw value is null ? new ArgumentNullException(name) : new ArgumentException("value must neither be empty, nor null.", name);
             return value;
         }
 
@@ -86,15 +85,43 @@ namespace THNETII.Common
         /// <returns><paramref name="enumerable"/>, to allow for chained method calls.</returns>
         /// <exception cref="ArgumentException"><paramref name="enumerable"/> does not contain any elements.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> is <c>null</c>.</exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T> ThrowIfNullOrEmpty<T>(this IEnumerable<T> enumerable, string name)
         {
             switch (enumerable)
             {
                 case null: throw new ArgumentNullException(name);
-                case var _ when !enumerable.Any(): throw new ArgumentException($"{name} is empty.", name);
-                default: return enumerable;
+                case T[] array:
+                    if (array.Length < 1)
+                        throw new ArgumentException($"{name} is a non-null, zero-length array.", name);
+                    break;
+                case ICollection<T> collection:
+                    if (collection.Count < 1)
+                        throw new ArgumentException($"{name} is a non-null, empty collection.", name);
+                    break;
+                case string str:
+                    if (str.Length < 1)
+                        throw new ArgumentException($"{name} is a non-null, empty string.", name);
+                    break;
+                default:
+                    var enumerator = enumerable.GetEnumerator();
+                    if (!enumerator.MoveNext())
+                    {
+                        enumerator.Dispose();
+                        throw new ArgumentException($"{name} is a non-null, empty enumerable.", name);
+                    }
+                    IEnumerable<T> wrapAroundEnumerable()
+                    {
+                        using (enumerator)
+                        {
+                            do
+                            {
+                                yield return enumerator.Current; 
+                            } while (enumerator.MoveNext());
+                        }
+                    }
+                    return wrapAroundEnumerable();
             }
+            return enumerable;
         }
 
         /// <summary>
