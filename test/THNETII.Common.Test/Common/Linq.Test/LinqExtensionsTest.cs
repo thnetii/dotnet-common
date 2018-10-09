@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Xunit;
 
 namespace THNETII.Common.Linq.Test
 {
+    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords")]
     public abstract class LinqExtensionsTest<T>
     {
         protected abstract object GetEmpty();

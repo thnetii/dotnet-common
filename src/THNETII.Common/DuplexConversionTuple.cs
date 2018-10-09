@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
 namespace THNETII.Common
@@ -9,6 +10,7 @@ namespace THNETII.Common
     /// </summary>
     /// <typeparam name="TRaw">The type of the source value.</typeparam>
     /// <typeparam name="TConvert">The type of the converted value.</typeparam>
+    [SuppressMessage("Design", "CA1067:Override Object.Equals(object) when implementing IEquatable<T>", Justification = nameof(ConversionTuple<TRaw, TConvert>))]
     public class DuplexConversionTuple<TRaw, TConvert> : ConversionTuple<TRaw, TConvert>, IEquatable<DuplexConversionTuple<TRaw, TConvert>>
     {
         private readonly Func<TConvert, TConvert, bool> convertedEquals;
