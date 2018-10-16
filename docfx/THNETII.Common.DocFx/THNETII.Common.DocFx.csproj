@@ -12,4 +12,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Remove="..\..\analysis\THNETII.Common.Analyzers\THNETII.Common.Analyzers.csproj" />
+  </ItemGroup>
+
 </Project>
