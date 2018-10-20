@@ -27,13 +27,13 @@ namespace THNETII.DependencyInjection.Nesting
         private int InheritedCount =>
             (InheritedServices?.Count ?? 0) - rootProxyDescriptors.Count;
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="INestedServiceCollection{TKey}.Key" />
         public TKey Key { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="INestedServiceCollection.InheritedServices" />
         public IServiceCollection InheritedServices { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="INestedServiceCollection.RootServicesAddBehavior" />
         public RootServicesAddBehavior RootServicesAddBehavior { get; set; } =
             RootServicesAddBehavior.Add;
 
@@ -99,7 +99,7 @@ namespace THNETII.DependencyInjection.Nesting
             => services.RemoveAll<T>();
 #endif
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Add(T)" />
         void ICollection<ServiceDescriptor>.Add(
             ServiceDescriptor serviceDescriptor)
         {
@@ -144,7 +144,7 @@ namespace THNETII.DependencyInjection.Nesting
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<ServiceDescriptor> GetEnumerator()
         {
             return inheritedServices
@@ -152,7 +152,7 @@ namespace THNETII.DependencyInjection.Nesting
                 .GetEnumerator();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Enumerable.ElementAt{TSource}(IEnumerable{TSource}, int)"/>
         public ServiceDescriptor this[int index]
         {
             get => (index < InheritedCount)
@@ -167,14 +167,14 @@ namespace THNETII.DependencyInjection.Nesting
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Count" />
         public int Count => InheritedCount + nestedServices.Count;
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.IsReadOnly" />
         bool ICollection<ServiceDescriptor>.IsReadOnly
             => nestedServices.IsReadOnly;
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IList{T}.IndexOf(T)" />
         int IList<ServiceDescriptor>.IndexOf(ServiceDescriptor item)
         {
             int result = inheritedServices
@@ -189,7 +189,7 @@ namespace THNETII.DependencyInjection.Nesting
             return result;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IList{T}.Insert(int, T)" />
         void IList<ServiceDescriptor>.Insert(int index, ServiceDescriptor item)
         {
             if (index < InheritedCount)
@@ -199,7 +199,7 @@ namespace THNETII.DependencyInjection.Nesting
             RegisterDescriptorInInheritedServiceCollection(item);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IList{T}.RemoveAt(int)" />
         void IList<ServiceDescriptor>.RemoveAt(int index) => RemoveAt(index);
 
         private void RemoveAt(int index)
@@ -220,7 +220,7 @@ namespace THNETII.DependencyInjection.Nesting
                 ReferenceEqualityComparer<ServiceDescriptor>.Default);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Clear" />
         void ICollection<ServiceDescriptor>.Clear()
         {
             nestedServices.Clear();
@@ -229,11 +229,11 @@ namespace THNETII.DependencyInjection.Nesting
             rootProxyDescriptors.Clear();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Contains(T)"/>
         bool ICollection<ServiceDescriptor>.Contains(ServiceDescriptor item)
             => inheritedServices.Contains(item) && nestedServices.Contains(item);
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.CopyTo(T[], int)" />
         void ICollection<ServiceDescriptor>.CopyTo(ServiceDescriptor[] array,
             int arrayIndex)
         {
@@ -244,7 +244,7 @@ namespace THNETII.DependencyInjection.Nesting
             nestedServices.CopyTo(array, arrayIndex + i);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Remove(T)"/>
         bool ICollection<ServiceDescriptor>.Remove(ServiceDescriptor item)
         {
             int index = nestedServices.IndexOf(item);
@@ -254,7 +254,7 @@ namespace THNETII.DependencyInjection.Nesting
             return true;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IEnumerable.GetEnumerator"/>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

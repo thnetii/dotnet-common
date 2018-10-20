@@ -37,7 +37,7 @@ namespace THNETII.DependencyInjection.Nesting
             this.singletonManager = singletonManager.ThrowIfNull(nameof(singletonManager));
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public virtual void Dispose()
         {
             lock (serviceScopes)
@@ -51,15 +51,7 @@ namespace THNETII.DependencyInjection.Nesting
             }
         }
 
-        /// <summary>
-        /// Gets the nested service provider for the specified key.
-        /// </summary>
-        /// <param name="key">
-        /// The key of the nested service provider to get.
-        /// Must not be <c>null</c> in case <typeparamref name="TKey"/> is a reference type.
-        /// </param>
-        /// <returns>Returns a nested service provider instance.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="key"/> is <c>null</c>.</exception>
+        /// <inheritdoc cref="INestedServicesContainer{TFamily, TKey}.GetServiceProvider(TKey)" />
         public virtual IServiceProvider GetServiceProvider(TKey key)
         {
             var serviceProvider = singletonManager.GetServiceProvider(key);

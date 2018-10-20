@@ -246,9 +246,7 @@ namespace THNETII.Common.IO
 
         private int f_disposed = 0;
 
-        /// <summary>Releases the base stream and the read and write copy streams if configured to do so.</summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        /// <remarks>The <paramref name="disposing"/> parameter is not used by the <see cref="CopyIOStream"/> implementation. It is passed as is to the <see cref="Stream.Dispose(bool)"/> method of the <see cref="Stream"/> base class.</remarks>
+        /// <inheritoc cref="Stream.Dispose(bool)" />
         protected override void Dispose(bool disposing)
         {
             if (Interlocked.Exchange(ref f_disposed, 1) == 0)
@@ -263,10 +261,7 @@ namespace THNETII.Common.IO
             base.Dispose(disposing);
         }
 
-        /// <summary>
-        /// Clears all buffers in the origin stream and both copy streams and causes any buffered data to be written to the underlying I/O medium.
-        /// </summary>
-        /// <exception cref="IOException">An I/O error occurred.</exception>
+        /// <inheritdoc cref="Stream.Flush"/>
         public override void Flush()
         {
             BaseStream.Flush();
@@ -274,10 +269,7 @@ namespace THNETII.Common.IO
             WriteCopy?.Flush();
         }
 
-        /// <summary>
-        /// Asynchronously clears all buffers in the origin stream and both copy streams and causes any buffered data to be written to the underlying I/O medium.
-        /// </summary>
-        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <inheritdoc cref="Stream.FlushAsync(CancellationToken)"/>
         public override Task FlushAsync(CancellationToken cancellationToken)
         {
             if (!(ReadCopy is null))
@@ -291,31 +283,7 @@ namespace THNETII.Common.IO
             return BaseStream.FlushAsync(cancellationToken);
         }
 
-        /// <summary>
-        /// Reads a sequence of bytes from the base stream and advances the position within the stream by the number of bytes read.
-        /// <para>A copy of the read bytes is written to the <see cref="ReadCopy"/> stream if it is specified.</para>
-        /// </summary>
-        /// <param name="buffer">
-        /// An array of bytes. When this method returns, the buffer contains the specified
-        /// byte array with the values between <paramref name="offset"/> and <c>(<paramref name="offset"/> + <paramref name="count"/> - 1)</c> replaced by
-        /// the bytes read from the current source.
-        /// </param>
-        /// <param name="offset">
-        /// The zero-based byte offset in <paramref name="buffer"/> at which to begin storing the data read
-        /// from the current stream.
-        /// </param>
-        /// <param name="count">The maximum number of bytes to be read from the stream.</param>
-        /// <returns>
-        /// The total number of bytes read into the buffer. This can be less than the number
-        /// of bytes requested if that many bytes are not currently available, or 0 (zero)
-        /// if the end of the stream has been reached.
-        /// </returns>
-        /// <exception cref="ArgumentException">The sum of <paramref name="offset"/> and <paramref name="count"/> is larger than the buffer length.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="buffer"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="offset"/> or <paramref name="count"/> is negative.</exception>
-        /// <exception cref="IOException">An I/O error occurs.</exception>
-        /// <exception cref="NotSupportedException">The source stream does not support reading.</exception>
-        /// <exception cref="ObjectDisposedException">Methods were called after the stream was closed.</exception>
+        /// <inheritdoc cref="Stream.Read(byte[], int, int)"/>
         public override int Read(byte[] buffer, int offset, int count)
         {
             var bytesRead = BaseStream.Read(buffer, offset, count);
@@ -323,28 +291,7 @@ namespace THNETII.Common.IO
             return bytesRead;
         }
 
-        /// <summary>
-        /// Asynchronously reads a sequence of bytes from the origin stream, advances the position within the stream by the number of bytes read, and monitors cancellation requests.
-        /// <para>The read bytes are asynchronously written to <see cref="ReadCopy"/> if it is non-<c>null</c>.</para>
-        /// </summary>
-        /// <param name="buffer">The buffer to write the data into.</param>
-        /// <param name="offset">The byte offset in <paramref name="buffer" /> at which to begin writing data from the stream.</param>
-        /// <param name="count">The maximum number of bytes to read.</param>
-        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None" />.</param>
-        /// <returns>
-        /// A task that represents the asynchronous read operation. The value of the <see cref="Task{TResult}.Result"/> of the returned
-        /// <see cref="Task{TResult}"/> contains the total number of bytes read into the buffer. The result value can be less than the
-        /// number of bytes requested if the number of bytes currently available is less than the requested number,
-        /// or it can be <c>0</c> (zero) if the end of the stream has been reached.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">
-        ///   <paramref name="buffer" /> is null.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///   <paramref name="offset" /> or <paramref name="count" /> is negative.</exception>
-        /// <exception cref="ArgumentException">The sum of <paramref name="offset" /> and <paramref name="count" /> is larger than the buffer length.</exception>
-        /// <exception cref="NotSupportedException">The stream does not support reading.</exception>
-        /// <exception cref="ObjectDisposedException">The stream has been disposed.</exception>
-        /// <exception cref="InvalidOperationException">The stream is currently in use by a previous read operation. </exception>
+        /// <inheritdoc cref="Stream.ReadAsync(byte[], int, int, CancellationToken)"/>
         public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             var bytesRead = await BaseStream.ReadAsync(buffer, offset, count, cancellationToken).ConfigureAwait(false);
@@ -353,44 +300,14 @@ namespace THNETII.Common.IO
             return bytesRead;
         }
 
-        /// <summary>
-        /// Writes a sequence of bytes to the origin stream and advances the current position within this stream by the number of bytes written.
-        /// <para>The bytes written are also written to <see cref="WriteCopy"/> if it is non-<c>null</c>.</para>
-        /// </summary>
-        /// <param name="buffer">An array of bytes. This method copies <paramref name="count" /> bytes from <paramref name="buffer" /> to the target streams.</param>
-        /// <param name="offset">The zero-based byte offset in <paramref name="buffer" /> at which to begin copying bytes to the target streams.</param>
-        /// <param name="count">The number of bytes to be written to the target streams.</param>
-        /// <exception cref="ArgumentException">The sum of <paramref name="offset" /> and <paramref name="count" /> is greater than the buffer length.</exception>
-        /// <exception cref="ArgumentNullException">
-        ///   <paramref name="buffer" />  is null.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///   <paramref name="offset" /> or <paramref name="count" /> is negative.</exception>
-        /// <exception cref="IOException">An I/O error occured, such as the specified file cannot be found.</exception>
-        /// <exception cref="NotSupportedException">The stream does not support writing.</exception>
-        /// <exception cref="ObjectDisposedException">
-        ///   <see cref="Write(byte[],int,int)" /> was called after the stream was closed.</exception>
+        /// <inheritdoc cref="Stream.Write(byte[], int, int)"/>
         public override void Write(byte[] buffer, int offset, int count)
         {
             BaseStream.Write(buffer, offset, count);
             WriteCopy?.Write(buffer, offset, count);
         }
 
-        /// <summary>Asynchronously writes a sequence of bytes to the origin stream and advances the current position within this stream by the number of bytes written.
-        /// <para>The bytes written are also asynchronously written to <see cref="WriteCopy"/> if it is non-<c>null</c>.</para>
-        /// </summary>
-        /// <returns>A task that represents the asynchronous write operation.</returns>
-        /// <param name="buffer">The buffer to write data from.</param>
-        /// <param name="offset">The zero-based byte offset in <paramref name="buffer" /> from which to begin copying bytes to the stream.</param>
-        /// <param name="count">The maximum number of bytes to write.</param>
-        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None" />.</param>
-        /// <exception cref="ArgumentNullException">
-        ///   <paramref name="buffer" /> is null.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///   <paramref name="offset" /> or <paramref name="count" /> is negative.</exception>
-        /// <exception cref="ArgumentException">The sum of <paramref name="offset" /> and <paramref name="count" /> is larger than the buffer length.</exception>
-        /// <exception cref="NotSupportedException">The stream does not support writing.</exception>
-        /// <exception cref="ObjectDisposedException">The stream has been disposed.</exception>
-        /// <exception cref="InvalidOperationException">The stream is currently in use by a previous write operation. </exception>
+        /// <inheritdoc cref="Stream.WriteAsync(byte[], int, int, CancellationToken)"/>
         public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             if (!(WriteCopy is null))
