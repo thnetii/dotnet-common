@@ -2,18 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "THNETII.Common.Test",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceRoot}/bin/Debug/netcoreapp2.0/THNETII.Common.Test.dll",
-            "args": [],
-            "cwd": "${workspaceRoot}/test/THNETII.Common.Test",
-            "console": "internalConsole",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
             "name": "THNETII.Common.Cli.Sample",
             "type": "coreclr",
             "request": "launch",
