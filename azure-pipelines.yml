@@ -6,7 +6,7 @@ variables:
   Parameters.AllProjects: |
     $(Parameters.SourceProjects)
     $(Parameters.TestProjects)
-  Parameters.CommonArguments: --configuration $(BuildConfiguration) --no-restore -p:BuildNumber=$(Build.BuildId)
+  Parameters.CommonArguments: --configuration $(BuildConfiguration) -p:BuildNumber=$(Build.BuildId)
   Parameters.TestAdditionalArguments: --collect "Code coverage"
 jobs:
 - job: Windows
@@ -19,7 +19,6 @@ jobs:
     displayName: Restore
     inputs:
       command: restore
-      arguments: --runtime win-x64
       projects: $(Parameters.AllProjects)
       verbosityRestore: normal
   - task: DotNetCoreCLI@2
@@ -40,7 +39,7 @@ jobs:
     inputs:
       command: publish
       projects: $(Parameters.SourceProjects)
-      arguments: $(Parameters.RuntimeCommonArguments) --no-build --self-contained --output $(Build.ArtifactStagingDirectory)/$(BuildConfiguration)
+      arguments: $(Parameters.RuntimeCommonArguments) --self-contained --output $(Build.ArtifactStagingDirectory)/$(BuildConfiguration)
       publishWebProjects: false
       zipAfterPublish: true
     continueOnError: true
