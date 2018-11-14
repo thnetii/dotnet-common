@@ -1,3 +1,4 @@
+name: $(Date:yyyy-MM-dd)-build-$(Rev:r)
 resources:
 - repo: self
 variables:
