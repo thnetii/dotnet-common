@@ -9,12 +9,12 @@ variables:
     $(Parameters.TestProjects)
   Parameters.CommonArguments: --configuration $(BuildConfiguration) -p:BuildNumber=$(Build.BuildId)
   Parameters.TestAdditionalArguments: --collect "Code coverage"
+  Parameters.TestArguments: $(Parameters.CommonArguments) $(Parameters.TestAdditionalArguments)
 jobs:
 - job: Windows
   pool: Hosted VS2017
   variables:
     Parameters.RuntimeCommonArguments: $(Parameters.CommonArguments) --runtime win-x64
-    Parameters.RuntimeTestArguments: $(Parameters.RuntimeCommonArguments) $(Parameters.TestAdditionalArguments)
   steps:
   - task: DotNetCoreCLI@2
     displayName: Restore
@@ -33,7 +33,7 @@ jobs:
     inputs:
       command: test
       projects: $(Parameters.TestProjects)
-      arguments: $(Parameters.RuntimeTestArguments)
+      arguments: $(Parameters.TestArguments)
       publishTestResults: true
   - task: DotNetCoreCLI@2
     displayName: Publish
