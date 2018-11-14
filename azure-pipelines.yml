@@ -40,7 +40,7 @@ jobs:
     inputs:
       command: publish
       projects: $(Parameters.SourceProjects)
-      arguments: $(Parameters.RuntimeCommonArguments) --self-contained --output $(Build.ArtifactStagingDirectory)/$(BuildConfiguration)
+      arguments: $(Parameters.RuntimeCommonArguments) --self-contained --output $(Build.ArtifactStagingDirectory)/$(BuildConfiguration) -p:BuildDefaultTargetFramework=true
       publishWebProjects: false
       zipAfterPublish: true
     continueOnError: true
