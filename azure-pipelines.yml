@@ -9,7 +9,7 @@ variables:
   Parameters.CommonArguments: --configuration $(BuildConfiguration) --no-restore -p:BuildNumber=$(Build.BuildId)
   Parameters.TestAdditionalArguments: --collect "Code coverage"
 jobs:
-- job: win-x64
+- job: Windows
   pool: Hosted VS2017
   variables:
     Parameters.RuntimeCommonArguments: $(Parameters.CommonArguments) --runtime win-x64
