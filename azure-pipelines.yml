@@ -19,6 +19,7 @@ jobs:
     displayName: Restore
     inputs:
       command: restore
+      arguments: --runtime win-x64
       projects: $(Parameters.AllProjects)
       verbosityRestore: normal
   - task: DotNetCoreCLI@2
