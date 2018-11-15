@@ -8,11 +8,12 @@ parameters:
   selfContained: false
   enableCodeCoverage: false
   artifactPrefix: $(Build.Repository.Name)
-variables:
-  CommonArguments: --configuration ${{ parameters.configuration }} -p:BuildNumber=${{ parameters.buildNumber }}
-  RuntimeArguments: --runntime "${{ parameters.runtimeId }}"
-  CodeCoverage: --collect "Code coverage"
 steps:
+- script: |
+    echo '##vso[task.setvariable variable=CommonArguments]--configuration ${{ parameters.configuration }} -p:BuildNumber=${{ parameters.buildNumber }}'
+    echo '##vso[task.setvariable variable=RuntimeArguments]--runtime "${{ parameters.runtimeId }}"'
+    echo '##vso[task.setvariable variable=CodeCoverage]--collect "Code coverage"'
+  displayName: Set variables
 - task: DotNetCoreCLI@2
   displayName: Restore
   inputs:
