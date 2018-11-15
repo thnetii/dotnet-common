@@ -1,11 +1,11 @@
 name: $(Date:yyyy-MM-dd)-build-$(Rev:r)
 jobs:
-- job: Windows
-  pool: Hosted VS2017
-  steps:
-  - template: dotnetcore.steps.yml
-    parameters:
-      configuration: $(BuildConfiguration)
-      runtimeId: win-x64
-      enableCodeCoverage: true
-      selfContained: true
+- template: dotnetcore.job.yml
+  parameters:
+    jobName: windows
+    jobDisplayName: Windows (x64)
+    pool: Hosted VS2017
+    configuration: $(BuildConfiguration)
+    runtimeId: win-x64
+    enableCodeCoverage: true
+    selfContained: true
