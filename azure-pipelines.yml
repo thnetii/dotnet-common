@@ -1,4 +1,4 @@
-name: $(Date:yyyy-MM-dd)-build-$(Rev:r)
+name: $(Date:yyyy-MM-dd)-rev-$(Rev:r)
 jobs:
 - template: dotnetcore.job.yml
   parameters:
