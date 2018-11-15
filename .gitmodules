@@ -1,3 +1,0 @@
-[submodule "azure-pipelines"]
-	path = azure-pipelines
-	url = https://github.com/thnetii/azure-pipelines.git
