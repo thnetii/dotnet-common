@@ -10,10 +10,15 @@ parameters:
   artifactPrefix: $(Build.Repository.Name)
 steps:
 - script: |
-    echo '##vso[task.setvariable variable=CommonArguments]--configuration ${{ parameters.configuration }} -p:BuildNumber=${{ parameters.buildNumber }}'
-    echo '##vso[task.setvariable variable=RuntimeArguments]--runtime "${{ parameters.runtimeId }}"'
+    echo '##vso[task.setvariable variable=CommonArguments]--configuration ${{ parameters.configuration }} -p:BuildNumber=${{ parameters.buildNumber }}' &&
+    echo '##vso[task.setvariable variable=RuntimeArguments]--runtime "${{ parameters.runtimeId }}"' &&
     echo '##vso[task.setvariable variable=CodeCoverage]--collect "Code coverage"'
   displayName: Set variables
+- script: |
+    echo 'CommonArguments=$(CommonArguments)' &&
+    echo 'CommonArguments=$(RuntimeArguments)' &&
+    echo 'CommonArguments=$(CodeCoverage)'
+  displayName: Echo Variables
 - task: DotNetCoreCLI@2
   displayName: Restore
   inputs:
