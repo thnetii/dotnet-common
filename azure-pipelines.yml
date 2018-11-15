@@ -2,7 +2,7 @@ name: $(Date:yyyy-MM-dd)-build-$(Rev:r)
 resources:
   repositories:
   - repository: buildtemplates
-    type: GitHub
+    type: github
     name: thnetii/azure-pipelines
 jobs:
 - job: Windows
