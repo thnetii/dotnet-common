@@ -34,21 +34,21 @@ jobs:
     inputs:
       command: build
       projects: ${{ parameters.sourceprojects }}
-      ${{ if parameters.selfContained }}:
+      ${{ if eq(parameters.selfContained, true) }}:
         arguments: $(CommonArguments) $(RuntimeArguments)
-      ${{ if not(parameters.selfContained) }}:
+      ${{ if ne(parameters.selfContained, true) }}:
         arguments: $(CommonArguments)
   - task: DotNetCoreCLI@2
     displayName: Test
     inputs:
       command: test
       projects: ${{ parameters.testprojects }}
-      ${{ if parameters.enableCodeCoverage }}:
+      ${{ if eq(parameters.enableCodeCoverage, true) }}:
         arguments: $(CommonArguments) $(CodeCoverage)
-      ${{ if not(parameters.enableCodeCoverage) }}:
+      ${{ if ne(parameters.enableCodeCoverage, true) }}:
         arguments: $(CommonArguments)
       publishTestResults: true
-  - ${{ if not(parameters.selfContained) }}:
+  - ${{ if ne(parameters.selfContained, true) }}:
     - task: DotNetCoreCLI@2
       displayName: Publish
       inputs:
@@ -58,7 +58,7 @@ jobs:
         publishWebProjects: false
         zipAfterPublish: false
       continueOnError: true
-  - ${{ if parameters.selfContained }}:
+  - ${{ if eq(parameters.selfContained, true) }}:
     - task: DotNetCoreCLI@2
       displayName: Publish (Self-Contained)
       inputs:
@@ -72,8 +72,8 @@ jobs:
     displayName: Publish Artifact
     inputs:
       PathtoPublish: $(Build.ArtifactStagingDirectory)
-      ${{ if not(parameters.selfContained) }}:
+      ${{ if ne(parameters.selfContained, true) }}:
         ArtifactName: ${{ parameters.artifactPrefix }}-dotnet-${{ parameters.buildNumber }}-$(Build.BuildNumber)
-      ${{ if parameters.selfContained }}:
+      ${{ if eq(parameters.selfContained, true) }}:
         ArtifactName: ${{ parameters.artifactPrefix }}-${{ parameters.runtimeId }}-${{ parameters.buildNumber }}-$(Build.BuildNumber)
     continueOnError: true
