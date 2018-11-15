@@ -4,6 +4,7 @@ resources:
   - repository: buildtemplates
     type: github
     name: thnetii/azure-pipelines
+    endpoint: https://github.com/thnetii/azure-pipelines.git
 jobs:
 - job: Windows
   pool: Hosted VS2017
