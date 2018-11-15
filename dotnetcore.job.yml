@@ -72,5 +72,8 @@ jobs:
     displayName: Publish Artifact
     inputs:
       PathtoPublish: $(Build.ArtifactStagingDirectory)
-      ArtifactName: ${{ format('{0}-{1}-{2}-{3}', parameters.artifactPrefix, parameters.runtimeId, variables['Build.BuildId'], parameters.buildNumber) }}
+      ${{ if not(parameters.selfContained) }}:
+        ArtifactName: ${{ parameters.artifactPrefix }}-dotnet-${{ parameters.buildNumber }}-$(Build.BuildNumber)
+      ${{ if parameters.selfContained }}:
+        ArtifactName: ${{ parameters.artifactPrefix }}-${{ parameters.runtimeId }}-${{ parameters.buildNumber }}-$(Build.BuildNumber)
     continueOnError: true

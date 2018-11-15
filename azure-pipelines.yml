@@ -9,3 +9,4 @@ jobs:
     runtimeId: win-x64
     enableCodeCoverage: true
     selfContained: true
+    artifactPrefix: thnetii-dotnet-common
