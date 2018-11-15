@@ -1,53 +1,16 @@
 name: $(Date:yyyy-MM-dd)-build-$(Rev:r)
 resources:
-- repo: self
-variables:
-  Parameters.SourceProjects: '[Ss]rc/*/*.csproj'
-  Parameters.TestProjects: '[Tt]est/*/*.csproj'
-  Parameters.AllProjects: |
-    $(Parameters.SourceProjects)
-    $(Parameters.TestProjects)
-  Parameters.CommonArguments: --configuration $(BuildConfiguration) -p:BuildNumber=$(Build.BuildId)
-  Parameters.TestAdditionalArguments: --collect "Code coverage"
-  Parameters.TestArguments: $(Parameters.CommonArguments) $(Parameters.TestAdditionalArguments)
+  repositories:
+  - repository: buildtemplates
+    type: GitHub
+    name: thnetii/azure-pipelines
 jobs:
 - job: Windows
   pool: Hosted VS2017
-  variables:
-    Parameters.RuntimeCommonArguments: $(Parameters.CommonArguments) --runtime win-x64
   steps:
-  - task: DotNetCoreCLI@2
-    displayName: Restore
-    inputs:
-      command: restore
-      projects: $(Parameters.AllProjects)
-      verbosityRestore: normal
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: $(Parameters.SourceProjects)
-      arguments: $(Parameters.RuntimeCommonArguments)
-  - task: DotNetCoreCLI@2
-    displayName: Test
-    inputs:
-      command: test
-      projects: $(Parameters.TestProjects)
-      arguments: $(Parameters.TestArguments)
-      publishTestResults: true
-  - task: DotNetCoreCLI@2
-    displayName: Publish
-    inputs:
-      command: publish
-      projects: $(Parameters.SourceProjects)
-      arguments: $(Parameters.RuntimeCommonArguments) --self-contained --output $(Build.ArtifactStagingDirectory)/$(BuildConfiguration) -p:BuildDefaultTargetFramework=true
-      publishWebProjects: false
-      zipAfterPublish: true
-    continueOnError: true
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact'
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: '$(Build.DefinitionName)-win-x64-$(Build.BuildId)-$(Build.BuildNumber)'
-    continueOnError: true
-
+  - template: dotnetcore.steps.yml@buildtemplates
+    parameters:
+      configuration: $(BuildConfiguration)
+      runtimeId: win-x64
+      enableCodeCoverage: true
+      selfContained: true
