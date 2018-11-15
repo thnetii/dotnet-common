@@ -1,15 +1,9 @@
 name: $(Date:yyyy-MM-dd)-build-$(Rev:r)
-resources:
-  repositories:
-  - repository: buildtemplates
-    type: github
-    name: thnetii/azure-pipelines
-    endpoint: https://github.com/thnetii/azure-pipelines.git
 jobs:
 - job: Windows
   pool: Hosted VS2017
   steps:
-  - template: dotnetcore.steps.yml@buildtemplates
+  - template: azure-pipelines/dotnetcore.steps.yml
     parameters:
       configuration: $(BuildConfiguration)
       runtimeId: win-x64
