@@ -48,26 +48,26 @@ jobs:
       ${{ if not(parameters.enableCodeCoverage) }}:
         arguments: $(CommonArguments)
       publishTestResults: true
-  - task: DotNetCoreCLI@2
-    displayName: Publish
-    condition: ${{ not(parameters.selfContained) }}
-    inputs:
-      command: publish
-      projects: ${{ parameters.sourceprojects }}
-      arguments: $(CommonArguments) $(PublishArguments)
-      publishWebProjects: false
-      zipAfterPublish: false
-    continueOnError: true
-  - task: DotNetCoreCLI@2
-    displayName: Publish (Self-Contained)
-    condition: ${{ parameters.selfContained }}
-    inputs:
-      command: publish
-      projects: ${{ parameters.sourceprojects }}
-      arguments: $(CommonArguments) $(PublishArguments) --self-contained
-      publishWebProjects: false
-      zipAfterPublish: false
-    continueOnError: true
+  - ${{ if not(parameters.selfContained) }}:
+    - task: DotNetCoreCLI@2
+      displayName: Publish
+      inputs:
+        command: publish
+        projects: ${{ parameters.sourceprojects }}
+        arguments: $(CommonArguments) $(PublishArguments)
+        publishWebProjects: false
+        zipAfterPublish: false
+      continueOnError: true
+  - ${{ if parameters.selfContained }}:
+    - task: DotNetCoreCLI@2
+      displayName: Publish (Self-Contained)
+      inputs:
+        command: publish
+        projects: ${{ parameters.sourceprojects }}
+        arguments: $(CommonArguments) $(RuntimeArguments) $(PublishArguments) --self-contained
+        publishWebProjects: false
+        zipAfterPublish: false
+      continueOnError: true
   - task: PublishBuildArtifacts@1
     displayName: Publish Artifact
     inputs:
