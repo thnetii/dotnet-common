@@ -25,7 +25,7 @@ namespace THNETII.Common.Linq.Test
         {
             source.ThrowIfNull(nameof(source));
             Span<int> span = (int[])source;
-            return span.First();
+            return default;
         }
 
         protected override int FirstOrDefault(object source, int @default)
@@ -57,7 +57,7 @@ namespace THNETII.Common.Linq.Test
         {
             source.ThrowIfNull(nameof(source));
             Span<int> span = (int[])source;
-            return span.Last();
+            return span.IsEmpty ? default : span.Last();
         }
 
         protected override int LastOrDefault(object source, int @default)
@@ -89,7 +89,7 @@ namespace THNETII.Common.Linq.Test
         {
             source.ThrowIfNull(nameof(source));
             Span<int> span = (int[])source;
-            return span[index];
+            return (index >= 0 && index < span.Length) ? span[index] : default;
         }
 
         protected override int ElementAtOrDefault(object source, int index, int @default)
