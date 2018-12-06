@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace THNETII.Common
 {
@@ -36,6 +38,35 @@ namespace THNETII.Common
                     return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Enumerates individual lines from a multi-line string.
+        /// </summary>
+        /// <param name="s">The string to read from.</param>
+        /// <returns>A <see cref="IEnumerable{T}"/> that enumerates the individual lines in <paramref name="s"/>.</returns>
+        /// <remarks>
+        /// <para>Each enumerated line is guaranteed to be non-null.</para>
+        /// <para>The enumerated lines do not contain the terminating carriage return or line feed characters.</para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="s"/> is <c>null</c>.</exception>
+        /// <seealso cref="StringReader.ReadLine"/>
+        public static IEnumerable<string> EnumerateLines(this string s)
+        {
+            if (s is null)
+                throw new ArgumentNullException(nameof(s));
+            return s.YieldLines();
+        }
+
+        private static IEnumerable<string> YieldLines(this string s)
+        {
+            using (var reader = new StringReader(s))
+            {
+                for (string line = reader.ReadLine(); !(line is null); line = reader.ReadLine())
+                {
+                    yield return line;
+                }
+            }
         }
     }
 }

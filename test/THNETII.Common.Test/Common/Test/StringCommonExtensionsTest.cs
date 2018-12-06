@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 using Xunit;
 
 namespace THNETII.Common.Test
@@ -26,6 +28,31 @@ namespace THNETII.Common.Test
             string contains = source.ToUpperInvariant();
 
             Assert.True(source.Contains(contains, StringComparison.OrdinalIgnoreCase));
+        }
+
+        [Fact]
+        public void EnumerateLinesOfNullThrows()
+        {
+            Assert.Throws<ArgumentNullException>(() => ((string)null).EnumerateLines());
+        }
+
+        [Fact]
+        public void EnumerateLinesOfEmptyReturnsEmpty()
+        {
+            Assert.Empty(string.Empty.EnumerateLines());
+        }
+
+        [Theory]
+        [InlineData("\r")]
+        [InlineData("\n")]
+        [InlineData("\r\n")]
+        public void EnumerateLinesUsesAnyLineSeparator(string newline)
+        {
+            var test = Enumerable.Range(0, 10)
+                .Select(i => i.ToString(CultureInfo.InvariantCulture))
+                .ToArray();
+            var multiLine = string.Join(newline, test);
+            Assert.Equal(test, multiLine.EnumerateLines());
         }
     }
 }
