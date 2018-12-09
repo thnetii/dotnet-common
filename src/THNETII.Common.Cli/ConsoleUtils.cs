@@ -119,6 +119,8 @@ namespace THNETII.Common.Cli
                     builder.Clear();
                     break;
                 case ConsoleKey.Backspace:
+                    if (builder.Length < 1)
+                        break;
                     if (printAsterisk)
                         Console.Write("\b \b");
                     builder.Remove(builder.Length - 1, 1);
