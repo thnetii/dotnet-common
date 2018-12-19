@@ -1,23 +1,34 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "THNETII.Common.Cli.Sample",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceRoot}/bin/Debug/netcoreapp2.0/THNETII.Common.Cli.Sample.dll",
-            "args": [],
-            "cwd": "${workspaceRoot}/sample/THNETII.Common.Cli.Sample",
-            "console": "internalConsole",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [{
+      "name": "THNETII.Common.Cli.Sample",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceRoot}/bin/Debug/netcoreapp2.0/THNETII.Common.Cli.Sample.dll",
+      "args": [],
+      "cwd": "${workspaceRoot}/sample/THNETII.Common.Cli.Sample",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "name": "THNETII.Base64UrlEncode.Cli",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceRoot}/bin/Debug/netcoreapp2.1/THNETII.Base64UrlEncode.Cli.dll",
+      "args": [],
+      "cwd": "${workspaceRoot}/src/THNETII.Base64UrlEncode.Cli/THNETII.Base64UrlEncode.Cli.csproj",
+      "console": "internalConsole",
+      "stopAtEntry": true,
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "name": ".NET Core Attach",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "${command:pickProcess}"
+    }
+  ]
 }
