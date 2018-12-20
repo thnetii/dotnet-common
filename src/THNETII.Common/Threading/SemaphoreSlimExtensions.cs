@@ -4,118 +4,70 @@ using System.Threading.Tasks;
 
 namespace THNETII.Common.Threading
 {
+    /// <summary>
+    /// Provides extension methods for the <see cref="SemaphoreSlim"/> class.
+    /// </summary>
     public static class SemaphoreSlimExtensions
     {
-        public static SemaphoreSlimContext WaitContext(this SemaphoreSlim semaphore)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            semaphore.Wait();
-            return SemaphoreSlimContext.CreateNoVerify(semaphore);
-        }
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnter(SemaphoreSlim)" />
+        public static SemaphoreSlimContext WaitContext(this SemaphoreSlim semaphore) =>
+            SemaphoreSlimContext.CreateOnEnter(semaphore);
 
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnter(SemaphoreSlim, int)" />
         public static SemaphoreSlimContext WaitContext(this SemaphoreSlim semaphore,
-            int millisecondsTimeout)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            var entered = semaphore.Wait(millisecondsTimeout);
-            return entered ? SemaphoreSlimContext.CreateNoVerify(semaphore) : null;
-        }
+            int millisecondsTimeout) =>
+            SemaphoreSlimContext.CreateOnEnter(semaphore, millisecondsTimeout);
 
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnter(SemaphoreSlim, TimeSpan)" />
         public static SemaphoreSlimContext WaitContext(this SemaphoreSlim semaphore,
-            TimeSpan timeout)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            var entered = semaphore.Wait(timeout);
-            return entered ? SemaphoreSlimContext.CreateNoVerify(semaphore) : null;
-        }
+            TimeSpan timeout) =>
+            SemaphoreSlimContext.CreateOnEnter(semaphore, timeout);
 
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnter(SemaphoreSlim, CancellationToken)" />
         public static SemaphoreSlimContext WaitContext(this SemaphoreSlim semaphore,
-            CancellationToken cancelToken)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            semaphore.Wait(cancelToken);
-            return SemaphoreSlimContext.CreateNoVerify(semaphore);
-        }
+            CancellationToken cancelToken) =>
+            SemaphoreSlimContext.CreateOnEnter(semaphore, cancelToken);
 
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnter(SemaphoreSlim, int, CancellationToken)" />
         public static SemaphoreSlimContext WaitContext(this SemaphoreSlim semaphore,
-            int millisecondsTimeout, CancellationToken cancelToken)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            var entered = semaphore.Wait(millisecondsTimeout, cancelToken);
-            return entered ? SemaphoreSlimContext.CreateNoVerify(semaphore) : null;
-        }
+            int millisecondsTimeout, CancellationToken cancelToken) =>
+            SemaphoreSlimContext.CreateOnEnter(semaphore, millisecondsTimeout, cancelToken);
 
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnter(SemaphoreSlim, TimeSpan, CancellationToken)" />
         public static SemaphoreSlimContext WaitContext(this SemaphoreSlim semaphore,
-            TimeSpan timeout, CancellationToken cancelToken)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            var entered = semaphore.Wait(timeout, cancelToken);
-            return entered ? SemaphoreSlimContext.CreateNoVerify(semaphore) : null;
-        }
+            TimeSpan timeout, CancellationToken cancelToken) =>
+            SemaphoreSlimContext.CreateOnEnter(semaphore, timeout, cancelToken);
 
-        public static async Task<SemaphoreSlimContext> WaitContextAsync(this SemaphoreSlim semaphore)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            await semaphore.WaitAsync()
-                .ConfigureAwait(continueOnCapturedContext: false);
-            return SemaphoreSlimContext.CreateNoVerify(semaphore);
-        }
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnterAsync(SemaphoreSlim)" />
+        public static Task<SemaphoreSlimContext> WaitContextAsync(
+            this SemaphoreSlim semaphore) =>
+            SemaphoreSlimContext.CreateOnEnterAsync(semaphore);
 
-        public static async Task<SemaphoreSlimContext> WaitContextAsync(this SemaphoreSlim semaphore,
-            int millisecondsTimeout)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            var entered = await semaphore.WaitAsync(millisecondsTimeout)
-                .ConfigureAwait(continueOnCapturedContext: false);
-            return entered ? SemaphoreSlimContext.CreateNoVerify(semaphore) : null;
-        }
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnterAsync(SemaphoreSlim, int)" />
+        public static Task<SemaphoreSlimContext> WaitContextAsync(
+            this SemaphoreSlim semaphore, int millisecondsTimeout) =>
+            SemaphoreSlimContext.CreateOnEnterAsync(semaphore, millisecondsTimeout);
 
-        public static async Task<SemaphoreSlimContext> WaitContextAsync(this SemaphoreSlim semaphore,
-            TimeSpan timeout)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            var entered = await semaphore.WaitAsync(timeout)
-                .ConfigureAwait(continueOnCapturedContext: false);
-            return entered ? SemaphoreSlimContext.CreateNoVerify(semaphore) : null;
-        }
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnterAsync(SemaphoreSlim, TimeSpan)" />
+        public static Task<SemaphoreSlimContext> WaitContextAsync(
+            this SemaphoreSlim semaphore, TimeSpan timeout) =>
+            SemaphoreSlimContext.CreateOnEnterAsync(semaphore, timeout);
 
-        public static async Task<SemaphoreSlimContext> WaitContextAsync(this SemaphoreSlim semaphore,
-            CancellationToken cancelToken)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            await semaphore.WaitAsync(cancelToken)
-                .ConfigureAwait(continueOnCapturedContext: false);
-            return SemaphoreSlimContext.CreateNoVerify(semaphore);
-        }
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnterAsync(SemaphoreSlim, CancellationToken)" />
+        public static Task<SemaphoreSlimContext> WaitContextAsync(
+            this SemaphoreSlim semaphore, CancellationToken cancelToken) =>
+            SemaphoreSlimContext.CreateOnEnterAsync(semaphore, cancelToken);
 
-        public static async Task<SemaphoreSlimContext> WaitContextAsync(this SemaphoreSlim semaphore,
-            int millisecondsTimeout, CancellationToken cancelToken)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            var entered = await semaphore.WaitAsync(millisecondsTimeout, cancelToken)
-                .ConfigureAwait(continueOnCapturedContext: false);
-            return entered ? SemaphoreSlimContext.CreateNoVerify(semaphore) : null;
-        }
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnterAsync(SemaphoreSlim, int, CancellationToken)" />
+        public static Task<SemaphoreSlimContext> WaitContextAsync(
+            this SemaphoreSlim semaphore, int millisecondsTimeout,
+            CancellationToken cancelToken) =>
+            SemaphoreSlimContext.CreateOnEnterAsync(semaphore, millisecondsTimeout, cancelToken);
 
-        public static async Task<SemaphoreSlimContext> WaitContextAsync(this SemaphoreSlim semaphore,
-            TimeSpan timeout, CancellationToken cancelToken)
-        {
-            if (semaphore is null)
-                throw new ArgumentNullException(nameof(semaphore));
-            var entered = await semaphore.WaitAsync(timeout, cancelToken)
-                .ConfigureAwait(continueOnCapturedContext: false);
-            return entered ? SemaphoreSlimContext.CreateNoVerify(semaphore) : null;
-        }
+        /// <inheritdoc cref="SemaphoreSlimContext.CreateOnEnterAsync(SemaphoreSlim, TimeSpan, CancellationToken)" />
+        public static Task<SemaphoreSlimContext> WaitContextAsync(
+            this SemaphoreSlim semaphore, TimeSpan timeout,
+            CancellationToken cancelToken) =>
+            SemaphoreSlimContext.CreateOnEnterAsync(semaphore, timeout, cancelToken);
     }
 }
