@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup Label="Common Package Metadata">
     <Authors>Fredrik Høisæther Rasch</Authors>
@@ -20,9 +20,11 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <PackageLicenseUrl>https://github.com/thnetii/dotnet-common/raw/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/thnetii/dotnet-common</PackageProjectUrl>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+  <PropertyGroup Label="License">
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <PropertyGroup Label="BasePath">
     <BaseOutputPath>$(MSBuildThisFileDirectory)bin\</BaseOutputPath>
@@ -42,6 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup Label="TH-NETII Analyzer" Condition="'$(UseThnetiiAnalyzer)'!=''">
     <ProjectReference Condition="!$(MSBuildProjectName.Contains('THNETII.Common.Analyzers'))"
@@ -51,7 +54,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup Label="SourceLink">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
