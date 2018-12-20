@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace THNETII.Common
@@ -24,6 +25,7 @@ namespace THNETII.Common
         /// Either <paramref name="s"/> or <paramref name="value"/> is <c>null</c>.
         /// </exception>
         /// <seealso cref="string.Contains(string)"/>
+        [SuppressMessage("Usage", "PC001: API not supported on all platforms", Justification = "https://github.com/dotnet/platform-compat/issues/123")]
         public static bool Contains(this string s, string value, StringComparison comparisonType)
         {
             if (s is null)

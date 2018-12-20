@@ -143,6 +143,7 @@ namespace THNETII.Common.Serialization
         public static bool? ParseOrNull(string s)
             => TryParse(s, out bool value) ? (bool?)value : null;
 
+        [SuppressMessage("Usage", "PC001: API not supported on all platforms", Justification = "https://github.com/dotnet/platform-compat/issues/123")]
         private static bool TryParseAsInt(string s, out int intValue)
         {
             if (int.TryParse(s, NumberStyles.Any, default, out intValue))
