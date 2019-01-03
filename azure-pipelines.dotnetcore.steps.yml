@@ -53,5 +53,5 @@ steps:
   displayName: ${{ parameters.uploadArtifactsDisplayName }}
   inputs:
     PathtoPublish: $(Build.ArtifactStagingDirectory)/${{ parameters.publishOutputName }}
-    ArtifactName: ${{ parameters.artifactPrefix }}-${{ parameters.publishOutputName }}-$(Build.BuildNumber)
+    ArtifactName: ${{ parameters.artifactPrefix }}-${{ parameters.publishOutputName }}
   continueOnError: true
