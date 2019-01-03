@@ -1,4 +1,4 @@
-name: $(Date:yyyy-MM-dd)-rev$(Rev)
+name: $(Date:yyyy-MM-dd)-rev$(Rev:r)
 variables:
   solutionProjects: '*.sln'
   testProjects:     '[Tt]est/*/*.csproj'
