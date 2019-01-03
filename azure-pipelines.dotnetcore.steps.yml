@@ -45,11 +45,10 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: ${{ parameters.packDisplayName }}
   inputs:
-    command: pack
-    packagesToPack: ${{ parameters.publishProjects }}
-    # configuration: ${{ parameters.packConfiguration }}
-    arguments: ${{ parameters.packArguments }}
-    packDirectory: $(Build.ArtifactStagingDirectory)/${{ parameters.publishOutputName }}
+    command: custom
+    custom: pack
+    projects: ${{ parameters.publishProjects }}
+    arguments: ${{ parameters.packArguments }} --output $(Build.ArtifactStagingDirectory)/${{ parameters.publishOutputName }}
 - task: DotNetCoreCLI@2
   displayName: ${{ parameters.publishDisplayName }}
   inputs:
