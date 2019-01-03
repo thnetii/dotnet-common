@@ -50,3 +50,4 @@ jobs:
     jobDisplayPrefix: '.NET Core:'
     condition:        ne(variables['SkipDotnetCoreJobs'], 'true')
     publishDependencyMode: framework
+    addCommonArguments: -p:NoNetFramework=true
