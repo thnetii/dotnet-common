@@ -1,4 +1,4 @@
-name: build-$(Build.BuildId)-date-$(Date:yyyy-MM-dd)
+name: $(Date:yyyy-MM-dd)-rev$(Rev)
 variables:
   solutionProjects: '*.sln'
   testProjects:     '[Tt]est/*/*.csproj'
