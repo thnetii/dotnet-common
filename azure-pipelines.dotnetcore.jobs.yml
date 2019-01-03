@@ -49,6 +49,7 @@ jobs:
           testDisplayName: dotnet test ${{ parameters.addConfigurationDebugArguments }} ${{ parameters.addCodeCoverageArguments }}
           testArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationDebugArguments }} ${{ parameters.addCodeCoverageArguments }}
 
+        doPackTask: true
         packDisplayName: dotnet pack ${{ parameters.addConfigurationDebugArguments }}
         packArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationDebugArguments }}
 
@@ -117,6 +118,7 @@ jobs:
           testDisplayName: dotnet test ${{ parameters.addConfigurationReleseArguments }} ${{ parameters.addCodeCoverageArguments }}
           testArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationReleseArguments }} ${{ parameters.addCodeCoverageArguments }}
 
+        doPackTask: true
         packDisplayName: dotnet pack ${{ parameters.addConfigurationReleseArguments }}
         packArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationReleseArguments }}
 
