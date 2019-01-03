@@ -49,6 +49,9 @@ jobs:
           testDisplayName: dotnet test ${{ parameters.addConfigurationDebugArguments }} ${{ parameters.addCodeCoverageArguments }}
           testArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationDebugArguments }} ${{ parameters.addCodeCoverageArguments }}
 
+        packDisplayName: dotnet pack ${{ parameters.addConfigurationDebugArguments }}
+        packArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationDebugArguments }}
+
         publishDisplayName: dotnet publish ${{ parameters.addConfigurationDebugArguments }}
         publishArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addPublishArguments }} ${{ parameters.addConfigurationDebugArguments }}
         publishOutputName: debug
@@ -79,6 +82,9 @@ jobs:
         ${{ if eq('true', parameters.enableCodeCoverage) }}:
           testDisplayName: dotnet test ${{ parameters.addConfigurationDebugArguments }} ${{ parameters.addCodeCoverageArguments }}
           testArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationDebugArguments }} ${{ parameters.addCodeCoverageArguments }}
+
+        packDisplayName: dotnet pack ${{ parameters.addConfigurationDebugArguments }} ${{ parameters.addRuntimeArgumentPrefix }} ${{ parameters.runtimeMoniker }}
+        packArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationDebugArguments }} ${{ parameters.addRuntimeArgumentPrefix }} ${{ parameters.runtimeMoniker }}
 
         publishDisplayName: dotnet publish ${{ parameters.addConfigurationDebugArguments }} ${{ parameters.addRuntimeArgumentPrefix }} ${{ parameters.runtimeMoniker }} ${{ parameters.addSelfContainedArguments }}
         publishArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addPublishArguments }} ${{ parameters.addConfigurationDebugArguments }} ${{ parameters.addRuntimeArgumentPrefix }} ${{ parameters.runtimeMoniker }} ${{ parameters.addSelfContainedArguments }}
@@ -111,6 +117,9 @@ jobs:
           testDisplayName: dotnet test ${{ parameters.addConfigurationReleseArguments }} ${{ parameters.addCodeCoverageArguments }}
           testArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationReleseArguments }} ${{ parameters.addCodeCoverageArguments }}
 
+        packDisplayName: dotnet pack ${{ parameters.addConfigurationReleseArguments }}
+        packArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationReleseArguments }}
+
         publishDisplayName: dotnet publish ${{ parameters.addConfigurationReleseArguments }}
         publishArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addPublishArguments }} ${{ parameters.addConfigurationReleseArguments }}
         publishOutputName: release
@@ -141,6 +150,9 @@ jobs:
         ${{ if eq('true', parameters.enableCodeCoverage) }}:
           testDisplayName: dotnet test ${{ parameters.addConfigurationReleseArguments }} ${{ parameters.addCodeCoverageArguments }}
           testArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationReleseArguments }} ${{ parameters.addCodeCoverageArguments }}
+
+        packDisplayName: dotnet pack ${{ parameters.addConfigurationReleseArguments }} ${{ parameters.addRuntimeArgumentPrefix }} ${{ parameters.runtimeMoniker }}
+        packArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addConfigurationReleseArguments }} ${{ parameters.addRuntimeArgumentPrefix }} ${{ parameters.runtimeMoniker }}
 
         publishDisplayName: dotnet publish ${{ parameters.addConfigurationReleseArguments }} ${{ parameters.addRuntimeArgumentPrefix }} ${{ parameters.runtimeMoniker }} ${{ parameters.addSelfContainedArguments }}
         publishArguments: ${{ parameters.commonArguments }} ${{ parameters.addCommonArguments }} ${{ parameters.addPublishArguments }} ${{ parameters.addConfigurationReleseArguments }} ${{ parameters.addRuntimeArgumentPrefix }} ${{ parameters.runtimeMoniker }} ${{ parameters.addSelfContainedArguments }}
