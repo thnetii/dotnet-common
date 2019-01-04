@@ -46,13 +46,6 @@
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha" PrivateAssets="All" />
   </ItemGroup>
-  <ItemGroup Label="TH-NETII Analyzer" Condition="'$(UseThnetiiAnalyzer)'!=''">
-    <ProjectReference Condition="!$(MSBuildProjectName.Contains('THNETII.Common.Analyzers'))"
-                      Include="$(MSBuildThisFileDirectory)analysis\THNETII.Common.Analyzers\THNETII.Common.Analyzers.csproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <OutputItemType>Analyzer</OutputItemType>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup Label="SourceLink">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05">
       <PrivateAssets>All</PrivateAssets>
