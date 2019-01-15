@@ -57,7 +57,7 @@ namespace THNETII.DependencyInjection.Nesting
             nestedServices = new ServiceCollection();
         }
 
-        private ServiceDescriptor GetProxyDescriptorForNested(
+        private static ServiceDescriptor GetProxyDescriptorForNested(
             ServiceDescriptor rootServiceDescriptor)
         {
             var serviceTypeRef = rootServiceDescriptor.ServiceType
