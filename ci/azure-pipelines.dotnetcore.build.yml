@@ -1,6 +1,4 @@
 name: $(Date:yyyy-MM-dd)-rev$(Rev:r)
-variables:
-  commonArguments:              -p:BuildId=$(Build.BuildId)
 jobs:
 - template: azure-pipelines.dotnetcore.buildJob.yml
   parameters:
@@ -8,7 +6,7 @@ jobs:
     jobDisplayName:             Debug Configuration
     condition:                  ne(variables['SkipConfigurationDebug'], 'true')
     addStaticConfigurationArguments:  --configuration Debug
-    addVarConfigurationArguments:      $(AddCommonArguments) $(AddDebugArguments)
+    addVarConfigurationArguments:     $(AddDebugArguments)
     arftifactNameSuffix:        debug
 - template: azure-pipelines.dotnetcore.buildJob.yml
   parameters:
@@ -16,5 +14,5 @@ jobs:
     jobDisplayName:             Release Configuration
     condition:                  ne(variables['SkipConfigurationRelease'], 'true')
     addStaticConfigurationArguments:  --configuration Release
-    addVarConfigurationArguments:     $(AddCommonArguments) $(AddReleaseArguments)
+    addVarConfigurationArguments:     $(AddReleaseArguments)
     arftifactNameSuffix:        release

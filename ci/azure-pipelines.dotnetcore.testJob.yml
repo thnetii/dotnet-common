@@ -3,18 +3,19 @@ parameters:
   jobDisplayName:
   condition:                  true
   testProjects:               '[Tt]est/*/*.csproj'
-  commonArguments:            -p:BuildId=$(Build.BuildId)
+  commonArguments:            '-p:BuildId=$(Build.BuildId) "-logger:THNETII.AzureDevOps.MSBuild.Logger.AzureDevOpsLogger,$(Build.SourcesDirectory)/ci/THNETII.AzureDevOps.MSBuild.Logger/THNETII.AzureDevOps.MSBuild.Logger.dll"'
   addStaticConfigurationArguments:
-  addVarConfigurationArguments: $(AddCommonArguments)
+  addVarConfigurationArguments:
 jobs:
 - job: testRun${{ parameters.jobIdSuffix }}
   displayName:  ${{ parameters.jobDisplayName }}
   condition:    ${{ parameters.condition }}
   steps:
+  - template: download-azuredevops-msbuild-logger.yml
   - task: DotNetCoreCLI@2
     displayName:  dotnet test ${{ parameters.addStaticConfigurationArguments }}
     inputs:
       command:    test
       projects:   ${{ parameters.testProjects }}
-      arguments:  ${{ parameters.commonArguments }} ${{ parameters.addStaticConfigurationArguments }} ${{ parameters.addVarConfigurationArguments }} $(AddTestArguments)
+      arguments:  ${{ parameters.commonArguments }} $(AddCommonArguments) ${{ parameters.addStaticConfigurationArguments }} ${{ parameters.addVarConfigurationArguments }} $(AddTestArguments)
       publishTestResults: true
