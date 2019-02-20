@@ -1,0 +1,12 @@
+﻿using System;
+using System.Linq;
+
+namespace THNETII.Common.Linq
+{
+    /// <summary>
+    /// Provides LINQ-like extensions methods for the
+    /// <see cref="ReadOnlyMemory{T}"/> type.
+    /// </summary>
+    /// <seealso cref="Enumerable"/>
+    public static partial class ReadOnlyMemoryExtensions { }
+}
