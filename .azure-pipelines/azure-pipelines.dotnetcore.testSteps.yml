@@ -6,6 +6,7 @@ parameters:
 steps:
 - task: DotNetCoreCLI@2
   displayName:  dotnet build-server shutdown
+  condition:    ne(variables['SkipStepTestRun'], 'true')
   inputs:
     command:    custom
     custom:     build-server
