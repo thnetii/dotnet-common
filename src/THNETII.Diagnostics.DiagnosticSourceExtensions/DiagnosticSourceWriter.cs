@@ -22,7 +22,7 @@ namespace THNETII.Diagnostics.DiagnosticSourceExtensions
         /// <see cref="DiagnosticSource"/> as the logger target and the specified
         /// name as the event name being logged.
         /// </summary>
-        /// <param name="diagnosticSource">The <see cref="DiagnosticSource"/> to write to. Can be <c>null</c>.</param>
+        /// <param name="diagnosticSource">The <see cref="DiagnosticSource"/> to write to. Can be <see langword="null"/>.</param>
         /// <param name="name">The name of the event being written.</param>
         public DiagnosticSourceWriter(DiagnosticSource diagnosticSource, string name)
         {
@@ -39,7 +39,7 @@ namespace THNETII.Diagnostics.DiagnosticSourceExtensions
         /// <param name="value">An object that represent the value being passed as a payload for the event.
         /// This is often an anonymous type which contains several sub-values.</param>
         /// <remarks>
-        /// If <see cref="DiagnosticSourceWriter"/> was initialized with a <c>null</c> <see cref="DiagnosticSource"/>,
+        /// If <see cref="DiagnosticSourceWriter"/> was initialized with a <see langword="null"/> <see cref="DiagnosticSource"/>,
         /// this operation is a no-op.
         /// </remarks>
         /// <seealso cref="DiagnosticSource.Write(string, object)"/>

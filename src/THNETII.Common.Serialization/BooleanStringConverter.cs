@@ -12,27 +12,27 @@ namespace THNETII.Common.Serialization
     /// according to the following rules (in listed order)
     /// <list type="number">
     /// <item><term>Using the <see cref="bool.TryParse(string, out bool)"/> method.</term></item>
-    /// <item><term><c>null</c> is converted to <c>false</c>.</term></item>
+    /// <item><term><see langword="null"/> is converted to <see langword="false"/>.</term></item>
     /// <item><term>
     /// Using the <see cref="int.TryParse(string, NumberStyles, IFormatProvider, out int)"/>
     /// using a <see cref="NumberStyles"/> value of <see cref="NumberStyles.Any"/>.
-    /// Non-zero converted integer values convert to <c>true</c>,
-    /// <c>0</c> (zero) converts to <c>false</c>.
+    /// Non-zero converted integer values convert to <see langword="true"/>,
+    /// <c>0</c> (zero) converts to <see langword="false"/>.
     /// </term></item>
     /// <item><term>
     /// Using the <see cref="int.TryParse(string, NumberStyles, IFormatProvider, out int)"/>
     /// using a <see cref="NumberStyles"/> value of <see cref="NumberStyles.HexNumber"/>.
     /// The string must be prefixed with <c>"0x"</c> (case-insensitive).
-    /// Non-zero converted integer values convert to <c>true</c>,
-    /// <c>0</c> (zero) converts to <c>false</c>.
+    /// Non-zero converted integer values convert to <see langword="true"/>,
+    /// <c>0</c> (zero) converts to <see langword="false"/>.
     /// </term></item>
     /// <item><term>
     /// If the string <c>"yes"</c> starts with the input, the input is converted
-    /// to <c>true</c> (case-insensitive). E.g. <c>"yes"</c> and <c>"y"</c>.
+    /// to <see langword="true"/> (case-insensitive). E.g. <c>"yes"</c> and <c>"y"</c>.
     /// </term></item>
     /// <item><term>
     /// If the string <c>"no"</c> starts with the input, the input is converted
-    /// to <c>false</c> (case-insensitive). E.g. <c>"no"</c> and <c>"n"</c>.
+    /// to <see langword="false"/> (case-insensitive). E.g. <c>"no"</c> and <c>"n"</c>.
     /// </term></item>
     /// </list>
     /// All inputs may be pre- or suffixed with white-space characters.
@@ -50,8 +50,8 @@ namespace THNETII.Common.Serialization
         /// </summary>
         /// <param name="s">A string containing the value to convert.</param>
         /// <returns>
-        /// <c>true</c> if <paramref name="s"/> contains a truthful or non-zero integer value;
-        /// <c>false</c> if <paramref name="s"/> contains a falsy value.
+        /// <see langword="true"/> if <paramref name="s"/> contains a truthful or non-zero integer value;
+        /// <see langword="false"/> if <paramref name="s"/> contains a falsy value.
         /// </returns>
         /// <remarks>
         /// See the remarks section of the <see cref="BooleanStringConverter"/>
@@ -69,12 +69,12 @@ namespace THNETII.Common.Serialization
 
         /// <summary>
         /// Converts the specified string to a <see cref="bool"/> value
-        /// or returns <c>false</c> if the string cannot be converted.
+        /// or returns <see langword="false"/> if the string cannot be converted.
         /// </summary>
         /// <param name="s">A string containing the value to convert.</param>
         /// <returns>
-        /// <c>true</c> if <paramref name="s"/> contains a truthful or non-zero integer value.
-        /// <c>false</c> if <paramref name="s"/> contains a falsy value
+        /// <see langword="true"/> if <paramref name="s"/> contains a truthful or non-zero integer value.
+        /// <see langword="false"/> if <paramref name="s"/> contains a falsy value
         /// or if <paramref name="s"/> cannot be converted to a <see cref="bool"/> value.
         /// </returns>
         /// <remarks>
@@ -90,8 +90,8 @@ namespace THNETII.Common.Serialization
         /// <param name="s">A string containing the value to convert.</param>
         /// <param name="default">The value to return if <paramref name="s"/> cannot be converted to a <see cref="bool"/> value.</param>
         /// <returns>
-        /// <c>true</c> if <paramref name="s"/> contains a truthful or non-zero integer value.
-        /// <c>false</c> if <paramref name="s"/> contains a falsy value.
+        /// <see langword="true"/> if <paramref name="s"/> contains a truthful or non-zero integer value.
+        /// <see langword="false"/> if <paramref name="s"/> contains a falsy value.
         /// <paramref name="default"/> if <paramref name="s"/> cannot be converted to a <see cref="bool"/> value.
         /// </returns>
         /// <remarks>
@@ -106,17 +106,17 @@ namespace THNETII.Common.Serialization
         /// or the specified default value if the string cannot be converted.
         /// </summary>
         /// <param name="s">A string containing the value to convert.</param>
-        /// <param name="defaultFactory">The function to invoke if <paramref name="s"/> cannot be converted to a <see cref="bool"/> value. Must not be <c>null</c>.</param>
+        /// <param name="defaultFactory">The function to invoke if <paramref name="s"/> cannot be converted to a <see cref="bool"/> value. Must not be <see langword="null"/>.</param>
         /// <returns>
-        /// <c>true</c> if <paramref name="s"/> contains a truthful or non-zero integer value.
-        /// <c>false</c> if <paramref name="s"/> contains a falsy value.
+        /// <see langword="true"/> if <paramref name="s"/> contains a truthful or non-zero integer value.
+        /// <see langword="false"/> if <paramref name="s"/> contains a falsy value.
         /// <paramref name="defaultFactory"/> if <paramref name="s"/> cannot be converted to a <see cref="bool"/> value.
         /// </returns>
         /// <remarks>
         /// See the remarks section of the <see cref="BooleanStringConverter"/>
         /// class for more information on the conversion rules.
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         public static bool ParseOrDefault(string s, Func<bool> defaultFactory)
         {
             if (TryParse(s, out bool value))
@@ -128,13 +128,13 @@ namespace THNETII.Common.Serialization
 
         /// <summary>
         /// Converts the specified string to a <see cref="bool"/> value
-        /// or returns <c>null</c> if the string cannot be converted.
+        /// or returns <see langword="null"/> if the string cannot be converted.
         /// </summary>
         /// <param name="s">A string containing the value to convert.</param>
         /// <returns>
-        /// <c>true</c> if <paramref name="s"/> contains a truthful or non-zero integer value.
-        /// <c>false</c> if <paramref name="s"/> contains a falsy value.
-        /// <c>null</c> if <paramref name="s"/> cannot be converted to a <see cref="bool"/> value.
+        /// <see langword="true"/> if <paramref name="s"/> contains a truthful or non-zero integer value.
+        /// <see langword="false"/> if <paramref name="s"/> contains a falsy value.
+        /// <see langword="null"/> if <paramref name="s"/> cannot be converted to a <see cref="bool"/> value.
         /// </returns>
         /// <remarks>
         /// See the remarks section of the <see cref="BooleanStringConverter"/>
@@ -199,8 +199,8 @@ namespace THNETII.Common.Serialization
         /// The return value indicates whether the conversion succeeded or failed.
         /// </summary>
         /// <param name="s">A string containing the value to convert.</param>
-        /// <param name="value">When this method returns, if the conversion succeeded, contains the converted value; otherwise <c>false</c>.</param>
-        /// <returns><c>true</c> if value was converted successfully; otherwise, <c>false</c>.</returns>
+        /// <param name="value">When this method returns, if the conversion succeeded, contains the converted value; otherwise <see langword="false"/>.</param>
+        /// <returns><see langword="true"/> if value was converted successfully; otherwise, <see langword="false"/>.</returns>
         /// <remarks>
         /// See the remarks section of the <see cref="BooleanStringConverter"/>
         /// class for more information on the conversion rules.
@@ -217,7 +217,7 @@ namespace THNETII.Common.Serialization
         /// </summary>
         /// <param name="value">The <see cref="bool"/> value to convert.</param>
         /// <returns>
-        /// <see cref="bool.TrueString"/> if <paramref name="value"/> is <c>true</c>;
+        /// <see cref="bool.TrueString"/> if <paramref name="value"/> is <see langword="true"/>;
         /// otherwise, <see cref="bool.FalseString"/>.
         /// </returns>
         [SuppressMessage(category: null, "CA1305", Justification = "One-to-one wrapping around non-localized API.")]

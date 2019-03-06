@@ -43,7 +43,7 @@ namespace THNETII.Common.Linq
         /// <param name="span">The span to return the first element of.</param>
         /// <param name="defaultFactory">A function to invoke to produce the value to return if <paramref name="span"/> is empty.</param>
         /// <returns>A read-only reference to the return value from invoking <paramref name="defaultFactory"/> if <paramref name="span"/> is empty; otherwise a read-only reference to the first elemnt in <paramref name="span"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="span"/> is empty and <paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="span"/> is empty and <paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         /// <seealso cref="Enumerable.FirstOrDefault{TSource}(IEnumerable{TSource})"/>
         public static ref readonly T FirstOrDefault<T>(this ReadOnlySpan<T> span, RefReadOnlyFunc<T> defaultFactory) =>
             ref span.ElementAtOrDefault(index: 0, defaultFactory);
@@ -85,7 +85,7 @@ namespace THNETII.Common.Linq
         /// <param name="span">The span to return the first element of.</param>
         /// <param name="defaultFactory">A function to invoke to produce the value to return if <paramref name="span"/> is empty.</param>
         /// <returns>A reference to the return value from invoking <paramref name="defaultFactory"/> if <paramref name="span"/> is empty; otherwise a read-only reference to the first elemnt in <paramref name="span"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="span"/> is empty and <paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="span"/> is empty and <paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         /// <seealso cref="Enumerable.FirstOrDefault{TSource}(IEnumerable{TSource})"/>
         public static ref T FirstOrDefault<T>(this Span<T> span, RefFunc<T> defaultFactory) =>
             ref span.ElementAtOrDefault(index: 0, defaultFactory);

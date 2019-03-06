@@ -38,7 +38,7 @@ namespace THNETII.DependencyInjection
         /// a default <see cref="IServiceProvider"/> is created by calling <see cref="ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection)"/>.
         /// </para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="services"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> is <see langword="null"/>.</exception>
         public static IServiceProvider Build(this IServiceCollection services)
         {
             if (services is null)

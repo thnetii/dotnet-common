@@ -23,11 +23,11 @@ namespace THNETII.Common.Collections.Generic
         /// </summary>
         /// <param name="x">The first object reference.</param>
         /// <param name="y">The second object reference.</param>
-        /// <returns><c>true</c> if <paramref name="x"/> is the same instance as <paramref name="y"/> or if both are <c>null</c>; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if <paramref name="x"/> is the same instance as <paramref name="y"/> or if both are <see langword="null"/>; otherwise, <see langword="false"/>.</returns>
         /// <remarks>
         /// Equality between two weak references is determined by reference equality of the two instances or by satisfying all of the following criteria:
         /// <list type="number">
-        /// <item><term>Neither <see cref="WeakReference{T}"/> instance is <c>null</c>. (If both were <c>null</c>, they would be reference equal.)</term></item>
+        /// <item><term>Neither <see cref="WeakReference{T}"/> instance is <see langword="null"/>. (If both were <see langword="null"/>, they would be reference equal.)</term></item>
         /// <item><term>Getting the target reference (by invoking <see cref="WeakReference{T}.TryGetTarget(out T)"/>) of both <see cref="WeakReference{T}"/> instances succeeds.</term></item>
         /// <item><term>The targets of both <see cref="WeakReference{T}"/> instances are reference equal.</term></item>
         /// </list>
@@ -47,7 +47,7 @@ namespace THNETII.Common.Collections.Generic
         /// Serves as a hash function for the specified object for hashing algorithms and data structures, such as a hash table.
         /// </summary>
         /// <param name="obj">The object for which to get a hash code.</param>
-        /// <returns>A hash code for the specified object, or <c>0</c> (zero) if <paramref name="obj"/> is <c>null</c>.</returns>
+        /// <returns>A hash code for the specified object, or <c>0</c> (zero) if <paramref name="obj"/> is <see langword="null"/>.</returns>
         public int GetHashCode(WeakReference<T> obj)
         {
             if (!(obj is null) && obj.TryGetTarget(out var target))

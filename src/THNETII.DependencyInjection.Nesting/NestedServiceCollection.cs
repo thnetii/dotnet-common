@@ -41,7 +41,7 @@ namespace THNETII.DependencyInjection.Nesting
         /// Creates a new nested service collection with the specified key and
         /// inherited services.
         /// </summary>
-        /// <param name="key">The key for the nested services collection. Must not be <c>null</c>.</param>
+        /// <param name="key">The key for the nested services collection. Must not be <see langword="null"/>.</param>
         /// <param name="inheritedServices">
         /// The parent service collection from which parent services should be inherited.
         /// </param>

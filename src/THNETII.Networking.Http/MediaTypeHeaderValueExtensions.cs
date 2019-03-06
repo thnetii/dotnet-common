@@ -16,9 +16,9 @@ namespace THNETII.Networking.Http
         /// <param name="mediaType">The media type to match with the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/>.</param>
         /// <param name="trueIfNoMediaType">The value to return if <paramref name="header"/> does not indicate any media type.</param>
         /// <returns>
-        /// <c>true</c> if <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <paramref name="mediaType"/>.<br/>
-        /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <c>null</c> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <c>null</c> or only contains white-space characters.<br/>
-        /// Otherwise, <c>false</c>.
+        /// <see langword="true"/> if <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <paramref name="mediaType"/>.<br/>
+        /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <see langword="null"/> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <see langword="null"/> or only contains white-space characters.<br/>
+        /// Otherwise, <see langword="false"/>.
         /// </returns>
         /// <remarks>String comparison is done using the <see cref="StringComparison.OrdinalIgnoreCase"/> comparison option.</remarks>
         /// <seealso cref="StringCommonExtensions.Contains(string, string, StringComparison)"/>
@@ -35,9 +35,9 @@ namespace THNETII.Networking.Http
         /// <param name="header">The <see cref="MediaTypeHeaderValue"/> to check.</param>
         /// <param name="trueIfNoMediaType">The value to return if <paramref name="header"/> does not indicate any media type.</param>
         /// <returns>
-        /// <c>true</c> if <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Html"/>.<br/>
-        /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <c>null</c> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <c>null</c> or only contains white-space characters.<br/>
-        /// Otherwise, <c>false</c>.
+        /// <see langword="true"/> if <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Html"/>.<br/>
+        /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <see langword="null"/> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <see langword="null"/> or only contains white-space characters.<br/>
+        /// Otherwise, <see langword="false"/>.
         /// </returns>
         public static bool IsHtml(this MediaTypeHeaderValue header, bool trueIfNoMediaType = true)
             => ContainsMediaType(header, HttpWellKnownMediaType.Html, trueIfNoMediaType);
@@ -48,9 +48,9 @@ namespace THNETII.Networking.Http
         /// <param name="header">The <see cref="MediaTypeHeaderValue"/> to check.</param>
         /// <param name="trueIfNoMediaType">The value to return if <paramref name="header"/> does not indicate any media type.</param>
         /// <returns>
-        /// <c>true</c> if <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Xml"/>.<br/>
-        /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <c>null</c> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <c>null</c> or only contains white-space characters.<br/>
-        /// Otherwise, <c>false</c>.
+        /// <see langword="true"/> if <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Xml"/>.<br/>
+        /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <see langword="null"/> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <see langword="null"/> or only contains white-space characters.<br/>
+        /// Otherwise, <see langword="false"/>.
         /// </returns>
         public static bool IsJson(this MediaTypeHeaderValue header, bool trueIfNoMediaType = true)
             => ContainsMediaType(header, HttpWellKnownMediaType.Json, trueIfNoMediaType);
@@ -61,9 +61,9 @@ namespace THNETII.Networking.Http
         /// <param name="header">The <see cref="MediaTypeHeaderValue"/> to check.</param>
         /// <param name="trueIfNoMediaType">The value to return if <paramref name="header"/> does not indicate any media type.</param>
         /// <returns>
-        /// <c>true</c> if <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Json"/>.<br/>
-        /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <c>null</c> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <c>null</c> or only contains white-space characters.<br/>
-        /// Otherwise, <c>false</c>.
+        /// <see langword="true"/> if <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Json"/>.<br/>
+        /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <see langword="null"/> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <see langword="null"/> or only contains white-space characters.<br/>
+        /// Otherwise, <see langword="false"/>.
         /// </returns>
         public static bool IsXml(this MediaTypeHeaderValue header, bool trueIfNoMediaType = true)
             => ContainsMediaType(header, HttpWellKnownMediaType.Xml, trueIfNoMediaType);

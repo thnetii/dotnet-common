@@ -16,10 +16,10 @@ namespace THNETII.Common.Text
         /// Appends a span of Unicode characters to the specified
         /// <see cref="StringBuilder"/> instance.
         /// </summary>
-        /// <param name="builder">The <see cref="StringBuilder"/> to append to. Must not be <c>null</c>.</param>
+        /// <param name="builder">The <see cref="StringBuilder"/> to append to. Must not be <see langword="null"/>.</param>
         /// <param name="value">A read-only span of unicode characters to append.</param>
         /// <returns>The same instance as specified by <paramref name="builder"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="builder"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="builder"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Enlarging the value of <paramref name="builder"/> would exceed the
         /// <see cref="StringBuilder.MaxCapacity"/> property of <paramref name="builder"/>.

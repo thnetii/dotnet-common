@@ -129,12 +129,12 @@ namespace THNETII.Common.Serialization
         /// </summary>
         /// <typeparam name="T">The enumeration type to convert to.</typeparam>
         /// <param name="s">A string containing the name, serialization name or value to convert.</param>
-        /// <param name="defaultFactory">The factory that produces the value to return if <paramref name="s"/> cannot be converted to <typeparamref name="T"/>. Must not be <c>null</c>.</param>
+        /// <param name="defaultFactory">The factory that produces the value to return if <paramref name="s"/> cannot be converted to <typeparamref name="T"/>. Must not be <see langword="null"/>.</param>
         /// <returns>
         /// The converted value as an instance of <typeparamref name="T"/>, or the return value from <paramref name="defaultFactory"/>
         /// if <paramref name="s"/> cannot be converted to <typeparamref name="T"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         [SuppressMessage("Microsoft.Design", "CA1000")]
         public static T ParseOrDefault<T>(string s, Func<T> defaultFactory)
              where T : struct, Enum
@@ -154,12 +154,12 @@ namespace THNETII.Common.Serialization
         /// </summary>
         /// <typeparam name="T">The enumeration type to convert to.</typeparam>
         /// <param name="s">A string containing the name, serialization name or value to convert.</param>
-        /// <param name="defaultFactory">The factory that produces the value to return if <paramref name="s"/> cannot be converted to <typeparamref name="T"/>. Must not be <c>null</c>.</param>
+        /// <param name="defaultFactory">The factory that produces the value to return if <paramref name="s"/> cannot be converted to <typeparamref name="T"/>. Must not be <see langword="null"/>.</param>
         /// <returns>
         /// The converted value as an instance of <typeparamref name="T"/>, or the return value from <paramref name="defaultFactory"/>
         /// if <paramref name="s"/> cannot be converted to <typeparamref name="T"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         [SuppressMessage("Microsoft.Design", "CA1000")]
         public static T ParseOrDefault<T>(string s, Func<string, T> defaultFactory)
              where T : struct, Enum
@@ -175,12 +175,12 @@ namespace THNETII.Common.Serialization
         /// Attempts to convert the string representation of the constant name, serialization name or numeric value of
         /// one or more enumerated constants to an equivalent enumerated value of <typeparamref name="T"/>.
         /// <para>This operation is always case-insensitive using ordinal string comparison.</para>
-        /// <para>Returns <c>null</c> in case the string cannot be converted.</para>
+        /// <para>Returns <see langword="null"/> in case the string cannot be converted.</para>
         /// </summary>
         /// <typeparam name="T">The enumeration type to convert to.</typeparam>
         /// <param name="s">A string containing the name, serialization name or value to convert.</param>
         /// <returns>
-        /// The converted value as an instance of <typeparamref name="T"/>, or <c>null</c>
+        /// The converted value as an instance of <typeparamref name="T"/>, or <see langword="null"/>
         /// if <paramref name="s"/> cannot be converted to <typeparamref name="T"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1000")]
@@ -195,15 +195,15 @@ namespace THNETII.Common.Serialization
         /// Attempts to convert the string representation of the constant name, serialization name or numeric value of
         /// one or more enumerated constants to an equivalent enumerated value of <typeparamref name="T"/>.
         /// <para>This operation is always case-insensitive using ordinal string comparison.</para>
-        /// <para>Returns <c>null</c> in case the string cannot be converted.</para>
+        /// <para>Returns <see langword="null"/> in case the string cannot be converted.</para>
         /// </summary>
         /// <typeparam name="T">The enumeration type to convert to.</typeparam>
         /// <param name="s">A string containing the name, serialization name or value to convert.</param>
-        /// <param name="value">The converted value of <paramref name="s"/> if the method returns <c>true</c>.</param>
+        /// <param name="value">The converted value of <paramref name="s"/> if the method returns <see langword="true"/>.</param>
         /// <returns>
-        /// <c>true</c> if <paramref name="s"/> was successfully converted to a value of <typeparamref name="T"/>; otherwise, <c>false</c>.
+        /// <see langword="true"/> if <paramref name="s"/> was successfully converted to a value of <typeparamref name="T"/>; otherwise, <see langword="false"/>.
         /// </returns>
-        /// <remarks>If this method returns <c>false</c>, the out-value of the <paramref name="value"/> parameter is not defined.</remarks>
+        /// <remarks>If this method returns <see langword="false"/>, the out-value of the <paramref name="value"/> parameter is not defined.</remarks>
         [SuppressMessage("Microsoft.Design", "CA1000")]
         public static bool TryParse<T>(string s, out T value)
             where T : struct, Enum

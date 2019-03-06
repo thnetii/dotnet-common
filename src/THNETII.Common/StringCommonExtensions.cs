@@ -21,11 +21,11 @@ namespace THNETII.Common
         /// <param name="value">The string to seek.</param>
         /// <param name="comparisonType">One of the enumeration values that determines how the contents of <paramref name="s"/> and <paramref name="value"/> are compared.</param>
         /// <returns>
-        /// <c>true</c> if the <paramref name="value"/> parameter occurs within this string, or if <paramref name="value"/> is the empty
-        /// string (<c>""</c>); otherwise, <c>false</c>.
+        /// <see langword="true"/> if the <paramref name="value"/> parameter occurs within this string, or if <paramref name="value"/> is the empty
+        /// string (<c>""</c>); otherwise, <see langword="false"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException">
-        /// Either <paramref name="s"/> or <paramref name="value"/> is <c>null</c>.
+        /// Either <paramref name="s"/> or <paramref name="value"/> is <see langword="null"/>.
         /// </exception>
         /// <seealso cref="string.Contains(string)"/>
         [SuppressMessage("Usage", "PC001: API not supported on all platforms", Justification = "https://github.com/dotnet/platform-compat/issues/123")]
@@ -54,7 +54,7 @@ namespace THNETII.Common
         /// <para>Each enumerated line is guaranteed to be non-null.</para>
         /// <para>The enumerated lines do not contain the terminating carriage return or line feed characters.</para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="s"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="s"/> is <see langword="null"/>.</exception>
         /// <seealso cref="StringReader.ReadLine"/>
         public static IEnumerable<string> EnumerateLines(this string s)
         {

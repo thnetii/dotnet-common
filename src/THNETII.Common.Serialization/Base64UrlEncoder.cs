@@ -23,16 +23,16 @@ namespace THNETII.Common.Serialization
         /// <summary>
         /// Converts the specified Base64 encoded data into the URL-safe Base64 encoded format.
         /// </summary>
-        /// <param name="base64String">A regular Base64 encoded data string. Can be <c>null</c>.</param>
-        /// <returns>A URL-safe Base64 encoded representation of the specified input data; or <c>null</c> if the specified input parameter is <c>null</c>.</returns>
+        /// <param name="base64String">A regular Base64 encoded data string. Can be <see langword="null"/>.</param>
+        /// <returns>A URL-safe Base64 encoded representation of the specified input data; or <see langword="null"/> if the specified input parameter is <see langword="null"/>.</returns>
         public static string ToBase64UrlString(string base64String) =>
             string.IsNullOrWhiteSpace(base64String) ? null : ToBase64UrlString(new StringBuilder(base64String));
 
         /// <summary>
         /// Encodes the specified data into an URL-safe Base64 encoded data string.
         /// </summary>
-        /// <param name="data">An array of bytes that contains the data to encode. Can be <c>null</c>.</param>
-        /// <returns>A URL-safe Base64 encoded representation of the specified input data; or <c>null</c> if the specified input parameter is <c>null</c>.</returns>
+        /// <param name="data">An array of bytes that contains the data to encode. Can be <see langword="null"/>.</param>
+        /// <returns>A URL-safe Base64 encoded representation of the specified input data; or <see langword="null"/> if the specified input parameter is <see langword="null"/>.</returns>
         public static string ToBase64UrlString(byte[] data) =>
             data is null ? null : ToBase64UrlString(new StringBuilder(Convert.ToBase64String(data)));
 
@@ -55,8 +55,8 @@ namespace THNETII.Common.Serialization
         /// <summary>
         /// Decodes an URL-safe Base64 data string into an array of bytes.
         /// </summary>
-        /// <param name="base64UrlString">The URL-safe Base64 data string. Can be <c>null</c>.</param>
-        /// <returns>An array of bytes containg the data that is represented by <paramref name="base64UrlString"/>. <c>null</c> if <paramref name="base64UrlString"/> is <c>null</c>.</returns>
+        /// <param name="base64UrlString">The URL-safe Base64 data string. Can be <see langword="null"/>.</param>
+        /// <returns>An array of bytes containg the data that is represented by <paramref name="base64UrlString"/>. <see langword="null"/> if <paramref name="base64UrlString"/> is <see langword="null"/>.</returns>
         /// <exception cref="FormatException"><paramref name="base64UrlString"/> is not a valid URL-safe Base64 encoded data string.</exception>
         public static byte[] FromBase64UrlString(string base64UrlString)
         {
@@ -69,8 +69,8 @@ namespace THNETII.Common.Serialization
         /// <summary>
         /// Converts an URL-safe Base64 encoded data string into a regular Bas64 data string.
         /// </summary>
-        /// <param name="base64UrlString">The URL-safe Base64 data string. Can be <c>null</c>.</param>
-        /// <returns>A regular Base64 data string that represents the exact same that as <paramref name="base64UrlString"/>. <c>null</c> if <paramref name="base64UrlString"/> is <c>null</c>.</returns>
+        /// <param name="base64UrlString">The URL-safe Base64 data string. Can be <see langword="null"/>.</param>
+        /// <returns>A regular Base64 data string that represents the exact same that as <paramref name="base64UrlString"/>. <see langword="null"/> if <paramref name="base64UrlString"/> is <see langword="null"/>.</returns>
         /// <exception cref="FormatException"><paramref name="base64UrlString"/> is not a valid URL-safe Base64 encoded data string. The length of the string is invalid.</exception>
         public static string ToRegularBase64String(string base64UrlString) =>
             string.IsNullOrWhiteSpace(base64UrlString) ? null : FromBase64UrlString(new StringBuilder(base64UrlString));

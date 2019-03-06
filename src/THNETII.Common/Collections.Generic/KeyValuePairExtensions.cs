@@ -72,7 +72,7 @@ namespace THNETII.Common.Collections.Generic
         /// <returns>
         /// A <see cref="KeyValuePair{TKey, TValue}"/> structure with the key and value set to the respective
         /// components of <paramref name="tuple"/>, or the default value for the <see cref="KeyValuePair{TKey, TValue}"/>
-        /// structure if <paramref name="tuple"/> is <c>null</c>.
+        /// structure if <paramref name="tuple"/> is <see langword="null"/>.
         /// </returns>
         public static KeyValuePair<TKey, TValue> AsKeyValuePair<TKey, TValue>(this Tuple<TKey, TValue> tuple) =>
             tuple is null ? default : new KeyValuePair<TKey, TValue>(tuple.Item1, tuple.Item2);

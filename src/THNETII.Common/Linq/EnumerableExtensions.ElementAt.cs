@@ -14,7 +14,7 @@ namespace THNETII.Common.Linq
         /// <param name="index">The zero-based index of the element to retrieve.</param>
         /// <param name="default">The value to return if <paramref name="enumerable"/> does not contain an element at position <paramref name="index"/>.</param>
         /// <returns>The element at the specified position in the source sequence, or <paramref name="default"/> if no value is available.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> is <see langword="null"/>.</exception>
         public static T ElementAtOrDefault<T>(this IEnumerable<T> enumerable, int index, T @default) =>
             enumerable.ElementAtOrDefault(index, () => @default);
 
@@ -27,7 +27,7 @@ namespace THNETII.Common.Linq
         /// <param name="index">The zero-based index of the element to retrieve.</param>
         /// <param name="defaultFactory">The function to invoke to produce the value to return if <paramref name="enumerable"/> does not contain an element at position <paramref name="index"/>.</param>
         /// <returns>The element at the specified position in the source sequence, or the return value from invoking <paramref name="defaultFactory"/> if no value is available.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> or <paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> or <paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         public static T ElementAtOrDefault<T>(this IEnumerable<T> enumerable, int index, Func<T> defaultFactory)
         {
             if (index < 0)

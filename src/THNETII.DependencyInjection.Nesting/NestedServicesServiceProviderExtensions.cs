@@ -15,11 +15,11 @@ namespace THNETII.DependencyInjection.Nesting
         /// </summary>
         /// <param name="serviceProvider">
         /// The parent service provider that supports nested services.
-        /// Must not be <c>null</c>.
+        /// Must not be <see langword="null"/>.
         /// </param>
         /// <param name="key">The unique identifier of the nested service provider.</param>
         /// <returns>An <see cref="IServiceProvider"/> instance that resolves services nested under the specified parent provider.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> is <see langword="null"/>.</exception>
         public static IServiceProvider GetNestedServiceProvider(
             this IServiceProvider serviceProvider, string key)
             => GetNestedServiceProvider<object>(serviceProvider, key);
@@ -29,11 +29,11 @@ namespace THNETII.DependencyInjection.Nesting
         /// </summary>
         /// <param name="serviceProvider">
         /// The parent service provider that supports nested services.
-        /// Must not be <c>null</c>.
+        /// Must not be <see langword="null"/>.
         /// </param>
         /// <param name="key">The unique identifier of the nested service provider.</param>
         /// <returns>An <see cref="IServiceProvider"/> instance that resolves services nested under the specified parent provider.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> is <see langword="null"/>.</exception>
         public static IServiceProvider GetNestedServiceProvider<TFamily>(
             this IServiceProvider serviceProvider, string key)
             => GetNestedServiceProvider<TFamily, string>(serviceProvider, key);
@@ -43,11 +43,11 @@ namespace THNETII.DependencyInjection.Nesting
         /// </summary>
         /// <param name="serviceProvider">
         /// The parent service provider that supports nested services.
-        /// Must not be <c>null</c>.
+        /// Must not be <see langword="null"/>.
         /// </param>
         /// <param name="key">The unique key of the nested service provider.</param>
         /// <returns>An <see cref="IServiceProvider"/> instance that resolves services nested under the specified parent provider.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> is <see langword="null"/>.</exception>
         public static IServiceProvider GetNestedServiceProvider<TFamily, TKey>(
             this IServiceProvider serviceProvider, TKey key)
         {

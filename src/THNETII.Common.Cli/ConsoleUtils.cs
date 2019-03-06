@@ -14,8 +14,8 @@ namespace THNETII.Common.Cli
         /// <summary>
         /// Creates a new console color context and switches the Console colors to the specified values.
         /// </summary>
-        /// <param name="fgColor">The foreground console color to set, or <c>null</c> if the foreground color should not be modified.</param>
-        /// <param name="bgColor">The background console color to set, or <c>null</c> if the background color should not be modified.</param>
+        /// <param name="fgColor">The foreground console color to set, or <see langword="null"/> if the foreground color should not be modified.</param>
+        /// <param name="bgColor">The background console color to set, or <see langword="null"/> if the background color should not be modified.</param>
         /// <returns>A <see cref="ConsoleColorContext"/> instance which captures the current state of the console colors, so that the colors can be reverted when the returned context is disposed.</returns>
         /// <exception cref="InvalidOperationException">
         /// The color specified for either the foreground color or the background color is not a valid member of <see cref="ConsoleColor"/>.
@@ -30,9 +30,9 @@ namespace THNETII.Common.Cli
         /// Executes the specified main-function asynchronously, while listening
         /// for the cancel key press event to cancel execution.
         /// </summary>
-        /// <param name="asyncMain">The function to execute. Must not be <c>null</c>.</param>
+        /// <param name="asyncMain">The function to execute. Must not be <see langword="null"/>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous execution of <paramref name="asyncMain"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="asyncMain"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="asyncMain"/> is <see langword="null"/>.</exception>
         /// <exception cref="OperationCanceledException">The <see cref="Console.CancelKeyPress"/> event was triggered, causing execution to be cancelled.</exception>
         /// <example>
         /// <code lang="CSharp">
@@ -93,7 +93,7 @@ namespace THNETII.Common.Cli
         /// </summary>
         /// <param name="cancelToken">An optional cancellation token that should be used to cancel the operation.</param>
         /// <returns>
-        /// A <see cref="Task{TResult}"/> that returns the next line of characters from the input stream, or <c>null</c> if no more lines are
+        /// A <see cref="Task{TResult}"/> that returns the next line of characters from the input stream, or <see langword="null"/> if no more lines are
         /// available when completed.
         /// </returns>
         /// <exception cref="System.IO.IOException">An I/O error occurred.</exception>
@@ -146,9 +146,9 @@ namespace THNETII.Common.Cli
         /// Reads the next line of characters from the standard input stream,
         /// intercepting each typed character and optionally prints an asterisk (<c>'*'</c>) character instead.
         /// </summary>
-        /// <param name="printAsterisk">If <c>true</c> (default) writes an asterisk for each typed character; otherwise, nothing is written to the console during input.</param>
+        /// <param name="printAsterisk">If <see langword="true"/> (default) writes an asterisk for each typed character; otherwise, nothing is written to the console during input.</param>
         /// <returns>
-        /// The next line of characters from the input stream, or <c>null</c> if no more lines are
+        /// The next line of characters from the input stream, or <see langword="null"/> if no more lines are
         /// available.
         /// </returns>
         /// <exception cref="System.IO.IOException">An I/O error occurred.</exception>
@@ -175,7 +175,7 @@ namespace THNETII.Common.Cli
         /// </summary>
         /// <param name="cancelToken">An optional cancellation token that should be used to cancel the operation.</param>
         /// <returns>
-        /// A <see cref="Task{TResult}"/> that returns the next line of characters from the input stream, or <c>null</c> if no more lines are
+        /// A <see cref="Task{TResult}"/> that returns the next line of characters from the input stream, or <see langword="null"/> if no more lines are
         /// available when completed.
         /// </returns>
         /// <exception cref="System.IO.IOException">An I/O error occurred.</exception>
@@ -189,10 +189,10 @@ namespace THNETII.Common.Cli
         /// Asynchronously reads the next line of characters from the standard input stream,
         /// intercepting each typed character and optionally writes an asterisk (<c>'*'</c>) character instead.
         /// </summary>
-        /// <param name="printAsterisk">If <c>true</c> (default) writes an asterisk for each typed character; otherwise, nothing is written to the console during input.</param>
+        /// <param name="printAsterisk">If <see langword="true"/> (default) writes an asterisk for each typed character; otherwise, nothing is written to the console during input.</param>
         /// <param name="cancelToken">An optional cancellation token that should be used to cancel the operation.</param>
         /// <returns>
-        /// A <see cref="Task{TResult}"/> that returns the next line of characters from the input stream, or <c>null</c> if no more lines are
+        /// A <see cref="Task{TResult}"/> that returns the next line of characters from the input stream, or <see langword="null"/> if no more lines are
         /// available when completed.
         /// available.
         /// </returns>

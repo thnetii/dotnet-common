@@ -16,17 +16,17 @@ namespace THNETII.Networking.Http
         /// <summary>
         /// Checks whether the HTTP content represents HTML content.
         /// </summary>
-        /// <param name="httpContent">The HTTP Content to check. Must not be <c>null</c>.</param>
+        /// <param name="httpContent">The HTTP Content to check. Must not be <see langword="null"/>.</param>
         /// <param name="trueIfNoContentType">
         /// An optional value controlling what value to return if <paramref name="httpContent"/> has no Content-Type information.
-        /// <c>true</c> by default.
+        /// <see langword="true"/> by default.
         /// </param>
         /// <returns>
-        /// <c>true</c> if the <c>Content-Type</c> header of <paramref name="httpContent"/> indicates HTML content.
+        /// <see langword="true"/> if the <c>Content-Type</c> header of <paramref name="httpContent"/> indicates HTML content.
         /// If <paramref name="httpContent"/> has no <c>Content-Type</c> information, <paramref name="trueIfNoContentType"/> is returned.
-        /// Otherwise, <c>false</c>.
+        /// Otherwise, <see langword="false"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <see langword="null"/>.</exception>
         /// <seealso cref="HttpContentHeaders.ContentType"/>
         public static bool IsHtml(this HttpContent httpContent, bool trueIfNoContentType = true)
         {
@@ -38,17 +38,17 @@ namespace THNETII.Networking.Http
         /// <summary>
         /// Checks whether the HTTP content represents XML content.
         /// </summary>
-        /// <param name="httpContent">The HTTP Content to check. Must not be <c>null</c>.</param>
+        /// <param name="httpContent">The HTTP Content to check. Must not be <see langword="null"/>.</param>
         /// <param name="trueIfNoContentType">
         /// An optional value controlling what value to return if <paramref name="httpContent"/> has no Content-Type information.
-        /// <c>true</c> by default.
+        /// <see langword="true"/> by default.
         /// </param>
         /// <returns>
-        /// <c>true</c> if the <c>Content-Type</c> header of <paramref name="httpContent"/> indicates XML content.
+        /// <see langword="true"/> if the <c>Content-Type</c> header of <paramref name="httpContent"/> indicates XML content.
         /// If <paramref name="httpContent"/> has no <c>Content-Type</c> information, <paramref name="trueIfNoContentType"/> is returned.
-        /// Otherwise, <c>false</c>.
+        /// Otherwise, <see langword="false"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <see langword="null"/>.</exception>
         /// <seealso cref="HttpContentHeaders.ContentType"/>
         public static bool IsXml(this HttpContent httpContent, bool trueIfNoContentType = true)
         {
@@ -60,17 +60,17 @@ namespace THNETII.Networking.Http
         /// <summary>
         /// Checks whether the HTTP content represents JSON content.
         /// </summary>
-        /// <param name="httpContent">The HTTP Content to check. Must not be <c>null</c>.</param>
+        /// <param name="httpContent">The HTTP Content to check. Must not be <see langword="null"/>.</param>
         /// <param name="trueIfNoContentType">
         /// An optional value controlling what value to return if <paramref name="httpContent"/> has no Content-Type information.
-        /// <c>true</c> by default.
+        /// <see langword="true"/> by default.
         /// </param>
         /// <returns>
-        /// <c>true</c> if the <c>Content-Type</c> header of <paramref name="httpContent"/> indicates JSON content.
+        /// <see langword="true"/> if the <c>Content-Type</c> header of <paramref name="httpContent"/> indicates JSON content.
         /// If <paramref name="httpContent"/> has no <c>Content-Type</c> information, <paramref name="trueIfNoContentType"/> is returned.
-        /// Otherwise, <c>false</c>.
+        /// Otherwise, <see langword="false"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <see langword="null"/>.</exception>
         /// <seealso cref="HttpContentHeaders.ContentType"/>
         public static bool IsJson(this HttpContent httpContent, bool trueIfNoContentType = true)
         {
@@ -94,7 +94,7 @@ namespace THNETII.Networking.Http
         /// using the default constructor.
         /// </para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <see langword="null"/>.</exception>
         /// <seealso cref="HttpContent.ReadAsStreamAsync"/>
         public static async Task<StreamReader> ReadAsStreamReaderAsync(this HttpContent httpContent)
         {

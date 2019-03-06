@@ -53,82 +53,82 @@ namespace THNETII.Common
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions.
         /// </summary>
-        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
-        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <c>null</c>.</param>
-        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/> or <paramref name="rawReverseConvert"/> are <c>null</c>.</exception>
+        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <see langword="null"/>.</param>
+        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/> or <paramref name="rawReverseConvert"/> are <see langword="null"/>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TConvert, TRaw> rawReverseConvert)
             : this(rawConvert, (IEqualityComparer<TRaw>)null, rawReverseConvert) { }
 
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions. Uses the specified equality comparer to detect changes for the raw value.
         /// </summary>
-        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
-        /// <param name="rawEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Specify <c>null</c> to use default equality checks.</param>
-        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <c>null</c>.</param>
-        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/> or <paramref name="rawReverseConvert"/> are <c>null</c>.</exception>
+        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="rawEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Specify <see langword="null"/> to use default equality checks.</param>
+        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <see langword="null"/>.</param>
+        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/> or <paramref name="rawReverseConvert"/> are <see langword="null"/>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer, Func<TConvert, TRaw> rawReverseConvert)
             : this(rawConvert, rawEqualityComparer, rawReverseConvert, (IEqualityComparer<TConvert>)null) { }
 
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directrions. Uses the specified comparison function to detect changes for the raw value.
         /// </summary>
-        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
-        /// <param name="rawEquals">The equality comparison function to use to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Must not be <c>null</c>.</param>
-        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <c>null</c>.</param>
-        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/>, <paramref name="rawEquals"/> or <paramref name="rawReverseConvert"/> are <c>null</c>.</exception>
+        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="rawEquals">The equality comparison function to use to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Must not be <see langword="null"/>.</param>
+        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <see langword="null"/>.</param>
+        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/>, <paramref name="rawEquals"/> or <paramref name="rawReverseConvert"/> are <see langword="null"/>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TRaw, TRaw, bool> rawEquals, Func<TConvert, TRaw> rawReverseConvert)
             : this(rawConvert, rawEquals, rawReverseConvert, (IEqualityComparer<TConvert>)null) { }
 
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions. Uses the specified equality comparer to detect changes for the converted value.
         /// </summary>
-        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
-        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <c>null</c>.</param>
-        /// <param name="convertedEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Specify <c>null</c> to use default equality checks.</param>
-        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/> or <paramref name="rawReverseConvert"/> are <c>null</c>.</exception>
+        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="convertedEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Specify <see langword="null"/> to use default equality checks.</param>
+        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/> or <paramref name="rawReverseConvert"/> are <see langword="null"/>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TConvert, TRaw> rawReverseConvert, IEqualityComparer<TConvert> convertedEqualityComparer)
             : this(rawConvert, (IEqualityComparer<TRaw>)null, rawReverseConvert, convertedEqualityComparer) { }
 
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions. Uses the specified equality comparison function to detect changes for the converted value.
         /// </summary>
-        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
-        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <c>null</c>.</param>
-        /// <param name="convertedEquals">The equality comparison function to use to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Must not be <c>null</c>.</param>
-        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/>, <paramref name="rawReverseConvert"/> or <paramref name="convertedEquals"/> are <c>null</c>.</exception>
+        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="convertedEquals">The equality comparison function to use to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Must not be <see langword="null"/>.</param>
+        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/>, <paramref name="rawReverseConvert"/> or <paramref name="convertedEquals"/> are <see langword="null"/>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TConvert, TRaw> rawReverseConvert, Func<TConvert, TConvert, bool> convertedEquals)
             : this(rawConvert, (IEqualityComparer<TRaw>)null, rawReverseConvert, convertedEquals) { }
 
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions. Uses the specified equality comparers to detect changes for the raw and converted values.
         /// </summary>
-        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
-        /// <param name="rawEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Specify <c>null</c> to use default equality checks.</param>
-        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <c>null</c>.</param>
-        /// <param name="convertedEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Specify <c>null</c> to use default equality checks.</param>
-        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/> or <paramref name="rawReverseConvert"/> are <c>null</c>.</exception>
+        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="rawEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Specify <see langword="null"/> to use default equality checks.</param>
+        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="convertedEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Specify <see langword="null"/> to use default equality checks.</param>
+        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/> or <paramref name="rawReverseConvert"/> are <see langword="null"/>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer, Func<TConvert, TRaw> rawReverseConvert, IEqualityComparer<TConvert> convertedEqualityComparer)
             : this(rawConvert, rawEqualityComparer, rawReverseConvert, !(convertedEqualityComparer is null) ? convertedEqualityComparer.Equals : GetEqualityCheckFunction<TConvert>()) { }
 
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions.
         /// </summary>
-        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
-        /// <param name="rawEquals">The equality comparison function to use to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Must not be <c>null</c>.</param>
-        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <c>null</c>.</param>
-        /// <param name="convertedEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Specify <c>null</c> to use default equality checks.</param>
-        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/>, <paramref name="rawEquals"/> or <paramref name="rawReverseConvert"/> are <c>null</c>.</exception>
+        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="rawEquals">The equality comparison function to use to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Must not be <see langword="null"/>.</param>
+        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="convertedEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Specify <see langword="null"/> to use default equality checks.</param>
+        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/>, <paramref name="rawEquals"/> or <paramref name="rawReverseConvert"/> are <see langword="null"/>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TRaw, TRaw, bool> rawEquals, Func<TConvert, TRaw> rawReverseConvert, IEqualityComparer<TConvert> convertedEqualityComparer)
             : this(rawConvert, rawEquals, rawReverseConvert, !(convertedEqualityComparer is null) ? convertedEqualityComparer.Equals : GetEqualityCheckFunction<TConvert>()) { }
 
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions.
         /// </summary>
-        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
-        /// <param name="rawEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Specify <c>null</c> to use default equality checks.</param>
-        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <c>null</c>.</param>
-        /// <param name="convertedEquals">The equality comparison function to use to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Must not be <c>null</c>.</param>
-        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/>, <paramref name="rawReverseConvert"/> or <paramref name="convertedEquals"/> are <c>null</c>.</exception>
+        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="rawEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Specify <see langword="null"/> to use default equality checks.</param>
+        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="convertedEquals">The equality comparison function to use to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Must not be <see langword="null"/>.</param>
+        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/>, <paramref name="rawReverseConvert"/> or <paramref name="convertedEquals"/> are <see langword="null"/>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer,
             Func<TConvert, TRaw> rawReverseConvert, Func<TConvert, TConvert, bool> convertedEquals)
             : base(rawConvert, rawEqualityComparer)
@@ -140,11 +140,11 @@ namespace THNETII.Common
         /// <summary>
         /// Creates a new duplex conversion tuple with the specified conversion functions for both directions.
         /// </summary>
-        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
-        /// <param name="rawEquals">The equality comparison function to use to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Must not be <c>null</c>.</param>
-        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <c>null</c>.</param>
-        /// <param name="convertedEquals">The equality comparison function to use to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Must not be <c>null</c>.</param>
-        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/>, <paramref name="rawEquals"/>, <paramref name="rawReverseConvert"/> or <paramref name="convertedEquals"/> are <c>null</c>.</exception>
+        /// <param name="rawConvert">The function to call to convert a value from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="rawEquals">The equality comparison function to use to check whether the cached value of <see cref="ConversionTuple{TRaw, TConvert}.RawValue"/> has been changed. Must not be <see langword="null"/>.</param>
+        /// <param name="rawReverseConvert">The function to call to convert a value from <typeparamref name="TConvert"/> to <typeparamref name="TRaw"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="convertedEquals">The equality comparison function to use to check whether the cached value of <see cref="ConvertedValue"/> has been changed. Must not be <see langword="null"/>.</param>
+        /// <exception cref="ArgumentNullException">Either <paramref name="rawConvert"/>, <paramref name="rawEquals"/>, <paramref name="rawReverseConvert"/> or <paramref name="convertedEquals"/> are <see langword="null"/>.</exception>
         public DuplexConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TRaw, TRaw, bool> rawEquals,
             Func<TConvert, TRaw> rawReverseConvert, Func<TConvert, TConvert, bool> convertedEquals)
             : base(rawConvert, rawEquals)
@@ -157,7 +157,7 @@ namespace THNETII.Common
         /// Determines whether the current instance is logically equal to the specified conversion tuple instance.
         /// </summary>
         /// <param name="other">The conversion tuple to check against.</param>
-        /// <returns><c>true</c> if the current instance is logically equal to <paramref name="other"/>; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the current instance is logically equal to <paramref name="other"/>; otherwise, <see langword="false"/>.</returns>
         /// <seealso cref="ConversionTuple{TRaw, TConvert}.Equals(ConversionTuple{TRaw, TConvert})"/>
         bool IEquatable<DuplexConversionTuple<TRaw, TConvert>>.Equals(DuplexConversionTuple<TRaw, TConvert> other) =>
             Equals(other);

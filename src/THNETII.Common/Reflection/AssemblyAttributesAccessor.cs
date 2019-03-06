@@ -16,7 +16,7 @@ namespace THNETII.Common.Reflection
         /// Gets copyright information.
         /// </summary>
         /// <value>
-        /// A string containing the copyright information, or <c>null</c> if none was specified when the assembly was compiled.
+        /// A string containing the copyright information, or <see langword="null"/> if none was specified when the assembly was compiled.
         /// </value>
         public string Copyright => GetAssemblyCustomAttribute(ref attribute_Copyright)?.Copyright.NotNullOrWhiteSpace(otherwise: null);
 
@@ -25,7 +25,7 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets trademark information.
         /// </summary>
-        /// <value>A String containing trademark information, or <c>null</c> if none was specified when the assembly was compiled.</value>
+        /// <value>A String containing trademark information, or <see langword="null"/> if none was specified when the assembly was compiled.</value>
         public string Trademark => GetAssemblyCustomAttribute(ref attribute_Trademark)?.Trademark.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyProductAttribute attribute_Product;
@@ -33,7 +33,7 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets product name information.
         /// </summary>
-        /// <value>A string containing the product name, or <c>null</c> if none was specified when the assembly was compiled.</value>
+        /// <value>A string containing the product name, or <see langword="null"/> if none was specified when the assembly was compiled.</value>
         public string Product => GetAssemblyCustomAttribute(ref attribute_Product)?.Product.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyCompanyAttribute attribute_Company;
@@ -41,7 +41,7 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets company name information.
         /// </summary>
-        /// <value>A string containing the company name, or <c>null</c> if none was specified when the assembly was compiled.</value>
+        /// <value>A string containing the company name, or <see langword="null"/> if none was specified when the assembly was compiled.</value>
         public string Company => GetAssemblyCustomAttribute(ref attribute_Company)?.Company.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyDescriptionAttribute attribute_Description;
@@ -49,7 +49,7 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets assembly description information.
         /// </summary>
-        /// <value>A string containing the assembly description, or <c>null</c> if none was specified when the assembly was compiled.</value>
+        /// <value>A string containing the assembly description, or <see langword="null"/> if none was specified when the assembly was compiled.</value>
         public string Description => GetAssemblyCustomAttribute(ref attribute_Description)?.Description.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyTitleAttribute attribute_Title;
@@ -57,7 +57,7 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets assembly title information.
         /// </summary>
-        /// <value>The assembly title, or <c>null</c> if none was specified when the assembly was compiled.</value>
+        /// <value>The assembly title, or <see langword="null"/> if none was specified when the assembly was compiled.</value>
         public string Title => GetAssemblyCustomAttribute(ref attribute_Title)?.Title.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyConfigurationAttribute attribute_Configuration;
@@ -65,7 +65,7 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets assembly configuration information.
         /// </summary>
-        /// <value>A string containing the assembly configuration information, or <c>null</c> if none was specified when the assembly was compiled.</value>
+        /// <value>A string containing the assembly configuration information, or <see langword="null"/> if none was specified when the assembly was compiled.</value>
         public string Configuration => GetAssemblyCustomAttribute(ref attribute_Configuration)?.Configuration.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyDefaultAliasAttribute attribute_DefaultAlias;
@@ -73,7 +73,7 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets default alias information.
         /// </summary>
-        /// <value>A string containing the default alias information, or <c>null</c> if none was specified when the assembly was compiled.</value>
+        /// <value>A string containing the default alias information, or <see langword="null"/> if none was specified when the assembly was compiled.</value>
         public string DefaultAlias => GetAssemblyCustomAttribute(ref attribute_DefaultAlias)?.DefaultAlias.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyInformationalVersionAttribute attribute_InformationalVersion;
@@ -81,7 +81,7 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets version information.
         /// </summary>
-        /// <value>A string containing the version information, or <c>null</c> if none was specified when the assembly was compiled.</value>
+        /// <value>A string containing the version information, or <see langword="null"/> if none was specified when the assembly was compiled.</value>
         public string InformationalVersion => GetAssemblyCustomAttribute(ref attribute_InformationalVersion)?.InformationalVersion.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyFileVersionAttribute attribute_FileVersion;
@@ -95,7 +95,7 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets the Win32 file version resource name.
         /// </summary>
-        /// <value>The parsed <see cref="Version"/> from <see cref="FileVersionString"/> if parsing succeeds; otherwise, <c>null</c>.</value>
+        /// <value>The parsed <see cref="Version"/> from <see cref="FileVersionString"/> if parsing succeeds; otherwise, <see langword="null"/>.</value>
         public Version FileVersion => Version.TryParse(FileVersionString, out Version fileVersion) ? fileVersion : null;
 
         private AssemblyCultureAttribute attribute_Culture;
@@ -103,7 +103,7 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets the supported culture of the attributed assembly.
         /// </summary>
-        /// <value>A string containing the name of the supported culture, or <c>null</c> if none was specified when the assembly was compiled.</value>
+        /// <value>A string containing the name of the supported culture, or <see langword="null"/> if none was specified when the assembly was compiled.</value>
         public string Culture => GetAssemblyCustomAttribute(ref attribute_Culture)?.Culture.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyVersionAttribute attribute_Version;
@@ -112,7 +112,7 @@ namespace THNETII.Common.Reflection
         /// Gets the version number of the attributed assembly.
         /// <para>Applications should use the <see cref="AssemblyName.Version"/> member of the <see cref="AssemblyName"/> property instead.</para>
         /// </summary>
-        /// <value>A string containing the assembly version number, or <c>null</c> if none was specified when the assembly was compiled.</value>
+        /// <value>A string containing the assembly version number, or <see langword="null"/> if none was specified when the assembly was compiled.</value>
         /// <remarks>The <see cref="AssemblyName.Version"/> member of the <see cref="AssemblyName"/> property should be used instead.</remarks>
         /// <seealso cref="VersionAttributeValue"/>
         /// <seealso cref="AssemblyName"/>
@@ -123,7 +123,7 @@ namespace THNETII.Common.Reflection
         /// Gets the version number of the attributed assembly.
         /// <para>Applications should use the <see cref="AssemblyName.Version"/> member of the <see cref="AssemblyName"/> property instead.</para>
         /// </summary>
-        /// <value>The assembly version number, or <c>null</c> if the assembly is not attributed with a version number, or <c>null</c> if the version could be parsed as a <see cref="Version"/> value.</value>
+        /// <value>The assembly version number, or <see langword="null"/> if the assembly is not attributed with a version number, or <see langword="null"/> if the version could be parsed as a <see cref="Version"/> value.</value>
         public Version VersionAttributeValue => Version.TryParse(VersionAttributeString, out Version version) ? version : null;
 
         private AssemblyKeyFileAttribute attribute_KeyFile;
@@ -132,7 +132,7 @@ namespace THNETII.Common.Reflection
         /// Gets the name of the file containing the key pair used to generate a strong name
         /// for the attributed assembly.
         /// </summary>
-        /// <value>A string containing the name of the file that contains the key pair, or <c>null</c> if none was specified when the assembly was compiled.</value>
+        /// <value>A string containing the name of the file that contains the key pair, or <see langword="null"/> if none was specified when the assembly was compiled.</value>
         public string KeyFile => GetAssemblyCustomAttribute(ref attribute_KeyFile)?.KeyFile.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyDelaySignAttribute attribute_DelaySign;
@@ -140,7 +140,7 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets a value indicating whether or not the assembly is not fully signed when created.
         /// </summary>
-        /// <value><c>true</c> if the assembly has been built as delay-signed; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if the assembly has been built as delay-signed; otherwise, <see langword="false"/>.</value>
         public bool DelaySign => GetAssemblyCustomAttribute(ref attribute_DelaySign)?.DelaySign ?? false;
 
         private AssemblySignatureKeyAttribute attribute_SignatureKey;
@@ -148,13 +148,13 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Gets the public key for the strong name used to sign the assembly.
         /// </summary>
-        /// <value>The public key for the assembly, or <c>null</c> if the assembly was not signed when it was compiled.</value>
+        /// <value>The public key for the assembly, or <see langword="null"/> if the assembly was not signed when it was compiled.</value>
         public string SignaturePublicKey => GetAssemblyCustomAttribute(ref attribute_SignatureKey)?.PublicKey.NotNullOrWhiteSpace(otherwise: null);
 
         /// <summary>
         /// Gets the countersignature for the strong name for the assembly.
         /// </summary>
-        /// <value>The countersignature for the signature key, or <c>null</c> if the assembly was not signed when it was compiled.</value>
+        /// <value>The countersignature for the signature key, or <see langword="null"/> if the assembly was not signed when it was compiled.</value>
         public string CounterSignature => GetAssemblyCustomAttribute(ref attribute_SignatureKey)?.Countersignature.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyKeyNameAttribute attribute_KeyName;
@@ -163,7 +163,7 @@ namespace THNETII.Common.Reflection
         /// Gets the name of the container having the key pair that is used to generate a
         /// strong name for the attributed assembly.
         /// </summary>
-        /// <value>A string containing the name of the container that has the relevant key pair, or <c>null</c> if the assembly was not signed when it was compiled.</value>
+        /// <value>A string containing the name of the container that has the relevant key pair, or <see langword="null"/> if the assembly was not signed when it was compiled.</value>
         public string KeyName => GetAssemblyCustomAttribute(ref attribute_KeyName)?.KeyName.NotNullOrWhiteSpace(otherwise: null);
 
         private AssemblyName assembly_name;
@@ -176,8 +176,8 @@ namespace THNETII.Common.Reflection
         /// <summary>
         /// Creates a new Assembly Attributes Accessor instance for the specified assembly.
         /// </summary>
-        /// <param name="assembly">The assembly from which the attributes are accessed. Must not be <c>null</c>.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="assembly"/> is <c>null</c>.</exception>
+        /// <param name="assembly">The assembly from which the attributes are accessed. Must not be <see langword="null"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="assembly"/> is <see langword="null"/>.</exception>
         public AssemblyAttributesAccessor(Assembly assembly)
         {
             this.assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));

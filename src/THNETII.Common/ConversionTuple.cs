@@ -25,7 +25,7 @@ namespace THNETII.Common
         /// Flag that signals whether the local cache of the tuple has been previously
         /// written to during the Tuple's lifetime.
         /// </summary>
-        /// <value><c>true</c> if <see cref="cache"/> has been initialized; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if <see cref="cache"/> has been initialized; otherwise, <see langword="false"/>.</value>
         /// <remarks>
         /// This flag prevents conversion errors for intial default-value assignments.
         /// When the <see cref="ConversionTuple{TRaw, TConvert}"/> instance is first created
@@ -138,27 +138,27 @@ namespace THNETII.Common
         /// Creates a new conversion tuple with the specified conversion function.
         /// <para>Optionally, an EqualityComparer can be specified that is used to determine whether the raw value of the conversion has changed.</para>
         /// </summary>
-        /// <param name="rawConvert">The conversion function to use, to convert values from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
-        /// <param name="rawEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="RawValue"/> has been changed. Omit or specify <c>null</c> to use default equality checks.</param>
+        /// <param name="rawConvert">The conversion function to use, to convert values from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="rawEqualityComparer">An optional equality comparer, to check whether the cached value of <see cref="RawValue"/> has been changed. Omit or specify <see langword="null"/> to use default equality checks.</param>
         /// <remarks>
         /// The conversion function <paramref name="rawConvert"/> is only invoked when accessing <see cref="ConvertedValue"/> and then only if the value of <see cref="RawValue"/> has changed since the last access to <see cref="ConvertedValue"/>.
         /// <para>To determine whether <see cref="RawValue"/> has changed, the <see cref="ConversionTuple{TRaw, TConvert}"/> class caches the <typeparamref name="TRaw"/> value that was used in the last conversion and compares it for equality against the current value of <see cref="RawValue"/>.</para>
-        /// <para>If no custom <see cref="IEqualityComparer{TRaw}"/> is specified in <paramref name="rawEqualityComparer"/> or if <paramref name="rawEqualityComparer"/> is <c>null</c>, a reference equality check (<see cref="object.ReferenceEquals(object, object)"/> is used if <typeparamref name="TRaw"/> is a reference type. If <typeparamref name="TRaw"/> is a value type, <see cref="EqualityComparer{TRaw}.Default"/> is used as the equality comparer.</para>
+        /// <para>If no custom <see cref="IEqualityComparer{TRaw}"/> is specified in <paramref name="rawEqualityComparer"/> or if <paramref name="rawEqualityComparer"/> is <see langword="null"/>, a reference equality check (<see cref="object.ReferenceEquals(object, object)"/> is used if <typeparamref name="TRaw"/> is a reference type. If <typeparamref name="TRaw"/> is a value type, <see cref="EqualityComparer{TRaw}.Default"/> is used as the equality comparer.</para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="rawConvert"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="rawConvert"/> is <see langword="null"/>.</exception>
         public ConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer = null)
             : this(rawConvert, (!(rawEqualityComparer is null) ? rawEqualityComparer.Equals : GetEqualityCheckFunction<TRaw>())) { }
 
         /// <summary>
         /// Creates a new conversion tuple with the specified conversion and equality functions.
         /// </summary>
-        /// <param name="rawConvert">The conversion function to use, to convert values from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <c>null</c>.</param>
-        /// <param name="rawEquals">An equality check function that determines equality between two values or instances of the <typeparamref name="TRaw"/> type. Must not be <c>null</c>.</param>
+        /// <param name="rawConvert">The conversion function to use, to convert values from <typeparamref name="TRaw"/> to <typeparamref name="TConvert"/>. Must not be <see langword="null"/>.</param>
+        /// <param name="rawEquals">An equality check function that determines equality between two values or instances of the <typeparamref name="TRaw"/> type. Must not be <see langword="null"/>.</param>
         /// <remarks>
         /// The conversion function <paramref name="rawConvert"/> is only invoked when accessing <see cref="ConvertedValue"/> and then only if the value of <see cref="RawValue"/> has changed since the last access to <see cref="ConvertedValue"/>.
         /// <para>To determine whether <see cref="RawValue"/> has changed, the <see cref="ConversionTuple{TRaw, TConvert}"/> class caches the <typeparamref name="TRaw"/> value that was used in the last conversion and compares it for equality against the current value of <see cref="RawValue"/>.</para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="rawConvert"/> or <paramref name="rawEquals"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="rawConvert"/> or <paramref name="rawEquals"/> is <see langword="null"/>.</exception>
         public ConversionTuple(Func<TRaw, TConvert> rawConvert, Func<TRaw, TRaw, bool> rawEquals)
         {
             this.rawConvert = rawConvert ?? throw new ArgumentNullException(nameof(rawConvert));
@@ -169,13 +169,13 @@ namespace THNETII.Common
         /// Determines whether the current conversion tuple is equal to another object.
         /// </summary>
         /// <param name="obj">The object to compare with the current instance.</param>
-        /// <returns><c>true</c> if this instance logically refers to the same conversion tuple as <paramref name="obj"/>; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if this instance logically refers to the same conversion tuple as <paramref name="obj"/>; otherwise, <see langword="false"/>.</returns>
         /// <remarks>
         /// Equality between to conversion tuple instances is determined by reference equality or by satifying all of the following characteristics:
         /// <list type="number">
         /// <item><term>Reference equality of the raw comparsion function.</term></item>
         /// <item><term>Reference equality of the raw conversion function.</term></item>
-        /// <item><term>Applying the raw equality function to <see cref="rawValue"/> of both instances returns <c>true</c>.</term></item>
+        /// <item><term>Applying the raw equality function to <see cref="rawValue"/> of both instances returns <see langword="true"/>.</term></item>
         /// </list>
         /// </remarks>
         public override bool Equals(object obj)
@@ -188,7 +188,7 @@ namespace THNETII.Common
         /// <summary>
         /// Returns a hash code for the current instance.
         /// </summary>
-        /// <returns>The hash code obtained by invoking <see cref="object.GetHashCode"/> on <see cref="rawValue"/>, or <c>0</c> (zero) if <see cref="rawValue"/> is <c>null</c>.</returns>
+        /// <returns>The hash code obtained by invoking <see cref="object.GetHashCode"/> on <see cref="rawValue"/>, or <c>0</c> (zero) if <see cref="rawValue"/> is <see langword="null"/>.</returns>
         public override int GetHashCode() => rawValue?.GetHashCode() ?? default;
 
         /// <summary>
@@ -196,13 +196,13 @@ namespace THNETII.Common
         /// </summary>
         /// <param name="left">The conversion tuple instance on the left side of the operator.</param>
         /// <param name="right">The conversion tuple instance on the right side of the operator.</param>
-        /// <returns><c>true</c> if <paramref name="left"/> is logically equal to <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if <paramref name="left"/> is logically equal to <paramref name="right"/>; otherwise, <see langword="false"/>.</returns>
         /// <remarks>
         /// Equality between to conversion tuple instances is determined by reference equality or by satifying all of the following characteristics:
         /// <list type="number">
         /// <item><term>Reference equality of the raw comparsion function.</term></item>
         /// <item><term>Reference equality of the raw conversion function.</term></item>
-        /// <item><term>Applying the raw equality function to <see cref="rawValue"/> of both instances returns <c>true</c>.</term></item>
+        /// <item><term>Applying the raw equality function to <see cref="rawValue"/> of both instances returns <see langword="true"/>.</term></item>
         /// </list>
         /// </remarks>
         public static bool operator ==(ConversionTuple<TRaw, TConvert> left, ConversionTuple<TRaw, TConvert> right)
@@ -224,13 +224,13 @@ namespace THNETII.Common
         /// </summary>
         /// <param name="left">The conversion tuple instance on the left side of the operator.</param>
         /// <param name="right">The conversion tuple instance on the right side of the operator.</param>
-        /// <returns><c>true</c> if <paramref name="left"/> is logically not equal to <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if <paramref name="left"/> is logically not equal to <paramref name="right"/>; otherwise, <see langword="false"/>.</returns>
         /// <remarks>
         /// Inequality between to conversion tuple instances is determined by reference inequality and by satifying any of the following characteristics:
         /// <list type="number">
         /// <item><term>Reference inequality of the raw comparsion function.</term></item>
         /// <item><term>Reference inequality of the raw conversion function.</term></item>
-        /// <item><term>Applying the raw equality function to <see cref="rawValue"/> of both instances returns <c>false</c>.</term></item>
+        /// <item><term>Applying the raw equality function to <see cref="rawValue"/> of both instances returns <see langword="false"/>.</term></item>
         /// </list>
         /// </remarks>
         public static bool operator !=(ConversionTuple<TRaw, TConvert> left, ConversionTuple<TRaw, TConvert> right)
@@ -251,13 +251,13 @@ namespace THNETII.Common
         /// Determines whether the current instance is logically equal to the specified conversion tuple instance.
         /// </summary>
         /// <param name="other">The conversion tuple to check against.</param>
-        /// <returns><c>true</c> if the current instance is logically equal to <paramref name="other"/>; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the current instance is logically equal to <paramref name="other"/>; otherwise, <see langword="false"/>.</returns>
         /// <remarks>
         /// Equality between to conversion tuple instances is determined by reference equality or by satifying all of the following characteristics:
         /// <list type="number">
         /// <item><term>Reference equality of the raw comparsion function.</term></item>
         /// <item><term>Reference equality of the raw conversion function.</term></item>
-        /// <item><term>Applying the raw equality function to <see cref="rawValue"/> of both instances returns <c>true</c>.</term></item>
+        /// <item><term>Applying the raw equality function to <see cref="rawValue"/> of both instances returns <see langword="true"/>.</term></item>
         /// </list>
         /// </remarks>
         public bool Equals(ConversionTuple<TRaw, TConvert> other) => this == other;

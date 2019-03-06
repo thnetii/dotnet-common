@@ -27,8 +27,8 @@ namespace THNETII.DependencyInjection.Nesting
         /// parent service container and the nested service collections.
         /// </summary>
         /// <param name="rootServiceProvider">The parent container that is shared by the nested containers that are to be managed.</param>
-        /// <param name="nestedServices">The nested service collections that have been registered for the specified root service provider. Must not be <c>null</c>.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="nestedServices"/> is <c>null</c>.</exception>
+        /// <param name="nestedServices">The nested service collections that have been registered for the specified root service provider. Must not be <see langword="null"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="nestedServices"/> is <see langword="null"/>.</exception>
         public NestedSingletonServicesManager(IServiceProvider rootServiceProvider,
             IEnumerable<INestedServiceCollection<TFamily, TKey>> nestedServices)
         {

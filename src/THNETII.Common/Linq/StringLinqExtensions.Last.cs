@@ -11,7 +11,7 @@ namespace THNETII.Common.Linq
         /// </summary>
         /// <param name="s">The string to return the last character of.</param>
         /// <returns>The last character in <paramref name="s"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="s"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="s"/> is <see langword="null"/>.</exception>
         /// <exception cref="InvalidOperationException"><paramref name="s"/> is empty.</exception>
         /// <seealso cref="Enumerable.Last{TSource}(IEnumerable{TSource})"/>
         public static char Last(this string s)
@@ -30,7 +30,7 @@ namespace THNETII.Common.Linq
         /// <param name="s">The string to return the last character of.</param>
         /// <param name="default">The value to return if <paramref name="s"/> is empty.</param>
         /// <returns>The last character in <paramref name="s"/>; or <paramref name="default"/> if <paramref name="s"/> is empty.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="s"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="s"/> is <see langword="null"/>.</exception>
         /// <seealso cref="Enumerable.LastOrDefault{TSource}(IEnumerable{TSource})"/>
         public static char LastOrDefault(this string s, char @default = default) =>
             s.LastOrDefault(() => @default);
@@ -42,7 +42,7 @@ namespace THNETII.Common.Linq
         /// <param name="s">The string to return the last character of.</param>
         /// <param name="defaultFactory">The function to produce the return value if <paramref name="s"/> is empty.</param>
         /// <returns>The last character in <paramref name="s"/>; or the return value of <paramref name="defaultFactory"/> if <paramref name="s"/> is empty.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="s"/> is <c>null</c>.<br/><em>-or-</em><br/><paramref name="s"/> is empty and <paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="s"/> is <see langword="null"/>.<br/><em>-or-</em><br/><paramref name="s"/> is empty and <paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         /// <seealso cref="Enumerable.LastOrDefault{TSource}(IEnumerable{TSource})"/>
         public static char LastOrDefault(this string s, Func<char> defaultFactory)
         {

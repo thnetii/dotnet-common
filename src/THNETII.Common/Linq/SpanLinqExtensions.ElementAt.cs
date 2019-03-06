@@ -63,7 +63,7 @@ namespace THNETII.Common.Linq
         /// otherwise, a read-only reference to the element at the specified position in the span.
         /// </returns>
         /// <seealso cref="Enumerable.ElementAtOrDefault{TSource}(IEnumerable{TSource}, int)"/>
-        /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         public static ref readonly T ElementAtOrDefault<T>(this ReadOnlySpan<T> span, int index, RefReadOnlyFunc<T> defaultFactory)
         {
             if (index < 0 || index >= span.Length)
@@ -126,7 +126,7 @@ namespace THNETII.Common.Linq
         /// otherwise, a read-only reference to the element at the specified position in the span.
         /// </returns>
         /// <seealso cref="Enumerable.ElementAtOrDefault{TSource}(IEnumerable{TSource}, int)"/>
-        /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         public static ref T ElementAtOrDefault<T>(this Span<T> span, int index, RefFunc<T> defaultFactory)
         {
             if (index < 0 || index >= span.Length)

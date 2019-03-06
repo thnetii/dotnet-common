@@ -25,7 +25,7 @@ namespace THNETII.Common.Collections.Generic
         /// </summary>
         /// <param name="x">The first object reference.</param>
         /// <param name="y">The second object reference.</param>
-        /// <returns><c>true</c> if <paramref name="x"/> is the same instance as <paramref name="y"/> or if both are <c>null</c>; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if <paramref name="x"/> is the same instance as <paramref name="y"/> or if both are <see langword="null"/>; otherwise, <see langword="false"/>.</returns>
         public bool Equals(T x, T y) => StaticEquals(x, y);
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace THNETII.Common.Collections.Generic
         /// </summary>
         /// <param name="x">The first object reference.</param>
         /// <param name="y">The second object reference.</param>
-        /// <returns><c>true</c> if <paramref name="x"/> is the same instance as <paramref name="y"/> or if both are <c>null</c>; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if <paramref name="x"/> is the same instance as <paramref name="y"/> or if both are <see langword="null"/>; otherwise, <see langword="false"/>.</returns>
         [SuppressMessage("Microsoft.Design", "CA1000")]
         public static bool StaticEquals(T x, T y) => ReferenceEquals(x, y);
 
@@ -41,7 +41,7 @@ namespace THNETII.Common.Collections.Generic
         /// Serves as a hash function for the specified object for hashing algorithms and data structures, such as a hash table.
         /// </summary>
         /// <param name="obj">The object for which to get a hash code.</param>
-        /// <returns>A hash code for the specified object, or <c>0</c> (zero) if <paramref name="obj"/> is <c>null</c>.</returns>
+        /// <returns>A hash code for the specified object, or <c>0</c> (zero) if <paramref name="obj"/> is <see langword="null"/>.</returns>
         public int GetHashCode(T obj) => obj?.GetHashCode() ?? 0;
     }
 }

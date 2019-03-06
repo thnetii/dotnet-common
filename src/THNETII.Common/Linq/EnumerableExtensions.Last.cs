@@ -13,7 +13,7 @@ namespace THNETII.Common.Linq
         /// <param name="enumerable">An <see cref="IEnumerable{T}"/> to return the last element of.</param>
         /// <param name="default">The value to return if <paramref name="enumerable"/> contains no elements.</param>
         /// <returns><paramref name="default"/> if <paramref name="enumerable"/> is empty; otherwise, the last element in <paramref name="enumerable"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> is <see langword="null"/>.</exception>
         /// <seealso cref="System.Linq.Enumerable.LastOrDefault{TSource}(IEnumerable{TSource})"/>
         public static T LastOrDefault<T>(this IEnumerable<T> enumerable, T @default) =>
             enumerable.LastOrDefault(() => @default);
@@ -25,7 +25,7 @@ namespace THNETII.Common.Linq
         /// <param name="enumerable">An <see cref="IEnumerable{T}"/> to return the last element of.</param>
         /// <param name="defaultFactory">The function to prodruce the return value if <paramref name="enumerable"/> contains no elements.</param>
         /// <returns>The return value of <paramref name="defaultFactory"/> if <paramref name="enumerable"/> is empty; otherwise, the last element in <paramref name="enumerable"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> or <paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> or <paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         /// <seealso cref="System.Linq.Enumerable.LastOrDefault{TSource}(IEnumerable{TSource})"/>
         public static T LastOrDefault<T>(this IEnumerable<T> enumerable, Func<T> defaultFactory)
         {

@@ -47,7 +47,7 @@ namespace THNETII.Common.Linq
         /// A read-only reference to the return value of <paramref name="defaultFactory"/> if <paramref name="span"/> is empty;
         /// otherwise, a read-only reference to the last element in <paramref name="span"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="span"/> is empty and <paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="span"/> is empty and <paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         public static ref readonly T LastOrDefault<T>(this ReadOnlySpan<T> span, RefReadOnlyFunc<T> defaultFactory)
         {
             if (span.IsEmpty)
@@ -98,7 +98,7 @@ namespace THNETII.Common.Linq
         /// A reference to the return value of <paramref name="defaultFactory"/> if <paramref name="span"/> is empty;
         /// otherwise, a reference to the last element in <paramref name="span"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="span"/> is empty and <paramref name="defaultFactory"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="span"/> is empty and <paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         public static ref T LastOrDefault<T>(this Span<T> span, RefFunc<T> defaultFactory)
         {
             if (span.IsEmpty)

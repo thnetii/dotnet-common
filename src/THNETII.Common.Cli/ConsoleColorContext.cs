@@ -39,7 +39,7 @@ namespace THNETII.Common.Cli
         /// <summary>
         /// Whether this context is configured to set <see cref="Console.ForegroundColor"/> when <see cref="Set"/> is invoked.
         /// </summary>
-        /// <value><c>true</c> if the context will set the foreground color; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if the context will set the foreground color; otherwise, <see langword="false"/>.</value>
         public bool ChangeForegroundColor => fgColor.HasValue;
 
         /// <summary>
@@ -47,12 +47,12 @@ namespace THNETII.Common.Cli
         /// </summary>
         /// <value>
         /// <para>
-        /// If <see cref="ChangeForegroundColor"/> is <c>true</c>, the
+        /// If <see cref="ChangeForegroundColor"/> is <see langword="true"/>, the
         /// property value is the <see cref="ConsoleColor"/> value that is set
         /// as the foreground console color when <see cref="Set"/> is called.
         /// </para>
         /// <para>
-        /// If <see cref="ChangeForegroundColor"/> is <c>false</c>, the current
+        /// If <see cref="ChangeForegroundColor"/> is <see langword="false"/>, the current
         /// value of <see cref="Console.ForegroundColor"/> is returned.
         /// </para>
         /// </value>
@@ -63,7 +63,7 @@ namespace THNETII.Common.Cli
         /// <summary>
         /// Whether this context is configured to reset <see cref="Console.ForegroundColor"/> to its original value when <see cref="Reset"/> is invoked.
         /// </summary>
-        /// <value><c>true</c> if the context will reset the foreground color; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if the context will reset the foreground color; otherwise, <see langword="false"/>.</value>
         public bool ResetForegroundColor => fgColorOriginal.HasValue;
 
         /// <summary>
@@ -71,12 +71,12 @@ namespace THNETII.Common.Cli
         /// </summary>
         /// <value>
         /// <para>
-        /// If <see cref="ResetForegroundColor"/> is <c>true</c>, the
+        /// If <see cref="ResetForegroundColor"/> is <see langword="true"/>, the
         /// property value is the original <see cref="ConsoleColor"/> value to which
         /// the foreground console color will be reset when <see cref="Reset"/> is called.
         /// </para>
         /// <para>
-        /// If <see cref="ResetForegroundColor"/> is <c>false</c>, the current
+        /// If <see cref="ResetForegroundColor"/> is <see langword="false"/>, the current
         /// value of <see cref="Console.ForegroundColor"/> is returned.
         /// </para>
         /// </value>
@@ -87,7 +87,7 @@ namespace THNETII.Common.Cli
         /// <summary>
         /// Whether calling <see cref="Set"/> will change set the value of <see cref="Console.BackgroundColor"/>.
         /// </summary>
-        /// <value><c>true</c> if the context will set the foreground color; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if the context will set the foreground color; otherwise, <see langword="false"/>.</value>
         public bool ChangeBackgroundColor => bgColor.HasValue;
 
         /// <summary>
@@ -95,12 +95,12 @@ namespace THNETII.Common.Cli
         /// </summary>
         /// <value>
         /// <para>
-        /// If <see cref="ChangeBackgroundColor"/> is <c>true</c>, the
+        /// If <see cref="ChangeBackgroundColor"/> is <see langword="true"/>, the
         /// property value is the <see cref="ConsoleColor"/> value that is set
         /// as the background console color when <see cref="Set"/> is called.
         /// </para>
         /// <para>
-        /// If <see cref="ChangeBackgroundColor"/> is <c>false</c>, the current
+        /// If <see cref="ChangeBackgroundColor"/> is <see langword="false"/>, the current
         /// value of <see cref="Console.BackgroundColor"/> is returned.
         /// </para>
         /// </value>
@@ -111,7 +111,7 @@ namespace THNETII.Common.Cli
         /// <summary>
         /// Whether this context is configured to reset <see cref="Console.BackgroundColor"/> to its original value when <see cref="Reset"/> is invoked.
         /// </summary>
-        /// <value><c>true</c> if the context will reset the foreground color; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if the context will reset the foreground color; otherwise, <see langword="false"/>.</value>
         public bool ResetBackgroundColor => bgColorOriginal.HasValue;
 
         /// <summary>
@@ -119,12 +119,12 @@ namespace THNETII.Common.Cli
         /// </summary>
         /// <value>
         /// <para>
-        /// If <see cref="ResetForegroundColor"/> is <c>true</c>, the
+        /// If <see cref="ResetForegroundColor"/> is <see langword="true"/>, the
         /// property value is the original <see cref="ConsoleColor"/> value to which
         /// the background console color will be reset when <see cref="Reset"/> is called.
         /// </para>
         /// <para>
-        /// If <see cref="ResetForegroundColor"/> is <c>false</c>, the current
+        /// If <see cref="ResetForegroundColor"/> is <see langword="false"/>, the current
         /// value of <see cref="Console.BackgroundColor"/> is returned.
         /// </para>
         /// </value>
@@ -136,11 +136,11 @@ namespace THNETII.Common.Cli
         /// Initializes a new Console Color context with the specified <see cref="ConsoleColor"/> values,
         /// and optionally applies the requested colors immediately.
         /// </summary>
-        /// <param name="fgColor">The foreground console color to set, or <c>null</c> if the foreground color should not be modified.</param>
-        /// <param name="bgColor">The background console color to set, or <c>null</c> if the background color should not be modified.</param>
-        /// <param name="fgColorOriginal">The original foregorund console color to reset to when the context is disposed, or <c>null</c> if the foreground color should not be reset.</param>
-        /// <param name="bgColorOriginal">The original background console color to reset to when the context is disposed, or <c>null</c> if the background color should not be reset.</param>
-        /// <param name="set">If <c>true</c> (default), the context will be applied by calling <see cref="Set"/> immediately. If <c>false</c>, <see cref="Set"/> must be invoked manually at an appropiate time.</param>
+        /// <param name="fgColor">The foreground console color to set, or <see langword="null"/> if the foreground color should not be modified.</param>
+        /// <param name="bgColor">The background console color to set, or <see langword="null"/> if the background color should not be modified.</param>
+        /// <param name="fgColorOriginal">The original foregorund console color to reset to when the context is disposed, or <see langword="null"/> if the foreground color should not be reset.</param>
+        /// <param name="bgColorOriginal">The original background console color to reset to when the context is disposed, or <see langword="null"/> if the background color should not be reset.</param>
+        /// <param name="set">If <see langword="true"/> (default), the context will be applied by calling <see cref="Set"/> immediately. If <see langword="false"/>, <see cref="Set"/> must be invoked manually at an appropiate time.</param>
         /// <exception cref="InvalidOperationException">
         /// The color specified for either the foreground color or the background color is not a valid member of <see cref="ConsoleColor"/>.
         /// The <see cref="Exception.InnerException"/> property contains the <see cref="ArgumentException"/> thrown from the set invocation to <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.
@@ -168,8 +168,8 @@ namespace THNETII.Common.Cli
         /// Initializes a new Console Color context with the specified <see cref="ConsoleColor"/> values,
         /// applying the requested colors immediately and configuring the context to reset the colors on disposal.
         /// </summary>
-        /// <param name="fgColor">The foreground console color to set, or <c>null</c> if the foreground color should not be modified.</param>
-        /// <param name="bgColor">The background console color to set, or <c>null</c> if the background color should not be modified.</param>
+        /// <param name="fgColor">The foreground console color to set, or <see langword="null"/> if the foreground color should not be modified.</param>
+        /// <param name="bgColor">The background console color to set, or <see langword="null"/> if the background color should not be modified.</param>
         /// <exception cref="System.Security.SecurityException">The user does not have permission to get or set the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
         /// <exception cref="System.IO.IOException">An I/O error occurred while attempting to read from or write to the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
         /// <exception cref="InvalidOperationException">
