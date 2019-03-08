@@ -123,15 +123,25 @@ namespace THNETII.Networking.Http
         {
             var readStreamTask = httpContent.ThrowIfNull(nameof(httpContent))
                 .ReadAsStreamAsync();
+            Encoding encoding = GetContentCharsetEncoding(httpContent, defaultEncoding);
+            var stream = await readStreamTask.ConfigureAwait(continueOnCapturedContext: false);
+            return encoding is null ? new StreamReader(stream) : new StreamReader(stream, encoding);
+        }
+
+        private static Encoding GetContentCharsetEncoding(HttpContent httpContent, Encoding defaultEncoding = null)
+        {
             var charset = httpContent.Headers.ContentType?.CharSet;
             Encoding encoding = defaultEncoding;
             if (!string.IsNullOrWhiteSpace(charset))
             {
-                try { encoding = Encoding.GetEncoding(charset); }
+                try
+                {
+                    encoding = Encoding.GetEncoding(charset) ?? defaultEncoding;
+                }
                 catch (ArgumentException) { }
             }
-            var stream = await readStreamTask.ConfigureAwait(continueOnCapturedContext: false);
-            return encoding is null ? new StreamReader(stream) : new StreamReader(stream, encoding);
+
+            return encoding;
         }
     }
 }
