@@ -30,12 +30,25 @@ namespace THNETII.Networking.Http
         }
 
         /// <summary>
+        /// Checks if the media type header value indicates a textual media type.
+        /// </summary>
+        /// <param name="header">The <see cref="MediaTypeHeaderValue"/> to check.</param>
+        /// <param name="trueIfNoMediaType">The value to return if <paramref name="header"/> does not indicate any media type.</param>
+        /// <returns>
+        /// <see langword="true"/> if the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Text"/>.<br/>
+        /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <see langword="null"/> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <see langword="null"/> or only contains white-space characters.<br/>
+        /// Otherwise, <see langword="false"/>.
+        /// </returns>
+        public static bool IsText(this MediaTypeHeaderValue header, bool trueIfNoMediaType = true)
+            => ContainsMediaType(header, HttpWellKnownMediaType.Text, trueIfNoMediaType);
+
+        /// <summary>
         /// Checks if the media type header value indicates an HTML-like media type.
         /// </summary>
         /// <param name="header">The <see cref="MediaTypeHeaderValue"/> to check.</param>
         /// <param name="trueIfNoMediaType">The value to return if <paramref name="header"/> does not indicate any media type.</param>
         /// <returns>
-        /// <see langword="true"/> if <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Html"/>.<br/>
+        /// <see langword="true"/> if the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Html"/>.<br/>
         /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <see langword="null"/> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <see langword="null"/> or only contains white-space characters.<br/>
         /// Otherwise, <see langword="false"/>.
         /// </returns>
@@ -48,7 +61,7 @@ namespace THNETII.Networking.Http
         /// <param name="header">The <see cref="MediaTypeHeaderValue"/> to check.</param>
         /// <param name="trueIfNoMediaType">The value to return if <paramref name="header"/> does not indicate any media type.</param>
         /// <returns>
-        /// <see langword="true"/> if <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Xml"/>.<br/>
+        /// <see langword="true"/> if the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Json"/>.<br/>
         /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <see langword="null"/> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <see langword="null"/> or only contains white-space characters.<br/>
         /// Otherwise, <see langword="false"/>.
         /// </returns>
@@ -61,7 +74,7 @@ namespace THNETII.Networking.Http
         /// <param name="header">The <see cref="MediaTypeHeaderValue"/> to check.</param>
         /// <param name="trueIfNoMediaType">The value to return if <paramref name="header"/> does not indicate any media type.</param>
         /// <returns>
-        /// <see langword="true"/> if <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Json"/>.<br/>
+        /// <see langword="true"/> if the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> contains <see cref="HttpWellKnownMediaType.Xml"/>.<br/>
         /// <paramref name="trueIfNoMediaType"/> if <paramref name="header"/> is <see langword="null"/> or the <see cref="MediaTypeHeaderValue.MediaType"/> property of <paramref name="header"/> is <see langword="null"/> or only contains white-space characters.<br/>
         /// Otherwise, <see langword="false"/>.
         /// </returns>

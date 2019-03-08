@@ -14,6 +14,28 @@ namespace THNETII.Networking.Http
     public static class HttpContentExtensions
     {
         /// <summary>
+        /// Checks whether the HTTP content represents Text content.
+        /// </summary>
+        /// <param name="httpContent">The HTTP Content to check. Must not be <see langword="null"/>.</param>
+        /// <param name="trueIfNoContentType">
+        /// An optional value controlling what value to return if <paramref name="httpContent"/> has no Content-Type information.
+        /// <see langword="true"/> by default.
+        /// </param>
+        /// <returns>
+        /// <see langword="true"/> if the <c>Content-Type</c> header of <paramref name="httpContent"/> indicates text content.
+        /// If <paramref name="httpContent"/> has no <c>Content-Type</c> information, <paramref name="trueIfNoContentType"/> is returned.
+        /// Otherwise, <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <see langword="null"/>.</exception>
+        /// <seealso cref="HttpContentHeaders.ContentType"/>
+        public static bool IsText(this HttpContent httpContent, bool trueIfNoContentType = true)
+        {
+            if (httpContent is null)
+                return false;
+            return httpContent.Headers.ContentType.IsText(trueIfNoContentType);
+        }
+
+        /// <summary>
         /// Checks whether the HTTP content represents HTML content.
         /// </summary>
         /// <param name="httpContent">The HTTP Content to check. Must not be <see langword="null"/>.</param>
