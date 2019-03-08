@@ -83,6 +83,7 @@ namespace THNETII.Networking.Http
         /// Serialize the HTTP content and return an appropiate stream reader instance for reading the content as an asynchronous operation.
         /// </summary>
         /// <param name="httpContent">The HTTP content to read.</param>
+        /// <param name="defaultEncoding">The default encoding to use, if none specified. May be <see langword="null"/> to guess correct encoding.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
         /// <remarks>
         /// This method evaluates the <see cref="HttpContentHeaders.ContentType"/> header of <paramref name="httpContent"/>
@@ -96,12 +97,12 @@ namespace THNETII.Networking.Http
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <see langword="null"/>.</exception>
         /// <seealso cref="HttpContent.ReadAsStreamAsync"/>
-        public static async Task<StreamReader> ReadAsStreamReaderAsync(this HttpContent httpContent)
+        public static async Task<StreamReader> ReadAsStreamReaderAsync(this HttpContent httpContent, Encoding defaultEncoding = null)
         {
             var readStreamTask = httpContent.ThrowIfNull(nameof(httpContent))
                 .ReadAsStreamAsync();
             var charset = httpContent.Headers.ContentType?.CharSet;
-            Encoding encoding = null;
+            Encoding encoding = defaultEncoding;
             if (!string.IsNullOrWhiteSpace(charset))
             {
                 try { encoding = Encoding.GetEncoding(charset); }
