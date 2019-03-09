@@ -52,11 +52,53 @@ namespace THNETII.Common.Cli
         /// }
         /// </code>
         /// </example>
-        public static async Task RunAsync(Func<CancellationToken, Task> asyncMain)
+        public static Task RunAsync(Func<CancellationToken, Task> asyncMain)
         {
             if (asyncMain is null)
                 throw new ArgumentNullException(nameof(asyncMain));
+            return RunAsyncImpl(async cancelToken =>
+            {
+                await asyncMain(cancelToken);
+                return ProcessExitCode.ExitSuccess;
+            });
+        }
 
+        /// <summary>
+        /// Executes the specified main-function asynchronously, while listening
+        /// for the cancel key press event to cancel execution.
+        /// </summary>
+        /// <param name="asyncMain">The function to execute. Must not be <see langword="null"/>.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous execution of <paramref name="asyncMain"/> returning the process exit code upon completion.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="asyncMain"/> is <see langword="null"/>.</exception>
+        /// <exception cref="OperationCanceledException">The <see cref="Console.CancelKeyPress"/> event was triggered, causing execution to be cancelled.</exception>
+        /// <example>
+        /// <code lang="CSharp">
+        /// using System;
+        /// using System.Threading;
+        /// using System.Threading.Tasks;
+        /// using THNETII.Common;
+        /// using THNETII.Common.Cli;
+        /// 
+        /// static class Program
+        /// {
+        ///     public static Task Main() => ConsoleUtils.RunAsync(MainAsync);
+        ///
+        ///     public static async Task MainAsync(CancellationToken cancelToken = default)
+        ///     {
+        ///         await Task.FromResult(ProcessExitCode.ExitSuccess);
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        public static Task<int> RunAsync(Func<CancellationToken, Task<int>> asyncMain)
+        {
+            if (asyncMain is null)
+                throw new ArgumentNullException(nameof(asyncMain));
+            return RunAsyncImpl(asyncMain);
+        }
+
+        private static async Task<int> RunAsyncImpl(Func<CancellationToken, Task<int>> asyncMain)
+        {
             var cts = new CancellationTokenSource();
             void OnCancelKeyPress(object senter, ConsoleCancelEventArgs e)
             {
@@ -71,13 +113,13 @@ namespace THNETII.Common.Cli
             var cancelToken = cts.Token;
             try
             {
-                await asyncMain(cancelToken).ConfigureAwait(continueOnCapturedContext: false);
+                return await asyncMain(cancelToken)
+                    .ConfigureAwait(continueOnCapturedContext: false);
             }
             finally
             {
                 Console.CancelKeyPress -= OnCancelKeyPress;
             }
-            cancelToken.ThrowIfCancellationRequested();
         }
 
         private static string ReadLineOrThrowCancelled(CancellationToken cancelToken = default)
