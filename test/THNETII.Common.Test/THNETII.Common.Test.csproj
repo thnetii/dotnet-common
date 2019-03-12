@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="ProjectReferences">
+    <ProjectReference Include="..\..\src\THNETII.Common.BaseEncoding\THNETII.Common.BaseEncoding.csproj" />
     <ProjectReference Include="..\..\src\THNETII.Common\THNETII.Common.csproj" />
     <ProjectReference Include="..\..\src\THNETII.Common.Serialization\THNETII.Common.Serialization.csproj" />
   </ItemGroup>
