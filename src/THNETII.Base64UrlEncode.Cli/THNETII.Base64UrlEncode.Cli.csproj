@@ -3,6 +3,7 @@
 
   <PropertyGroup>
     <AssemblyName>base64url</AssemblyName>
+    <PackageId>THNETII.Base64UrlEncode.Cli</PackageId>
     <RootNamespace>THNETII.Base64UrlEncode</RootNamespace>
     <OutputType>Exe</OutputType>
     <LangVersion>7.1</LangVersion>
