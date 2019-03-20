@@ -13,8 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup Label="ProjectReferences">
-    <ProjectReference Include="..\..\src\THNETII.Common.Buffers.Text.Base64Extensions\THNETII.Common.Buffers.Text.Base64Extensions.csproj" />
     <ProjectReference Include="..\..\src\THNETII.Common\THNETII.Common.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.Common.BaseN\THNETII.Common.BaseN.csproj" />
     <ProjectReference Include="..\..\src\THNETII.Common.Serialization\THNETII.Common.Serialization.csproj" />
   </ItemGroup>
 
