@@ -143,24 +143,6 @@ namespace THNETII.Common.Serialization
         public static bool? ParseOrNull(string s)
             => TryParse(s, out bool value) ? (bool?)value : null;
 
-        [SuppressMessage("Usage", "PC001: API not supported on all platforms", Justification = "https://github.com/dotnet/platform-compat/issues/123")]
-        private static bool TryParseAsInt(string s, out int intValue)
-        {
-            if (int.TryParse(s, NumberStyles.Any, default, out intValue))
-                return true;
-            ReadOnlySpan<char> hexPrefixSpan = "0x".AsSpan();
-            ReadOnlySpan<char> startTrimmed = s.AsSpan().TrimStart();
-            var hasHexPrefix = startTrimmed.StartsWith(hexPrefixSpan, StringComparison.OrdinalIgnoreCase);
-            if (hasHexPrefix)
-            {
-                s = startTrimmed.Slice(hexPrefixSpan.Length).ToString();
-                if (int.TryParse(s, NumberStyles.HexNumber, default, out intValue))
-                    return true;
-            }
-            intValue = default;
-            return false;
-        }
-
         private static bool TryParseAlternative(string s, out bool alternateResult)
         {
             if (s is null)
@@ -170,7 +152,7 @@ namespace THNETII.Common.Serialization
             }
             if (s.Length < 1)
                 goto parsingFailed;
-            if (TryParseAsInt(s, out int intValue))
+            if (NumberStringConverter.CurrentCulture.TryParse(s, out int intValue))
             {
                 alternateResult = intValue != 0;
                 return true;
@@ -189,7 +171,7 @@ namespace THNETII.Common.Serialization
                 return true;
             }
 
-            parsingFailed:
+        parsingFailed:
             alternateResult = default;
             return false;
         }
