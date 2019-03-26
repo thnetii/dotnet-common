@@ -19,6 +19,12 @@ namespace THNETII.Common
         internal const char padding = '=';
 
         /// <summary>
+        /// Gets the characters in the URL-safe base-64 alphabet in order of
+        /// their sextet value.
+        /// </summary>
+        public static string UrlSafeAlphabet => urlsafeAlphabet;
+
+        /// <summary>
         /// In-Place Transcodes a span of Unicode characters that contains
         /// regular base-64 digits to the URL-safe base-64 equivalent.
         /// </summary>
