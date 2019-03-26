@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using THNETII.Common.Buffers.Text;
 
 namespace THNETII.Common
 {
@@ -9,7 +9,8 @@ namespace THNETII.Common
     /// </summary>
     public static class Base64UrlSafeConvert
     {
-        internal const string base64First = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        internal const string base64First = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+            "abcdefghijklmnopqrstuvwxyz" + "0123456789";
         internal const char urlsafe62 = '-';
         internal const char urlsafe63 = '_';
         internal static readonly string urlsafeAlphabet = base64First + urlsafe62 + urlsafe63;
@@ -41,7 +42,7 @@ namespace THNETII.Common
         /// </para>
         /// </remarks>
         public static int MakeUrlSafe(Span<char> chars) =>
-            MakeUrlSafe(chars, regular62, regular63, padding, urlsafe62, urlsafe63);
+            Base64UrlSafe.MakeUrlSafe(chars, regular62, regular63, padding, urlsafe62, urlsafe63);
 
         /// <summary>
         /// In-Place transcodes a span of URL-safe Base-64 digits to its regular
@@ -67,71 +68,6 @@ namespace THNETII.Common
         /// </para>
         /// </remarks>
         public static int RevertUrlSafe(Span<char> chars, out int requiredPadding) =>
-            ToRegularBase64Chars(chars, urlsafeAlphabet.AsSpan(), regular62, regular63, out requiredPadding);
-
-
-        [SuppressMessage("Usage", "PC001: API not supported on all platforms", Justification = "https://github.com/dotnet/platform-compat/issues/123")]
-        internal static int MakeUrlSafe<T>(Span<T> chars,
-            T regular62, T regular63, T padding,
-            T urlsafe62, T urlsafe63)
-            where T : IEquatable<T>
-        {
-            int pad = chars.IndexOf(padding);
-            if (pad >= 0)
-                chars = chars.Slice(0, pad);
-            Span<T> tmp = chars;
-            for (int idx = tmp.IndexOfAny(regular62, regular63); idx >= 0; idx = tmp.IndexOfAny(regular62, regular63))
-            {
-                T ch = tmp[idx];
-                if (ch.Equals(regular62))
-                    tmp[idx] = urlsafe62;
-                else if (ch.Equals(regular63))
-                    tmp[idx] = urlsafe63;
-                tmp = tmp.Slice(idx + 1);
-            }
-            return chars.Length;
-        }
-
-        [SuppressMessage("Usage", "PC001: API not supported on all platforms", Justification = "https://github.com/dotnet/platform-compat/issues/123")]
-        internal static int ToRegularBase64Chars<T>(Span<T> chars,
-            ReadOnlySpan<T> urlsafeAlphabet, T regular62, T regular63,
-            out int requiredPadding)
-            where T : IEquatable<T>
-        {
-            Span<T> tmp = chars;
-            int charLen = 0, charCount = 0;
-            for (int idx = tmp.IndexOfAny(urlsafeAlphabet); idx >= 0; idx = tmp.IndexOfAny(urlsafeAlphabet))
-            {
-                charLen += idx;
-                T ch = tmp[idx];
-                if (ch.Equals(urlsafeAlphabet[62]))
-                    tmp[idx] = regular62;
-                else if (ch.Equals(urlsafeAlphabet[63]))
-                    tmp[idx] = regular63;
-                charCount++;
-                charLen++;
-                tmp = tmp.Slice(idx + 1);
-            }
-            var endCount = charCount % 4;
-            switch (endCount)
-            {
-                default:
-                case 0:
-                    requiredPadding = 0;
-                    break;
-                case 1:
-                    // Technically true, but can never happen if proper base-64
-                    // input, as there cannot be 3 padding characters in base-64.
-                    requiredPadding = 3;
-                    break;
-                case 2:
-                    requiredPadding = 2;
-                    break;
-                case 3:
-                    requiredPadding = 1;
-                    break;
-            }
-            return charLen;
-        }
+            Base64UrlSafe.ToRegularBase64Chars(chars, urlsafeAlphabet.AsSpan(), regular62, regular63, out requiredPadding);
     }
 }
