@@ -173,5 +173,26 @@ namespace THNETII.Common
                 return s;
             return builder.ToString();
         }
+
+        /// <summary>
+        /// Appends a single <c>s</c> to the specified string for pluralization if
+        /// the absolute value of the specified count is not equal to <c>1</c>.
+        /// </summary>
+        /// <param name="singular">The singular form to append to. Must not be <see langword="null"/>.</param>
+        /// <param name="count">The count of items. <see langword="null"/> translates to <c>0</c> (zero) items.</param>
+        /// <returns>
+        /// <paramref name="singular"/> if the absolute value of <paramref name="count"/> is <c>1</c>;
+        /// otherwise <paramref name="singular"/> concatenated with the single character <c>s</c>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="singular"/> is <see langword="null"/>.</exception>
+        public static string SuffixPluralS(this string singular, int? count)
+        {
+            if (singular is null)
+                throw new ArgumentNullException(nameof(singular));
+            int v = count.GetValueOrDefault();
+            if (Math.Abs(v) == 1)
+                return singular;
+            return singular + 's';
+        }
     }
 }
