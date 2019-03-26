@@ -22,6 +22,7 @@ namespace THNETII.Common
         /// Gets the characters in the URL-safe base-64 alphabet in order of
         /// their sextet value.
         /// </summary>
+        [SuppressMessage("Design", "CA1056: Uri properties should not be strings")]
         public static string UrlSafeAlphabet => urlsafeAlphabet;
 
         /// <summary>
