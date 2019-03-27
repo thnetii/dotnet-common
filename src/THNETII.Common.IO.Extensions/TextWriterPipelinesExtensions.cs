@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Pipelines;
@@ -14,15 +15,14 @@ namespace THNETII.Common.IO
     {
         [SuppressMessage("Usage", "PC001: API not supported on all platforms", Justification = "https://github.com/dotnet/platform-compat/issues/123")]
         public static async Task WriteFromPipelineAsync(this TextWriter writer,
-            PipeReader reader, bool clearIntermediateBuffer = false,
-            CancellationToken cancelToken = default)
+            PipeReader reader, CancellationToken cancelToken = default)
         {
             if (writer is null)
                 throw new ArgumentNullException(nameof(writer));
             if (reader is null)
                 throw new ArgumentNullException(nameof(reader));
 
-            char[] bufferChars = null, bufferNext = null;
+            IMemoryOwner<char> bufferChars = null, bufferNext = null;
             try
             {
                 cancelToken.ThrowIfCancellationRequested();
@@ -38,22 +38,22 @@ namespace THNETII.Common.IO
                         cancelToken.ThrowIfCancellationRequested();
 
                         int lengthChars = memoryBytes.Length / sizeof(char);
-                        if (bufferChars is null || bufferChars.Length < lengthChars)
+                        if (bufferChars is null || bufferChars.Memory.Length < lengthChars)
                         {
-                            CharBufferPool.Return(bufferChars, clearIntermediateBuffer);
+                            bufferChars.Dispose();
                             bufferChars = null;
                         }
                         if (bufferChars is null)
                             bufferChars = CharBufferPool.Rent(lengthChars);
 
-                        Memory<char> memoryChars = new Memory<char>(bufferChars, 0, lengthChars);
+                        Memory<char> memoryChars = bufferChars.Memory.Slice(0, lengthChars);
                         memoryBytes.Span.CopyTo(MemoryMarshal.AsBytes(memoryChars.Span));
 
                         cancelToken.ThrowIfCancellationRequested();
 
                         await writeTask.ConfigureAwait(false);
                         reader.AdvanceTo(prevPosition, examined: nextPosition);
-                        writeTask = writer.WriteAsync(bufferChars, 0, lengthChars);
+                        writeTask = writer.WriteAsync(memoryChars, cancelToken);
 
                         prevPosition = nextPosition;
                         (bufferChars, bufferNext) = (bufferNext, bufferChars);
@@ -70,12 +70,48 @@ namespace THNETII.Common.IO
             }
             finally
             {
-                if (bufferChars is char[])
-                    CharBufferPool.Return(bufferChars, clearIntermediateBuffer);
-                if (bufferNext is char[])
-                    CharBufferPool.Return(bufferNext, clearIntermediateBuffer);
+                bufferChars?.Dispose();
+                bufferNext?.Dispose();
             }
         }
-    }
 
+#if !NETCOREAPP
+        public static Task WriteAsync(this TextWriter writer,
+            ReadOnlyMemory<char> buffer, CancellationToken cancelToken = default)
+        {
+            if (writer is null)
+                throw new ArgumentNullException(nameof(writer));
+
+            cancelToken.ThrowIfCancellationRequested();
+            bool bufferIsArray = MemoryMarshal.TryGetArray(buffer, out ArraySegment<char> segment);
+            if (bufferIsArray)
+            {
+                return writer.WriteAsync(segment.Array, segment.Offset, segment.Count);
+            }
+            else
+            {
+                return writer.WriteThroughIntermediateBufferAsync(buffer, cancelToken);
+            }
+        }
+
+        private static async Task WriteThroughIntermediateBufferAsync(
+            this TextWriter writer, ReadOnlyMemory<char> buffer,
+            CancellationToken cancelToken = default)
+        {
+            ArrayPool<char> arrayPool = ArrayPool<char>.Shared;
+            char[] array = arrayPool.Rent(buffer.Length);
+            try
+            {
+                cancelToken.ThrowIfCancellationRequested();
+
+                buffer.CopyTo(array);
+
+                cancelToken.ThrowIfCancellationRequested();
+                await writer.WriteAsync(array, 0, buffer.Length)
+                    .ConfigureAwait(false);
+            }
+            finally { arrayPool.Return(array); }
+        }
+#endif // !NETCOREAPP
+    }
 }

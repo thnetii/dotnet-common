@@ -17,7 +17,6 @@ namespace THNETII.Common.IO
         [SuppressMessage("Usage", "PC001: API not supported on all platforms", Justification = "https://github.com/dotnet/platform-compat/issues/123")]
         public static async Task ReadIntoPipelineAsync(this TextReader reader,
             PipeWriter writer, int bufferSize = MinimumBufferSize,
-            bool clearIntermediateBuffer = false,
             CancellationToken cancelToken = default)
         {
             if (reader is null)
@@ -87,6 +86,9 @@ namespace THNETII.Common.IO
         public static Task<int> ReadBlockAsync(this TextReader reader,
             Memory<char> buffer, CancellationToken cancelToken = default)
         {
+            if (reader is null)
+                throw new ArgumentNullException(nameof(reader));
+
             cancelToken.ThrowIfCancellationRequested();
             bool bufferIsArray = MemoryMarshal.TryGetArray(buffer, out ArraySegment<char> segment);
             if (bufferIsArray)
@@ -95,7 +97,7 @@ namespace THNETII.Common.IO
             }
             else
             {
-                return ReadBlockThroughIntermediateBufferAsync(reader, buffer, cancelToken);
+                return reader.ReadBlockThroughIntermediateBufferAsync(buffer, cancelToken);
             }
         }
 
@@ -116,7 +118,7 @@ namespace THNETII.Common.IO
                 readMemory.CopyTo(buffer);
                 return charsRead;
             }
-            finally { arrayPool.Return(array, true); }
+            finally { arrayPool.Return(array); }
         }
 #endif // !NETCOREAPP
     }
