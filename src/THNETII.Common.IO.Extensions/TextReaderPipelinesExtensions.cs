@@ -7,62 +7,50 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using THNETII.Common.Buffers;
 
 namespace THNETII.Common.IO
 {
-    using static CharBufferPipelineExtensions;
-
     public static class TextReaderPipelinesExtensions
     {
         [SuppressMessage("Usage", "PC001: API not supported on all platforms", Justification = "https://github.com/dotnet/platform-compat/issues/123")]
         public static async Task ReadIntoPipelineAsync(this TextReader reader,
-            PipeWriter writer, int bufferSize = MinimumBufferSize,
-            CancellationToken cancelToken = default)
+            PipeWriter writer, CancellationToken cancelToken = default)
         {
             if (reader is null)
                 throw new ArgumentNullException(nameof(reader));
             if (writer is null)
                 throw new ArgumentNullException(nameof(writer));
 
-            int minimumLength = (int)Math.Min(MinimumBufferSize, (uint)bufferSize);
-            IMemoryOwner<char> bufferCurrent = CharBufferPool.Rent(minimumLength);
-            IMemoryOwner<char> bufferNext = CharBufferPool.Rent(minimumLength);
-            using (bufferCurrent)
-            using (bufferNext)
+            cancelToken.ThrowIfCancellationRequested();
+            bool first = true;
+            var readTask = reader.RentAndReadAsync(cancelToken);
+            ValueTask<FlushResult> writeTask = default;
+            for (var buffer = await readTask.ConfigureAwait(false); buffer is IMemoryOwner<char>; buffer = await readTask.ConfigureAwait(false))
             {
-                cancelToken.ThrowIfCancellationRequested();
-                bool first = true;
-                int charsRead;
-                var readTask = reader.ReadBlockAsync(bufferCurrent.Memory, cancelToken);
-                ValueTask<FlushResult> writeTask = default;
-                for (charsRead = await readTask.ConfigureAwait(false); charsRead != 0; charsRead = await readTask.ConfigureAwait(false))
+                using (buffer)
                 {
-                    readTask = reader.ReadBlockAsync(bufferNext.Memory, cancelToken);
-
-                    Memory<char> memoryCurrent = bufferCurrent.Memory.Slice(0, charsRead);
-                    writer.Write(MemoryMarshal.AsBytes(memoryCurrent.Span));
-
                     cancelToken.ThrowIfCancellationRequested();
-                    if (first)
-                        first = false;
-                    else
-                    {
-                        FlushResult flushResult = await writeTask.ConfigureAwait(false);
-                        if (flushResult.IsCompleted)
-                            break;
-                    }
-                    writeTask = writer.FlushAsync(cancelToken);
+                    readTask = reader.RentAndReadAsync(cancelToken);
 
-                    // Swap buffer references
-#pragma warning disable CS0728 // Possibly incorrect assignment to local which is the argument to a using or lock statement
-                    (bufferCurrent, bufferNext) = (bufferNext, bufferCurrent);
-#pragma warning restore CS0728 // Possibly incorrect assignment to local which is the argument to a using or lock statement
+                    writer.Write(MemoryMarshal.AsBytes(buffer.Memory.Span));
                 }
+
                 cancelToken.ThrowIfCancellationRequested();
-                if (!first)
-                    await writeTask.ConfigureAwait(false);
-                writer.Complete();
+                if (first)
+                    first = false;
+                else
+                {
+                    FlushResult flushResult = await writeTask.ConfigureAwait(false);
+                    if (flushResult.IsCompleted)
+                        break;
+                }
+                writeTask = writer.FlushAsync(cancelToken);
             }
+            cancelToken.ThrowIfCancellationRequested();
+            if (!first)
+                await writeTask.ConfigureAwait(false);
+            writer.Complete();
         }
 
         public static async Task ReadIntoChannelAsync(this TextReader reader,
@@ -74,12 +62,34 @@ namespace THNETII.Common.IO
             if (writer is null)
                 throw new ArgumentNullException(nameof(writer));
 
-            throw new NotImplementedException();
+            Task<IMemoryOwner<char>> readTask = reader.RentAndReadAsync(cancelToken);
+            for (var buffer = await readTask.ConfigureAwait(false); buffer is IMemoryOwner<char>; buffer = await readTask.ConfigureAwait(false))
+            {
+                cancelToken.ThrowIfCancellationRequested();
+                readTask = reader.RentAndReadAsync(cancelToken);
 
-            IMemoryOwner<char> bufferOwner = CharBufferPool.Rent();
-            int charsRead = await reader.ReadBlockAsync(bufferOwner.Memory, cancelToken)
+                await writer.WriteAsync(buffer, cancelToken)
+                    .ConfigureAwait(false);
+            }
+
+            writer.Complete();
+        }
+
+        private static async Task<IMemoryOwner<char>> RentAndReadAsync(
+            this TextReader reader, CancellationToken cancelToken = default)
+        {
+            var bufferOwner = ArrayMemoryPool<char>.Shared.Rent();
+            int charsRead = await reader.ReadAsync(bufferOwner.Memory, cancelToken)
                 .ConfigureAwait(false);
-
+            cancelToken.ThrowIfCancellationRequested();
+            if (charsRead == 0)
+            {
+                bufferOwner.Dispose();
+                return null;
+            }
+            else if (charsRead == bufferOwner.Memory.Length)
+                return bufferOwner;
+            return bufferOwner.Slice(0, charsRead);
         }
     }
 }

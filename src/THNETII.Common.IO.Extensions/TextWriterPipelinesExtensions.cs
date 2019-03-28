@@ -5,12 +5,12 @@ using System.IO;
 using System.IO.Pipelines;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
+using THNETII.Common.Buffers;
 
 namespace THNETII.Common.IO
 {
-    using static CharBufferPipelineExtensions;
-
     public static class TextWriterPipelinesExtensions
     {
         [SuppressMessage("Usage", "PC001: API not supported on all platforms", Justification = "https://github.com/dotnet/platform-compat/issues/123")]
@@ -22,30 +22,22 @@ namespace THNETII.Common.IO
             if (reader is null)
                 throw new ArgumentNullException(nameof(reader));
 
-            IMemoryOwner<char> bufferChars = null, bufferNext = null;
-            try
+            Task writeTask = Task.CompletedTask;
+            cancelToken.ThrowIfCancellationRequested();
+            while (true)
             {
-                cancelToken.ThrowIfCancellationRequested();
-                while (true)
+                ReadResult result = await reader.ReadAsync(cancelToken);
+
+                SequencePosition prevPosition = result.Buffer.Start;
+                foreach (var memoryBytes in result.Buffer)
                 {
-                    ReadResult result = await reader.ReadAsync(cancelToken);
+                    SequencePosition nextPosition = result.Buffer.GetPosition(memoryBytes.Length, prevPosition);
+                    cancelToken.ThrowIfCancellationRequested();
 
-                    Task writeTask = Task.CompletedTask;
-                    SequencePosition prevPosition = result.Buffer.Start;
-                    foreach (var memoryBytes in result.Buffer)
+                    int lengthChars = memoryBytes.Length / sizeof(char);
+                    var bufferChars = ArrayMemoryPool<char>.Shared.Rent(lengthChars);
+                    try
                     {
-                        SequencePosition nextPosition = result.Buffer.GetPosition(memoryBytes.Length, prevPosition);
-                        cancelToken.ThrowIfCancellationRequested();
-
-                        int lengthChars = memoryBytes.Length / sizeof(char);
-                        if (bufferChars is null || bufferChars.Memory.Length < lengthChars)
-                        {
-                            bufferChars.Dispose();
-                            bufferChars = null;
-                        }
-                        if (bufferChars is null)
-                            bufferChars = CharBufferPool.Rent(lengthChars);
-
                         Memory<char> memoryChars = bufferChars.Memory.Slice(0, lengthChars);
                         memoryBytes.Span.CopyTo(MemoryMarshal.AsBytes(memoryChars.Span));
 
@@ -53,25 +45,57 @@ namespace THNETII.Common.IO
 
                         await writeTask.ConfigureAwait(false);
                         reader.AdvanceTo(prevPosition, examined: nextPosition);
-                        writeTask = writer.WriteAsync(memoryChars, cancelToken);
-
-                        prevPosition = nextPosition;
-                        (bufferChars, bufferNext) = (bufferNext, bufferChars);
                     }
+                    catch (Exception) when (DisposeBufferOnException(bufferChars)) { throw; }
+                    writeTask = writer.WriteAndDisposeAsync(bufferChars, cancelToken);
 
-                    if (result.IsCompleted)
-                    {
-                        break;
-                    }
+                    prevPosition = nextPosition;
                 }
 
-                cancelToken.ThrowIfCancellationRequested();
-                reader.Complete();
+                if (result.IsCompleted)
+                {
+                    break;
+                }
             }
-            finally
+
+            cancelToken.ThrowIfCancellationRequested();
+            await writeTask.ConfigureAwait(false);
+            reader.Complete();
+
+            bool DisposeBufferOnException(IMemoryOwner<char> buffer)
             {
-                bufferChars?.Dispose();
-                bufferNext?.Dispose();
+                buffer?.Dispose();
+                return false; // Return false to not catch exception
+            }
+        }
+
+        public static async Task WriteFromChannelAsync(this TextWriter writer,
+            ChannelReader<IMemoryOwner<char>> reader, CancellationToken cancelToken = default)
+        {
+            if (writer is null)
+                throw new ArgumentNullException(nameof(writer));
+            if (reader is null)
+                throw new ArgumentNullException(nameof(reader));
+
+            var writeTask = Task.CompletedTask;
+            while (true)
+            {
+                IMemoryOwner<char> buffer;
+                try { buffer = await reader.ReadAsync(cancelToken).ConfigureAwait(false); }
+                catch (ChannelClosedException) { break; }
+                await writeTask.ConfigureAwait(false);
+                writeTask = writer.WriteAndDisposeAsync(buffer, cancelToken);
+            }
+            await writeTask.ConfigureAwait(false);
+        }
+
+        private static async Task WriteAndDisposeAsync(this TextWriter writer,
+            IMemoryOwner<char> buffer, CancellationToken cancelToken = default)
+        {
+            using (buffer)
+            {
+                await writer.WriteAsync(buffer.Memory, cancelToken)
+                    .ConfigureAwait(false);
             }
         }
     }
