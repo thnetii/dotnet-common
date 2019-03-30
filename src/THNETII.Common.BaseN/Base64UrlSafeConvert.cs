@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using THNETII.Common.Buffers.Text;
 
 namespace THNETII.Common
