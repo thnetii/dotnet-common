@@ -1,15 +1,21 @@
-﻿#if !NETCOREAPP
-using System;
+﻿using System;
 using System.Buffers;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using THNETII.Common.Buffers;
 
 namespace THNETII.Common.IO
 {
-    public static class TextReaderMemoryExtensions
+#if NETCOREAPP
+    internal
+#else // !NETCOREAPP
+    public
+#endif // !NETCOREAPP
+    static class TextReaderMemoryExtensions
     {
+#if !NETCOREAPP
         public static Task<int> ReadAsync(this TextReader reader,
             Memory<char> buffer, CancellationToken cancelToken = default)
         {
@@ -83,6 +89,23 @@ namespace THNETII.Common.IO
             }
             finally { arrayPool.Return(array); }
         }
+#endif // !NETCOREAPP
+
+        internal static async Task<IMemoryOwner<char>> RentAndReadAsync(
+            this TextReader reader, CancellationToken cancelToken = default)
+        {
+            var bufferOwner = ArrayMemoryPool<char>.Shared.Rent();
+            int charsRead = await reader.ReadAsync(bufferOwner.Memory, cancelToken)
+                .ConfigureAwait(false);
+            cancelToken.ThrowIfCancellationRequested();
+            if (charsRead == 0)
+            {
+                bufferOwner.Dispose();
+                return null;
+            }
+            else if (charsRead == bufferOwner.Memory.Length)
+                return bufferOwner;
+            return bufferOwner.Slice(0, charsRead);
+        }
     }
 }
-#endif // !NETCOREAPP

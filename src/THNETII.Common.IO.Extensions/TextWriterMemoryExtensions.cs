@@ -1,5 +1,4 @@
-﻿#if !NETCOREAPP
-using System;
+﻿using System;
 using System.Buffers;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -8,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace THNETII.Common.IO
 {
-    public static class TextWriterMemoryExtensions
+#if NETCOREAPP
+    internal
+#else // !NETCOREAPP
+    public
+#endif // !NETCOREAPP
+    static class TextWriterMemoryExtensions
     {
+#if !NETCOREAPP
         public static Task WriteAsync(this TextWriter writer,
             ReadOnlyMemory<char> buffer, CancellationToken cancelToken = default)
         {
@@ -46,6 +51,16 @@ namespace THNETII.Common.IO
             }
             finally { arrayPool.Return(array); }
         }
+#endif // !NETCOREAPP
+
+        internal static async Task WriteAndDisposeAsync(this TextWriter writer,
+            IMemoryOwner<char> buffer, CancellationToken cancelToken = default)
+        {
+            using (buffer)
+            {
+                await writer.WriteAsync(buffer.Memory, cancelToken)
+                    .ConfigureAwait(false);
+            }
+        }
     }
 }
-#endif // !NETCOREAPP
