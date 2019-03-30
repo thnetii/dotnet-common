@@ -59,13 +59,13 @@ namespace Microsoft.Extensions.ObjectPool
         public override T Get()
         {
             var item = _firstItem;
-            if (item == null || Interlocked.CompareExchange(ref _firstItem, null, item) != item)
+            if (item is null || !ReferenceEquals(Interlocked.CompareExchange(ref _firstItem, null, item), item))
             {
                 var items = _items;
                 for (var i = 0; i < items.Length; i++)
                 {
                     item = items[i].Element;
-                    if (item != null && Interlocked.CompareExchange(ref items[i].Element, null, item) == item)
+                    if (item is T && ReferenceEquals(Interlocked.CompareExchange(ref items[i].Element, null, item), item))
                     {
                         return item;
                     }
@@ -85,10 +85,10 @@ namespace Microsoft.Extensions.ObjectPool
         {
             if (_isDefaultPolicy || (_fastPolicy?.Return(obj) ?? _policy.Return(obj)))
             {
-                if (_firstItem != null || Interlocked.CompareExchange(ref _firstItem, obj, null) != null)
+                if (_firstItem is T || Interlocked.CompareExchange(ref _firstItem, obj, null) is T)
                 {
                     var items = _items;
-                    for (var i = 0; i < items.Length && Interlocked.CompareExchange(ref items[i].Element, obj, null) != null; ++i)
+                    for (var i = 0; i < items.Length && Interlocked.CompareExchange(ref items[i].Element, obj, null) is T; ++i)
                     {
                     }
                 }
