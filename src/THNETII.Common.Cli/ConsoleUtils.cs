@@ -27,8 +27,8 @@ namespace THNETII.Common.Cli
             new ConsoleColorContext(fgColor, bgColor);
 
         /// <summary>
-        /// Executes the specified main-function asynchronously, while listening
-        /// for the cancel key press event to cancel execution.
+        /// Executes the specified void-returning main-function asynchronously,
+        /// while listening for the cancel key press event to cancel execution.
         /// </summary>
         /// <param name="asyncMain">The function to execute. Must not be <see langword="null"/>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous execution of <paramref name="asyncMain"/>.</returns>
@@ -43,7 +43,7 @@ namespace THNETII.Common.Cli
         /// 
         /// static class Program
         /// {
-        ///     public static Task Main() => ConsoleUtils.RunAsync(MainAsync);
+        ///     public static Task Main() => ConsoleUtils.RunVoidAsync(MainAsync);
         ///
         ///     public static async Task MainAsync(CancellationToken cancelToken = default)
         ///     {
@@ -52,7 +52,7 @@ namespace THNETII.Common.Cli
         /// }
         /// </code>
         /// </example>
-        public static Task RunAsync(Func<CancellationToken, Task> asyncMain)
+        public static Task RunVoidAsync(Func<CancellationToken, Task> asyncMain)
         {
             if (asyncMain is null)
                 throw new ArgumentNullException(nameof(asyncMain));
@@ -81,9 +81,9 @@ namespace THNETII.Common.Cli
         /// 
         /// static class Program
         /// {
-        ///     public static Task Main() => ConsoleUtils.RunAsync(MainAsync);
+        ///     public static Task&gt;int&lt; Main() => ConsoleUtils.RunAsync(MainAsync);
         ///
-        ///     public static async Task MainAsync(CancellationToken cancelToken = default)
+        ///     public static async Task&gt;int&lt; MainAsync(CancellationToken cancelToken = default)
         ///     {
         ///         await Task.FromResult(ProcessExitCode.ExitSuccess);
         ///     }
