@@ -6,7 +6,7 @@ namespace THNETII.Common.Cli.Sample
 {
     public static class Program
     {
-        public static Task Main() => ConsoleUtils.RunAsync((Func<CancellationToken, Task>)MainAsync);
+        public static Task<int> Main() => ConsoleUtils.RunAsync(MainAsync);
 
         public static async Task MainAsync(CancellationToken cancelToken = default)
         {
