@@ -24,8 +24,6 @@ namespace THNETII.Common.Linq.Test
         protected override int FirstOrDefault(object source)
         {
             source.ThrowIfNull(nameof(source));
-            ReadOnlySpan<int> span = (int[])source;
-            Skip.If(true, "LINQ extension method with default reference not supported.");
             return default;
         }
 
@@ -57,8 +55,6 @@ namespace THNETII.Common.Linq.Test
         protected override int LastOrDefault(object source)
         {
             source.ThrowIfNull(nameof(source));
-            ReadOnlySpan<int> span = (int[])source;
-            Skip.If(true, "LINQ extension method with default reference not supported.");
             return default;
         }
 
@@ -90,8 +86,6 @@ namespace THNETII.Common.Linq.Test
         protected override int ElementAtOrDefault(object source, int index)
         {
             source.ThrowIfNull(nameof(source));
-            ReadOnlySpan<int> span = (int[])source;
-            Skip.If(true, "LINQ extension method with default reference not supported.");
             return default;
         }
 

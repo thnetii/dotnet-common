@@ -24,7 +24,6 @@ namespace THNETII.Common.Linq.Test
         protected override int FirstOrDefault(object source)
         {
             source.ThrowIfNull(nameof(source));
-            Span<int> span = (int[])source;
             return default;
         }
 
