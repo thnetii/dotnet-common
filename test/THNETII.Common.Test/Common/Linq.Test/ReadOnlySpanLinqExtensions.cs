@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -14,6 +15,18 @@ namespace THNETII.Common.Linq.Test
         protected override object GetEmpty() => Array.Empty<int>();
 
         protected override object GetMoreThan5ButLessThan100() => Enumerable.Range(0, 10).ToArray();
+
+        protected override bool Any(object source, out IEnumerable<int> nonEmpty)
+        {
+            source.ThrowIfNull(nameof(source));
+            return ((int[])source).Any(out nonEmpty);
+        }
+
+        protected override bool Any(object source, Func<int, bool> predicate, out IEnumerable<int> nonEmpty)
+        {
+            source.ThrowIfNull(nameof(source));
+            return ((int[])source).Any(predicate, out nonEmpty);
+        }
 
         protected override int First(object source)
         {
@@ -55,7 +68,7 @@ namespace THNETII.Common.Linq.Test
         protected override int LastOrDefault(object source)
         {
             source.ThrowIfNull(nameof(source));
-            return default;
+            return (source as IEnumerable<int>).LastOrDefault();
         }
 
         protected override int LastOrDefault(object source, int @default)
@@ -86,7 +99,7 @@ namespace THNETII.Common.Linq.Test
         protected override int ElementAtOrDefault(object source, int index)
         {
             source.ThrowIfNull(nameof(source));
-            return default;
+            return (source as IEnumerable<int>).ElementAtOrDefault(index);
         }
 
         protected override int ElementAtOrDefault(object source, int index, int @default)

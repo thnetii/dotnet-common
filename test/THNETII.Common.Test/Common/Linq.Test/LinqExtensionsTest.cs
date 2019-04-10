@@ -21,6 +21,10 @@ namespace THNETII.Common.Linq.Test
         protected virtual T PrimitiveElementAt(object source, int index) =>
             (source as IEnumerable<T>).ElementAt(index);
 
+        protected abstract bool Any(object source, out IEnumerable<T> nonEmpty);
+
+        protected abstract bool Any(object source, Func<T, bool> predicate, out IEnumerable<T> nonEmpty);
+
         protected abstract T First(object source);
         protected abstract T FirstOrDefault(object source);
         protected abstract T FirstOrDefault(object source, T @default);
@@ -35,6 +39,76 @@ namespace THNETII.Common.Linq.Test
         protected abstract T ElementAtOrDefault(object source, int index);
         protected abstract T ElementAtOrDefault(object source, int index, T @default);
         protected abstract T ElementAtOrDefault(object source, int index, Func<T> defaultFactory);
+
+        protected virtual void AssertSequenceEqual(object source, IEnumerable<T> enumerable)
+        {
+            Assert.Equal(source as IEnumerable<T>, enumerable);
+        }
+
+        #region Any
+        [SkippableFact]
+        public void AnyOfNullThrows()
+        {
+            Assert.ThrowsAny<ArgumentNullException>(() => Any(null, out _));
+        }
+
+        [SkippableFact]
+        public void AnyOfEmptyReturnsFalseAndNullNonEmpty()
+        {
+            var source = GetEmpty();
+
+            var isAny = Any(source, out var nonEmpty);
+
+            Assert.False(isAny);
+            Assert.Null(nonEmpty);
+        }
+
+        [SkippableFact]
+        public void AnyOfNonEmptyReturnsTrueAndSequenceEqualNonEmpty()
+        {
+            var source = GetMoreThan5ButLessThan100();
+
+            var isAny = Any(source, out var nonEmpty);
+
+            Assert.True(isAny);
+            AssertSequenceEqual(source, nonEmpty);
+        }
+
+        [SkippableFact]
+        public void AnyOfNullWithPredicateThrows()
+        {
+            Assert.ThrowsAny<ArgumentNullException>(() => Any(null, _ => true, out _));
+        }
+
+        [SkippableFact]
+        public void AnyOfNonNullWithNullPredicateThrows()
+        {
+            var source = GetMoreThan5ButLessThan100();
+            Assert.ThrowsAny<ArgumentNullException>(() => Any(source, null, out _));
+        }
+
+        [SkippableFact]
+        public void AnyOfEmptyWithPredicateReturnsFalseAndNullNonEmpty()
+        {
+            var source = GetEmpty();
+
+            var isAny = Any(source, _ => true, out var nonEmpty);
+
+            Assert.False(isAny);
+            Assert.Null(nonEmpty);
+        }
+
+        [SkippableFact]
+        public void AnyOfNonEmptyWithPredicateReturnsTrueAndSequenceEqualNonEmpty()
+        {
+            var source = GetMoreThan5ButLessThan100();
+
+            var isAny = Any(source, _ => true, out var nonEmpty);
+
+            Assert.True(isAny);
+            AssertSequenceEqual(source, nonEmpty);
+        }
+        #endregion
 
         #region First
         [SkippableFact]

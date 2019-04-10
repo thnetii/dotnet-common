@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace THNETII.Common.Linq.Test
 {
@@ -6,6 +7,12 @@ namespace THNETII.Common.Linq.Test
     {
         protected override object GetEmpty() => string.Empty;
         protected override object GetMoreThan5ButLessThan100() => "abcdefghijklmnopqrstuvwxyz";
+
+        protected override bool Any(object source, out IEnumerable<char> nonEmpty) =>
+            ((string)source).Any(out nonEmpty);
+
+        protected override bool Any(object source, Func<char, bool> predicate, out IEnumerable<char> nonEmpty) =>
+            ((string)source).Any(predicate, out nonEmpty);
 
         protected override char First(object source) =>
             ((string)source).First();

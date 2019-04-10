@@ -9,6 +9,12 @@ namespace THNETII.Common.Linq.Test
         protected override object GetEmpty() => new List<int>(capacity: 0);
         protected override object GetMoreThan5ButLessThan100() => Enumerable.Range(0, 10).ToList();
 
+        protected override bool Any(object source, out IEnumerable<int> nonEmpty) =>
+            ((List<int>)source).Any(out nonEmpty);
+
+        protected override bool Any(object source, Func<int, bool> predicate, out IEnumerable<int> nonEmpty) =>
+            ((List<int>)source).Any(predicate, out nonEmpty);
+
         protected override int First(object source) =>
             ((List<int>)source).First();
         protected override int FirstOrDefault(object source) =>

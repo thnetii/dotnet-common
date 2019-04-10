@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace THNETII.Common.Linq.Test
@@ -7,6 +8,12 @@ namespace THNETII.Common.Linq.Test
     {
         protected override object GetEmpty() => Array.Empty<int>();
         protected override object GetMoreThan5ButLessThan100() => Enumerable.Range(0, 10).ToArray();
+
+        protected override bool Any(object source, out IEnumerable<int> nonEmpty) =>
+            ((int[])source).Any(out nonEmpty);
+
+        protected override bool Any(object source, Func<int, bool> predicate, out IEnumerable<int> nonEmpty) =>
+            ((int[])source).Any(predicate, out nonEmpty);
 
         protected override int First(object source) =>
             ((int[])source).First();
