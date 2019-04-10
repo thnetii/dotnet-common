@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Buffers.Text;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace THNETII.Common.Buffers.Text
 {
+    /// <seealso cref="Base64"/>
     public static class Base64UrlSafe
     {
         private static readonly byte urlsafe62 = EncodeUtf8(Base64UrlSafeConvert.urlsafe62);
@@ -13,10 +15,12 @@ namespace THNETII.Common.Buffers.Text
         private static readonly byte regular63 = EncodeUtf8(Base64UrlSafeConvert.regular63);
         private static readonly byte padding = EncodeUtf8(Base64UrlSafeConvert.padding);
 
+        /// <seealso cref="Base64UrlSafeConvert.MakeUrlSafe(Span{char})"/>
         public static int MakeUrlSafeUtf8(Span<byte> regularUtf8) =>
             MakeUrlSafe(regularUtf8,
                 regular62, regular63, padding, urlsafe62, urlsafe63);
 
+        /// <seealso cref="Base64UrlSafeConvert.RevertUrlSafe(Span{char}, out int)"/>
         public static int RevertUrlSafeUtf8(Span<byte> urlsafeUtf8,
             out int requiredPadding) =>
             ToRegularBase64Chars(urlsafeUtf8,
