@@ -36,7 +36,7 @@ namespace THNETII.Common.Text
             {
                 unsafe
                 {
-                    fixed (char* valueChars = &MemoryMarshal.GetReference(value))
+                    fixed (char* valueChars = value)
                     {
                         builder.Append(valueChars, value.Length);
                     }
