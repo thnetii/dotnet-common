@@ -55,7 +55,8 @@ namespace THNETII.Common.Linq.Test
         protected override int LastOrDefault(object source)
         {
             source.ThrowIfNull(nameof(source));
-            return default;
+            ReadOnlySpan<int> span = (int[])source;
+            return span.IsEmpty ? default : span.Last();
         }
 
         protected override int LastOrDefault(object source, int @default)
@@ -86,7 +87,8 @@ namespace THNETII.Common.Linq.Test
         protected override int ElementAtOrDefault(object source, int index)
         {
             source.ThrowIfNull(nameof(source));
-            return default;
+            ReadOnlySpan<int> span = (int[])source;
+            return (index >= 0 && index < span.Length) ? span[index] : default;
         }
 
         protected override int ElementAtOrDefault(object source, int index, int @default)
