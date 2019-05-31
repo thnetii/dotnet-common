@@ -3,7 +3,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace THNETII.Common.Cli
+using THNETII.Common;
+
+namespace THNETII.CommandLine.Extensions
 {
     /// <summary>
     /// Provides utility methods for use with the default <see cref="Console"/> class.
@@ -11,21 +13,6 @@ namespace THNETII.Common.Cli
     /// <seealso cref="Console"/>
     public static class ConsoleUtils
     {
-        /// <summary>
-        /// Creates a new console color context and switches the Console colors to the specified values.
-        /// </summary>
-        /// <param name="fgColor">The foreground console color to set, or <see langword="null"/> if the foreground color should not be modified.</param>
-        /// <param name="bgColor">The background console color to set, or <see langword="null"/> if the background color should not be modified.</param>
-        /// <returns>A <see cref="ConsoleColorContext"/> instance which captures the current state of the console colors, so that the colors can be reverted when the returned context is disposed.</returns>
-        /// <exception cref="InvalidOperationException">
-        /// The color specified for either the foreground color or the background color is not a valid member of <see cref="ConsoleColor"/>.
-        /// The <see cref="Exception.InnerException"/> property contains the <see cref="ArgumentException"/> thrown from the set invocation to <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.
-        /// </exception>
-        /// <exception cref="System.Security.SecurityException">The user does not have permission to set the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
-        /// <exception cref="System.IO.IOException">An I/O error occurred while attempting to write to the current value of either <see cref="Console.ForegroundColor"/> or <see cref="Console.BackgroundColor"/>.</exception>
-        public static ConsoleColorContext UseConsoleColor(ConsoleColor? fgColor = default, ConsoleColor? bgColor = default) =>
-            new ConsoleColorContext(fgColor, bgColor);
-
         /// <summary>
         /// Executes the specified main-function asynchronously, while listening
         /// for the cancel key press event to cancel execution.

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace THNETII.Common.Cli.Sample
+namespace THNETII.CommandLine.Extensions.Sample
 {
     public static class Program
     {

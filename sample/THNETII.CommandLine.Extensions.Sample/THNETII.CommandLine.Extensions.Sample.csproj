@@ -8,8 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\THNETII.Common\THNETII.Common.csproj" />
-    <ProjectReference Include="..\..\src\THNETII.Common.Cli\THNETII.Common.Cli.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.CommandLine.Extensions\THNETII.CommandLine.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

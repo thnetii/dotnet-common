@@ -5,13 +5,11 @@
     <LangVersion>7.2</LangVersion>
     <TargetFrameworks>netstandard1.3;netstandard2.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-
-    <Description>TH-NETII .NET Common extensions for Command-line Applications</Description>
+    <Description>TH-NETII .NET Common extensions for the System.Console class</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\THNETII.Common\THNETII.Common.csproj" />
-    <ProjectReference Include="..\THNETII.Common.Serialization\THNETII.Common.Serialization.csproj" />
   </ItemGroup>
 
 </Project>
