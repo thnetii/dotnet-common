@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Xml.Serialization;
-using THNETII.Common.Serialization;
 using Xunit;
 
-namespace THNETII.Common.XmlSerializer.Test
+namespace THNETII.TypeConverter.Xml.Test
 {
     public static class XmlEnumStringConverterTest
     {

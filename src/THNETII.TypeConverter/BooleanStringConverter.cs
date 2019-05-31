@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace THNETII.Common.Serialization
+namespace THNETII.TypeConverter
 {
     /// <summary>
     /// Provides conversion methods to convert strings to a boolean value.

@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace THNETII.Common.Serialization
+namespace THNETII.TypeConverter
 {
     /// <summary>
     /// A specialized <see cref="NumberStringConverter"/> providing a specific

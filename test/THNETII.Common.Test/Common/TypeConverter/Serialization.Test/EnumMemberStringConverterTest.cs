@@ -2,9 +2,9 @@
 using System.Runtime.Serialization;
 using Xunit;
 
-namespace THNETII.Common.Serialization.Test
+namespace THNETII.TypeConverter.Serialization.Test
 {
-    public static class EnumStringConverterTest
+    public static class EnumMemberStringConverterTest
     {
         public const string One = nameof(One);
         public const string Two = nameof(Two);
@@ -30,7 +30,7 @@ namespace THNETII.Common.Serialization.Test
         [InlineData(nameof(TestEnum.Fourth))]
         public static void CanParseEnumFieldName(string name)
         {
-            Assert.Equal(Enum.Parse<TestEnum>(name), EnumStringConverter.Parse<TestEnum>(name));
+            Assert.Equal(Enum.Parse<TestEnum>(name), EnumMemberStringConverter.Parse<TestEnum>(name));
         }
 
         [Theory]
@@ -40,7 +40,7 @@ namespace THNETII.Common.Serialization.Test
         [InlineData(Four, TestEnum.Fourth)]
         public static void CanParseEnumAttributeName(string name, TestEnum expected)
         {
-            Assert.Equal(expected, EnumStringConverter.Parse<TestEnum>(name));
+            Assert.Equal(expected, EnumMemberStringConverter.Parse<TestEnum>(name));
         }
     }
 }

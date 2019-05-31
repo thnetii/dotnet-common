@@ -15,7 +15,10 @@
   <ItemGroup Label="ProjectReferences">
     <ProjectReference Include="..\..\src\THNETII.Common\THNETII.Common.csproj" />
     <ProjectReference Include="..\..\src\THNETII.Common.BaseN\THNETII.Common.BaseN.csproj" />
-    <ProjectReference Include="..\..\src\THNETII.Common.Serialization\THNETII.Common.Serialization.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.TypeConverter.Json\THNETII.TypeConverter.Json.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.TypeConverter.Serialization\THNETII.TypeConverter.Serialization.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.TypeConverter.Xml\THNETII.TypeConverter.Xml.csproj" />
+    <ProjectReference Include="..\..\src\THNETII.TypeConverter\THNETII.TypeConverter.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="PackageReferences">

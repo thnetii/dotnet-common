@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace THNETII.Common.Serialization
+namespace THNETII.TypeConverter
 {
     using static NumberStyles;
 

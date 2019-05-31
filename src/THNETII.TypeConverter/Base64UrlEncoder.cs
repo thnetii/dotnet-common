@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace THNETII.Common.Serialization
+namespace THNETII.TypeConverter
 {
     /// <summary>
     /// Provides encoding and decoding functionality for URL-safe Bas64 encoding as defined in

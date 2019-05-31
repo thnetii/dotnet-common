@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace THNETII.Common.Serialization
+namespace THNETII.TypeConverter
 {
     /// <summary>
     /// Provides static conversion methods using the <see cref="NumberStringConverter{T}"/>
