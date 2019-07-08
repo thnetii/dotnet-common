@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "THNETII.CommandLine.Hosting.Sample": {
-      "commandName": "Project",
-      "commandLineArgs": "--foo bar --environment Development"
-    }
-  }
-}
