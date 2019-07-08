@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
-using System;
-using System.Collections.Generic;
+
 using THNETII.Common;
 using THNETII.DependencyInjection.Configuration;
 
@@ -12,6 +15,8 @@ namespace THNETII.DependencyInjection.Nesting.Sample
 {
     public static class Program
     {
+        [SuppressMessage("Reliability", "CA2000: Dispose objects before losing scope")]
+        [SuppressMessage("Code Quality", "IDE0067: Dispose objects before losing scope")]
         public static void Main(string[] args)
         {
             const string configJsonPath = "appsettings.json";

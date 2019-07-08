@@ -121,8 +121,10 @@ namespace THNETII.Networking.Http
         /// <seealso cref="HttpContent.ReadAsStreamAsync"/>
         public static async Task<StreamReader> ReadAsStreamReaderAsync(this HttpContent httpContent, Encoding defaultEncoding = null)
         {
-            var readStreamTask = httpContent.ThrowIfNull(nameof(httpContent))
-                .ReadAsStreamAsync();
+            if (httpContent is null)
+                throw new ArgumentNullException(nameof(httpContent));
+
+            var readStreamTask = httpContent.ReadAsStreamAsync();
             Encoding encoding = GetContentCharsetEncoding(httpContent, defaultEncoding);
             var stream = await readStreamTask.ConfigureAwait(continueOnCapturedContext: false);
             return encoding is null ? new StreamReader(stream) : new StreamReader(stream, encoding);

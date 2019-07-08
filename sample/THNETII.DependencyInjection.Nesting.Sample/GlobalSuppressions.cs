@@ -7,5 +7,3 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Globalization", "CA1303: Do not pass literals as localized parameters")]
-[assembly: SuppressMessage("Reliability", "CA2007: Do not directly await a Task")]
-

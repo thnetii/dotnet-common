@@ -32,12 +32,16 @@ namespace THNETII.Common
             }
 
             // Strip common prefix:
+#pragma warning disable CA1062 // Validate arguments of public methods
+            // either a or b may be null, but a is the shorter string and len_a is 0 if a is null
+            // access to a or b is safe.
             int s, s_bound = len_a;
             for (s = 0; s < s_bound && a[s] == b[s]; s++)
             {
                 len_a--;
                 len_b--;
             }
+#pragma warning restore CA1062 // Validate arguments of public methods
 
             // Strip common suffix:
             while (len_a > 0 && len_b > 0 && a[s + len_a - 1] == b[s + len_b - 1])

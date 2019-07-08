@@ -123,10 +123,12 @@ namespace THNETII.Common
                 throw new ArgumentNullException(nameof(s));
             if (mappings is null)
                 throw new ArgumentNullException(nameof(mappings));
-            var mappingList = mappings as IList<(string oldValue, string newValue)>
+            var mappingList = (mappings as IList<(string oldValue, string newValue)>)
                 ?? mappings.ToList();
+#pragma warning disable CA1062 // Validate arguments of public methods
             if (mappingList.Count < 1)
                 return s;
+#pragma warning restore CA1062 // Validate arguments of public methods
             Span<char> first = stackalloc char[mappingList.Count];
             int i, j;
             for (i = 0, j = 0; i < mappingList.Count; i++)

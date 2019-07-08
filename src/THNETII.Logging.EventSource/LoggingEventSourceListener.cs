@@ -15,12 +15,12 @@ namespace THNETII.Logging.EventSource
 {
     public class LoggingEventSourceListener : EventListener
     {
-        private static ConcurrentDictionary<int, IConfiguration> configurations = new ConcurrentDictionary<int, IConfiguration>();
-        private static ConcurrentDictionary<int, ILoggerFactory> loggerFactories = new ConcurrentDictionary<int, ILoggerFactory>();
+        private static readonly ConcurrentDictionary<int, IConfiguration> configurations = new ConcurrentDictionary<int, IConfiguration>();
+        private static readonly ConcurrentDictionary<int, ILoggerFactory> loggerFactories = new ConcurrentDictionary<int, ILoggerFactory>();
         private static int lastId = 0;
         private static readonly object ctorLock = new object();
 
-        private int id;
+        private readonly int id;
         private readonly ConcurrentDictionary<string, ILogger> loggers = new ConcurrentDictionary<string, ILogger>(StringComparer.OrdinalIgnoreCase);
 
         public static LoggingEventSourceListener Create(IConfiguration config, ILoggerFactory loggerFactory)
@@ -39,15 +39,25 @@ namespace THNETII.Logging.EventSource
             this.id = id;
         }
 
-        public override void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
             int id = Id;
             if (id != 0)
             {
                 configurations.TryRemove(id, out var config);
                 loggerFactories.TryRemove(id, out var logger);
+
+                logger?.Dispose();
             }
         }
+
+        public override void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~LoggingEventSourceListener() => Dispose(false);
 
         private int Id => id != 0 ? id : lastId;
 
@@ -125,7 +135,7 @@ namespace THNETII.Logging.EventSource
             if (logger.IsEnabled(logLevel))
             {
                 var logMessageFormat = new StringBuilder();
-                var logMessageValues = new ArrayList(9 + eventData.Payload.Count);
+                var logMessageValues = new List<object>(9 + eventData.Payload.Count);
                 if (!string.IsNullOrWhiteSpace(eventData.Message))
                 {
                     logMessageFormat.Append("{" + nameof(eventData.Message) + "}");
