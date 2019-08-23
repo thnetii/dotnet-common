@@ -86,7 +86,7 @@
         public const string CharSetUtf8Parameter = "; charset=utf-8";
 
         #endregion
-        #region Dicrete Media Types
+        #region Discrete Media Types
 
         /// <summary>
         /// The discrete media type string for unknown textual data.
@@ -113,11 +113,16 @@
         public const string ApplicationJson = Application + "/" + Json;
 
         /// <summary>
+        /// The discrete media type string for XML application content.
+        /// </summary>
+        /// <value>A compile-time constant <see cref="string"/> literal.</value>
+        public const string ApplicationXml = Application + "/" + Xml;
+
+        /// <summary>
         /// The discrete media type string for arbitrary binary data.
         /// </summary>
         /// <value>A compile-time constant <see cref="string"/> literal.</value>
         public const string ApplicationOctetStream = Application + "/" + OctetStream;
-
         #endregion
         #region UTF-8 Full Media Types
 
