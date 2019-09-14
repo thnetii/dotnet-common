@@ -44,35 +44,36 @@ namespace THNETII.CommandLine.Extensions
         {
             if (asyncMain is null)
                 throw new ArgumentNullException(nameof(asyncMain));
-            var cts = new CancellationTokenSource();
-
-            var cancelKeyPressHandler = new ConsoleCancelEventHandler((sender, e) =>
+            using (var cts = new CancellationTokenSource())
             {
-                // If cancellation already has been requested,
-                // do not cancel process termination signal.
-                e.Cancel = !cts.IsCancellationRequested;
-
-                cts.Cancel(throwOnFirstException: true);
-            });
-            Console.CancelKeyPress += cancelKeyPressHandler;
-
-            var cancelToken = cts.Token;
-            try
-            {
-                var task = asyncMain(cancelToken);
-                switch (task)
+                var cancelKeyPressHandler = new ConsoleCancelEventHandler((sender, e) =>
                 {
-                    case Task<int> intTask:
-                        return await intTask.ConfigureAwait(continueOnCapturedContext: false);
-                    case Task voidTask:
-                        await voidTask.ConfigureAwait(continueOnCapturedContext: false);
-                        break;
+                    // If cancellation already has been requested,
+                    // do not cancel process termination signal.
+                    e.Cancel = !cts.IsCancellationRequested;
+
+                    cts.Cancel(throwOnFirstException: true);
+                });
+                Console.CancelKeyPress += cancelKeyPressHandler;
+
+                var cancelToken = cts.Token;
+                try
+                {
+                    var task = asyncMain(cancelToken);
+                    switch (task)
+                    {
+                        case Task<int> intTask:
+                            return await intTask.ConfigureAwait(continueOnCapturedContext: false);
+                        case Task voidTask:
+                            await voidTask.ConfigureAwait(continueOnCapturedContext: false);
+                            break;
+                    }
+                    return ProcessExitCode.ExitSuccess;
                 }
-                return ProcessExitCode.ExitSuccess;
-            }
-            finally
-            {
-                Console.CancelKeyPress -= cancelKeyPressHandler;
+                finally
+                {
+                    Console.CancelKeyPress -= cancelKeyPressHandler;
+                } 
             }
         }
 
