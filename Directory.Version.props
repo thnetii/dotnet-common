@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project>
-  <PropertyGroup Label="Version" Condition="'$(VersionPrefix)'==''">
-    <!-- Should be configured in individual project file. -->
-    <VersionPrefix>0.0.1</VersionPrefix>
-  </PropertyGroup>
-</Project>
