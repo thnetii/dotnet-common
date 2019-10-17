@@ -70,7 +70,7 @@ namespace THNETII.Common
             switch (array)
             {
                 case null: throw new ArgumentNullException(name);
-                case var _ when array.Length < 1: throw new ArgumentException($"{name} is a non-null, zero-length array.", name);
+                case var empty when empty.Length < 1: throw new ArgumentException($"{name} is a non-null, zero-length array.", name);
                 default: return array;
             }
         }
@@ -108,7 +108,8 @@ namespace THNETII.Common
                         throw new ArgumentException($"{name} is a non-null, empty string.", name);
                     break;
                 default:
-                    var enumerator = enumerable.GetEnumerator();
+                case var e:
+                    var enumerator = e.GetEnumerator();
                     if (!enumerator.MoveNext())
                     {
                         enumerator.Dispose();

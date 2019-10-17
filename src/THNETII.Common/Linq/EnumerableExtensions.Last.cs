@@ -42,7 +42,8 @@ namespace THNETII.Common.Linq
                 case IReadOnlyList<T> list:
                     return list[list.Count - 1];
                 default:
-                    using (var enumerator = enumerable.GetEnumerator())
+                case var e:
+                    using (var enumerator = e.GetEnumerator())
                     {
                         if (enumerator.MoveNext())
                         {

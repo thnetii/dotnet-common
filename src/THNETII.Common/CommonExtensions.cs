@@ -84,7 +84,7 @@ namespace THNETII.Common
             switch (array)
             {
                 case null:
-                case var _ when array.Length < 1:
+                case var empty when empty.Length < 1:
                     return otherwise;
                 default:
                     return array;
@@ -107,7 +107,7 @@ namespace THNETII.Common
             switch (array)
             {
                 case null:
-                case var _ when array.Length < 1:
+                case var empty when empty.Length < 1:
                     if (otherwiseFactory is null)
                         throw new ArgumentNullException(nameof(otherwiseFactory));
                     return otherwiseFactory();
@@ -149,8 +149,9 @@ namespace THNETII.Common
                     if (str.Length < 1)
                         return otherwise;
                     break;
+                case var e:
                 default:
-                    var enumerator = enumerable.GetEnumerator();
+                    var enumerator = e.GetEnumerator();
                     if (!enumerator.MoveNext())
                     {
                         enumerator.Dispose();
@@ -205,7 +206,8 @@ namespace THNETII.Common
                         break;
                     return enumerable;
                 default:
-                    var enumerator = enumerable.GetEnumerator();
+                case var e:
+                    var enumerator = e.GetEnumerator();
                     if (!enumerator.MoveNext())
                     {
                         enumerator.Dispose();
@@ -319,7 +321,8 @@ namespace THNETII.Common
                 case string str:
                     return str.Length >= 1;
                 default:
-                    var enumerator = enumerable.GetEnumerator();
+                case var e:
+                    var enumerator = e.GetEnumerator();
                     if (!enumerator.MoveNext())
                     {
                         enumerator.Dispose();
