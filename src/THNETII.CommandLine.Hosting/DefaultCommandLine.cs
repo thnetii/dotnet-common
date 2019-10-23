@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
@@ -49,12 +50,14 @@ namespace THNETII.CommandLine.Hosting
                 .UseDefaults()
                 .UseHost(Host.CreateDefaultBuilder, host =>
                 {
-                    host.ConfigureServices(services =>
+                    host.ConfigureServices((context, services) =>
                     {
                         services.Add(ServiceDescriptor.Singleton(
                             definition.GetType(), definition
                             ));
-                        services.AddSingleton<IPostConfigureOptions<InvocationLifetimeOptions>, InvocationLifetimeOptionsPostConfigure>();
+                        services.AddOptions<InvocationLifetimeOptions>()
+                            .Configure<IConfiguration>((opts, config) =>
+                                config.Bind("Lifetime", opts));
                     });
                     configureHost?.Invoke(host);
                 })
