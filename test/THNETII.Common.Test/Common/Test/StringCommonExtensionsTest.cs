@@ -12,14 +12,14 @@ namespace THNETII.Common.Test
         public void ContainsThrowsWithNullSource()
         {
             const string test = null;
-            Assert.Throws<ArgumentNullException>(() => test.Contains("test", default));
+            Assert.Throws<ArgumentNullException>(() => StringCommonExtensions.Contains(test, "test", default));
         }
 
         [Fact]
         public void ContainsThrowsWithNullValue()
         {
             const string test = "test";
-            Assert.Throws<ArgumentNullException>(() => test.Contains(null, default));
+            Assert.Throws<ArgumentNullException>(() => StringCommonExtensions.Contains(test, null, default));
         }
 
         [Fact]
