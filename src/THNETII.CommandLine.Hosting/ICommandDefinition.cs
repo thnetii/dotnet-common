@@ -11,6 +11,6 @@ namespace THNETII.CommandLine.Hosting
         /// <summary>
         /// Gets the root command for the application specific command-line.
         /// </summary>
-        Command RootCommand { get; }
+        Command Command { get; }
     }
 }

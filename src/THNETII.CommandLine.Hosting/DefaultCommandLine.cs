@@ -46,7 +46,7 @@ namespace THNETII.CommandLine.Hosting
             if (definition is null)
                 throw new ArgumentNullException(nameof(definition));
 
-            var parser = new CommandLineBuilder(definition.RootCommand)
+            var parser = new CommandLineBuilder(definition.Command)
                 .UseDefaults()
                 .UseHost(Host.CreateDefaultBuilder, host =>
                 {
