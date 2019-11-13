@@ -11,15 +11,15 @@ namespace THNETII.Common.Test
         [Fact]
         public void ContainsThrowsWithNullSource()
         {
-            const string test = null;
-            Assert.Throws<ArgumentNullException>(() => StringCommonExtensions.Contains(test, "test", default));
+            const string? test = null;
+            Assert.Throws<ArgumentNullException>(() => StringCommonExtensions.Contains(test!, "test", default));
         }
 
         [Fact]
         public void ContainsThrowsWithNullValue()
         {
             const string test = "test";
-            Assert.Throws<ArgumentNullException>(() => StringCommonExtensions.Contains(test, null, default));
+            Assert.Throws<ArgumentNullException>(() => StringCommonExtensions.Contains(test, null!, default));
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void EnumerateLinesOfNullThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => ((string)null).EnumerateLines());
+            Assert.Throws<ArgumentNullException>(() => ((string)null!).EnumerateLines());
         }
 
         [Fact]
@@ -59,15 +59,15 @@ namespace THNETII.Common.Test
         [Fact]
         public void MultiReplaceOnNullThrows()
         {
-            const string nullString = null;
-            Assert.Throws<ArgumentNullException>("s", () => nullString.Replace(mappings: null));
+            const string? nullString = null;
+            Assert.Throws<ArgumentNullException>("s", () => nullString!.Replace(mappings: null!));
         }
 
         [Fact]
         public void MultiReplaceWithNullMappingsThrows()
         {
             const string test = nameof(MultiReplaceWithNullMappingsThrows);
-            Assert.Throws<ArgumentNullException>("mappings", () => test.Replace(mappings: null));
+            Assert.Throws<ArgumentNullException>("mappings", () => test.Replace(mappings: null!));
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace THNETII.Common.Test
             const string test = nameof(MultiReplaceWithNullOldValueThrows);
             Assert.Throws<ArgumentNullException>(
                 FormattableString.Invariant($"mappings[{0}].oldValue"),
-                () => test.Replace(new[] { ((string)null, string.Empty) })
+                () => test.Replace(new[] { ((string)null!, string.Empty) })
                 );
         }
 
@@ -86,7 +86,7 @@ namespace THNETII.Common.Test
             const string test = nameof(MultiReplaceWithNullNewValueThrows);
             Assert.Throws<ArgumentNullException>(
                 FormattableString.Invariant($"mappings[{0}].newValue"),
-                () => test.Replace(new[] { (string.Empty, (string)null) })
+                () => test.Replace(new[] { (string.Empty, (string)null!) })
                 );
         }
 

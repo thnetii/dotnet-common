@@ -44,7 +44,7 @@ namespace THNETII.Common
         /// </summary>
         /// <value>The <typeparamref name="TRaw"/> value containg the value exposed by the <see cref="RawValue"/> property.</value>
         [SuppressMessage(null, "CA1051", Justification = "Member only visible internally.")]
-        internal protected TRaw rawValue;
+        internal protected TRaw rawValue = default!;
 
         /// <summary>
         /// The field storing the the tuple containing the source value and the converted value of the last performed conversion.
@@ -146,7 +146,7 @@ namespace THNETII.Common
         /// <para>If no custom <see cref="IEqualityComparer{TRaw}"/> is specified in <paramref name="rawEqualityComparer"/> or if <paramref name="rawEqualityComparer"/> is <see langword="null"/>, a reference equality check (<see cref="object.ReferenceEquals(object, object)"/> is used if <typeparamref name="TRaw"/> is a reference type. If <typeparamref name="TRaw"/> is a value type, <see cref="EqualityComparer{TRaw}.Default"/> is used as the equality comparer.</para>
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="rawConvert"/> is <see langword="null"/>.</exception>
-        public ConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw> rawEqualityComparer = null)
+        public ConversionTuple(Func<TRaw, TConvert> rawConvert, IEqualityComparer<TRaw>? rawEqualityComparer = null)
             : this(rawConvert, (!(rawEqualityComparer is null) ? rawEqualityComparer.Equals : GetEqualityCheckFunction<TRaw>())) { }
 
         /// <summary>

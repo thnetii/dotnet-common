@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace THNETII.Common
@@ -81,7 +82,7 @@ namespace THNETII.Common
         /// or <see langword="null"/> if no <see cref="Maybe{T}"/> was specified.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="maybeType"/> is <see langword="null"/>.</exception>
-        public static Type GetUnderlyingType(Type maybeType)
+        public static Type? GetUnderlyingType(Type maybeType)
         {
             var mt = maybeType.ThrowIfNull(nameof(maybeType))
 #if NETSTANDARD1_3
@@ -165,7 +166,7 @@ namespace THNETII.Common
         /// </summary>
         public void Clear()
         {
-            value = default;
+            value = default!;
             HasValue = false;
         }
 
@@ -233,7 +234,8 @@ namespace THNETII.Common
             {
                 return (value is IEquatable<T> equatableValue)
                     ? equatableValue.Equals(otherValue)
-                    : value.Equals(otherValue);
+                    : value?.Equals(otherValue)
+                    ?? Equals(value, otherValue);
             }
             else
                 return false;
@@ -264,7 +266,8 @@ namespace THNETII.Common
             {
                 return otherMaybe.HasValue && ((value is IEquatable<T> equatableValue)
                     ? equatableValue.Equals(otherMaybe.value)
-                    : value.Equals(otherMaybe.value));
+                    : value?.Equals(otherMaybe.value)
+                    ?? Equals(value, otherMaybe.value));
             }
             else
                 return !otherMaybe.HasValue;
@@ -285,7 +288,7 @@ namespace THNETII.Common
         /// property is <see langword="true"/>; otherwise the default value of the underlying
         /// type.
         /// </returns>
-        public T GetValueOrDefault() => GetValueOrDefault(default);
+        public T GetValueOrDefault() => GetValueOrDefault(default!);
 
         /// <summary>
         /// Retrieves the assigned underlying value of the <see cref="Maybe{T}"/> structure
@@ -323,7 +326,7 @@ namespace THNETII.Common
         public override string ToString()
         {
             return HasValue
-                ? (value is object obj && obj is null) ? nullString : value.ToString()
+                ? (value is object obj && obj is null) ? nullString : value!.ToString()
                 : $"{nameof(Maybe<T>)}<{typeof(T)}>.{nameof(NoValue)}";
         }
 

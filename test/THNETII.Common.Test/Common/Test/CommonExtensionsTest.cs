@@ -32,16 +32,16 @@ namespace THNETII.Common.Test
         public void NotNullAcceptsOtherwiseNull()
         {
             var instance = new object();
-            Assert.Same(instance, instance.NotNull(otherwise: null));
+            Assert.Same(instance, instance.NotNull(otherwise: null!));
         }
 
         [Fact]
         public void NotNullReturnsOtherwiseIfNull()
         {
-            object instance = null;
+            object instance = null!;
             var magic = new object();
 
-            Assert.Same(magic, instance.NotNull(magic));
+            Assert.Same(magic, instance.NotNull(otherwise: magic));
         }
 
         #endregion
@@ -61,7 +61,7 @@ namespace THNETII.Common.Test
         {
             var instance = new object();
 
-            Assert.Same(instance, instance.NotNull(otherwiseFactory: null));
+            Assert.Same(instance, instance.NotNull(otherwiseFactory: null!));
         }
 
         [Fact]
@@ -82,9 +82,9 @@ namespace THNETII.Common.Test
         [Fact]
         public void NotNullFactoryReturnsFactoryValueIfNull()
         {
-            object instance = null;
+            object? instance = null;
             bool invoked = false;
-            object expected = default;
+            object? expected = default;
             object otherwiseFactory()
             {
                 invoked = true;
@@ -112,7 +112,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void NotNullOrEmptyReturnsOtherwiseIfNullString()
         {
-            string str = null;
+            string? str = null;
             string otherwise = nameof(str);
 
             Assert.Same(otherwise, str.NotNullOrEmpty(otherwise));
@@ -152,7 +152,7 @@ namespace THNETII.Common.Test
         {
             string str = nameof(NotNullOrEmptyFactoryAcceptsNullFactoryIfNotNullString);
 
-            Assert.Same(str, str.NotNullOrEmpty(otherwiseFactory: null));
+            Assert.Same(str, str.NotNullOrEmpty(otherwiseFactory: null!));
         }
 
         [Fact]
@@ -173,9 +173,9 @@ namespace THNETII.Common.Test
         [Fact]
         public void NotNullOrEmptyFactoryReturnsFactoryValueIfNullString()
         {
-            string str = null;
+            string? str = null;
             bool invoked = false;
-            string expected = default;
+            string? expected = default;
             string otherwiseFactory()
             {
                 invoked = true;
@@ -203,7 +203,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void NotNullOrEmptyReturnsOtherwiseIfNullArray()
         {
-            int[] array = null;
+            int[]? array = null;
             int[] otherwise = Enumerable.Range(0, 10).ToArray();
 
             Assert.Same(otherwise, array.NotNullOrEmpty(otherwise));
@@ -223,7 +223,7 @@ namespace THNETII.Common.Test
         {
             int[] array = Enumerable.Range(0, 10).ToArray();
 
-            _ = array.NotNullOrEmpty(otherwise: null);
+            _ = array.NotNullOrEmpty(otherwise: null!);
         }
 
         #endregion
@@ -243,7 +243,7 @@ namespace THNETII.Common.Test
         {
             int[] array = Enumerable.Range(0, 10).ToArray();
 
-            Assert.Same(array, array.NotNullOrEmpty(otherwiseFactory: null));
+            Assert.Same(array, array.NotNullOrEmpty(otherwiseFactory: null!));
         }
 
         [Fact]
@@ -264,9 +264,9 @@ namespace THNETII.Common.Test
         [Fact]
         public void NotNullOrEmptyFactoryReturnsFactoryValueIfNullArray()
         {
-            int[] array = null;
+            int[]? array = null;
             bool invoked = false;
-            int[] expected = default;
+            int[]? expected = default;
             int[] otherwiseFactory()
             {
                 invoked = true;
@@ -314,7 +314,7 @@ namespace THNETII.Common.Test
         {
             IEnumerable<int> enumerable = Enumerable.Range(0, 10);
 
-            _ = enumerable.NotNullOrEmpty(otherwise: null);
+            _ = enumerable.NotNullOrEmpty(otherwise: null!);
         }
 
         #endregion
@@ -355,9 +355,9 @@ namespace THNETII.Common.Test
         [Fact]
         public void NotNullOrEmptyFactoryReturnsFactoryValueIfNullEnumerable()
         {
-            IEnumerable<int> enumerable = null;
+            IEnumerable<int>? enumerable = null;
             bool invoked = false;
-            IEnumerable<int> expected = default;
+            IEnumerable<int>? expected = default;
             IEnumerable<int> otherwiseFactory()
             {
                 invoked = true;
@@ -385,7 +385,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void NotNullOrWhiteSpaceReturnsOtherwiseIfNullString()
         {
-            string str = null;
+            string? str = null;
             string otherwise = nameof(str);
 
             Assert.Same(otherwise, str.NotNullOrWhiteSpace(otherwise));
@@ -413,7 +413,7 @@ namespace THNETII.Common.Test
         {
             string str = nameof(NotNullOrWhiteSpaceAcceptsOtherwiseNullString);
 
-            _ = str.NotNullOrWhiteSpace(otherwise: null);
+            _ = str.NotNullOrWhiteSpace(otherwise: null!);
         }
 
         #endregion
@@ -433,7 +433,7 @@ namespace THNETII.Common.Test
         {
             string str = nameof(NotNullOrWhiteSpaceFactoryAcceptsNullFactoryIfNotNullString);
 
-            Assert.Same(str, str.NotNullOrWhiteSpace(otherwiseFactory: null));
+            Assert.Same(str, str.NotNullOrWhiteSpace(otherwiseFactory: null!));
         }
 
         [Fact]
@@ -454,9 +454,9 @@ namespace THNETII.Common.Test
         [Fact]
         public void NotNullOrWhiteSpaceFactoryReturnsFactoryValueIfNullString()
         {
-            string str = null;
+            string? str = null;
             bool invoked = false;
-            string expected = default;
+            string? expected = default;
             string otherwiseFactory()
             {
                 invoked = true;
@@ -486,7 +486,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void TryNotNullReturnsFalseIfNull()
         {
-            object instance = null;
+            object? instance = null;
 
             Assert.False(instance.TryNotNull(out var _));
         }
@@ -508,7 +508,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void TryNotNullOrEmptyReturnsFalseIfNullString()
         {
-            string str = null;
+            string? str = null;
 
             Assert.False(str.TryNotNullOrEmpty(out var _));
         }
@@ -538,7 +538,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void TryNotNullOrEmptyReturnsFalseIfNullArray()
         {
-            int[] array = null;
+            int[]? array = null;
 
             Assert.False(array.TryNotNullOrEmpty(out var _));
         }
@@ -568,7 +568,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void TryNotNullOrEmptyReturnsFalseIfNullEnumerable()
         {
-            IEnumerable<int> enumerable = null;
+            IEnumerable<int>? enumerable = null;
 
             Assert.False(enumerable.TryNotNullOrEmpty(out var _));
         }
@@ -598,7 +598,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void TryNotNullOrWhiteSpaceReturnsFalseIfNullString()
         {
-            string str = null;
+            string? str = null;
 
             Assert.False(str.TryNotNullOrWhiteSpace(out var _));
         }
@@ -624,7 +624,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void ZeroLengthIfNullReturnsEmptyIfNull()
         {
-            int[] array = null;
+            int[]? array = null;
 
             Assert.Empty(array.ZeroLengthIfNull());
         }
@@ -644,7 +644,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void EmptyIfNullReturnsEmptyIfNull()
         {
-            IEnumerable<int> enumerable = null;
+            IEnumerable<int>? enumerable = null;
 
             Assert.Empty(enumerable.EmptyIfNull());
         }

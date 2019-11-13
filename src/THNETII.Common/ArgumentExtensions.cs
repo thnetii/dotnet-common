@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace THNETII.Common
@@ -26,7 +27,8 @@ namespace THNETII.Common
         /// </para>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T ThrowIfNull<T>(this T instance, string name) where T : class
+        [return: NotNull]
+        public static T ThrowIfNull<T>([NotNull] this T instance, string name) where T : class
             => instance ?? throw new ArgumentNullException(name);
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace THNETII.Common
         /// <exception cref="ArgumentException"><paramref name="value"/> is empty.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string ThrowIfNullOrEmpty(this string value, string name)
+        public static string ThrowIfNullOrEmpty(this string? value, string name)
         {
             if (string.IsNullOrEmpty(value))
                 throw value is null ? new ArgumentNullException(name) : new ArgumentException("value must neither be empty, nor null.", name);
@@ -65,7 +67,7 @@ namespace THNETII.Common
         /// <exception cref="ArgumentException"><paramref name="array"/> has a length of <c>0</c> (zero).</exception>
         /// <exception cref="ArgumentNullException"><paramref name="array"/> is <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ThrowIfNullOrEmpty<T>(this T[] array, string name)
+        public static T[] ThrowIfNullOrEmpty<T>(this T[]? array, string name)
         {
             switch (array)
             {
@@ -90,7 +92,7 @@ namespace THNETII.Common
         /// </remarks>
         /// <exception cref="ArgumentException"><paramref name="enumerable"/> does not contain any elements.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> is <see langword="null"/>.</exception>
-        public static IEnumerable<T> ThrowIfNullOrEmpty<T>(this IEnumerable<T> enumerable, string name)
+        public static IEnumerable<T> ThrowIfNullOrEmpty<T>(this IEnumerable<T>? enumerable, string name)
         {
             switch (enumerable)
             {
@@ -148,7 +150,7 @@ namespace THNETII.Common
         /// <exception cref="ArgumentException"><paramref name="value"/> is either empty or consists only of white-space characters.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string ThrowIfNullOrWhiteSpace(this string value, string name)
+        public static string ThrowIfNullOrWhiteSpace(this string? value, string name)
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw value is null ? new ArgumentNullException(nameof(name)) : new ArgumentException("value must neither be empty, nor null, nor whitespace-only.", name);
