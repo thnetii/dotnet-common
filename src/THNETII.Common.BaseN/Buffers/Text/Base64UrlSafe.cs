@@ -72,24 +72,14 @@ namespace THNETII.Common.Buffers.Text
                 tmp = tmp.Slice(idx + 1);
             }
             var endCount = charCount % 4;
-            switch (endCount)
+            requiredPadding = endCount switch
             {
-                default:
-                case 0:
-                    requiredPadding = 0;
-                    break;
-                case 1:
-                    // Technically true, but can never happen if proper base-64
-                    // input, as there cannot be 3 padding characters in base-64.
-                    requiredPadding = 3;
-                    break;
-                case 2:
-                    requiredPadding = 2;
-                    break;
-                case 3:
-                    requiredPadding = 1;
-                    break;
-            }
+                1 => 3,// Technically true, but can never happen if proper base-64
+                       // input, as there cannot be 3 padding characters in base-64.
+                2 => 2,
+                3 => 1,
+                _ => 0,
+            };
             return charLen;
         }
     }

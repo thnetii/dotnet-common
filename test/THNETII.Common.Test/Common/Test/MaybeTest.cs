@@ -26,7 +26,7 @@ namespace THNETII.Common.Test
         [Fact]
         public static void NewWithNullArgumentHasValue()
         {
-            object value = null;
+            object? value = null;
             var maybe = Maybe.Create(value);
             Assert.True(maybe.HasValue);
             Assert.Null(maybe.Value);

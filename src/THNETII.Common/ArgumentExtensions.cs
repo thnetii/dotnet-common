@@ -53,7 +53,7 @@ namespace THNETII.Common
         {
             if (string.IsNullOrEmpty(value))
                 throw value is null ? new ArgumentNullException(name) : new ArgumentException("value must neither be empty, nor null.", name);
-            return value;
+            return value!;
         }
 
         /// <summary>
@@ -69,12 +69,12 @@ namespace THNETII.Common
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] ThrowIfNullOrEmpty<T>(this T[]? array, string name)
         {
-            switch (array)
+            return array switch
             {
-                case null: throw new ArgumentNullException(name);
-                case var empty when empty.Length < 1: throw new ArgumentException($"{name} is a non-null, zero-length array.", name);
-                default: return array;
-            }
+                null => throw new ArgumentNullException(name),
+                { Length: 0 } => throw new ArgumentException($"{name} is a non-null, zero-length array.", name),
+                _ => array,
+            };
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace THNETII.Common
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw value is null ? new ArgumentNullException(nameof(name)) : new ArgumentException("value must neither be empty, nor null, nor whitespace-only.", name);
-            return value;
+            return value!;
         }
     }
 }

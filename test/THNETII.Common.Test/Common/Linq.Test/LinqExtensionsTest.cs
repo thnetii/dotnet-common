@@ -94,7 +94,8 @@ namespace THNETII.Common.Linq.Test
         public void FirstOrDefaultIgnoresFactoryIfNonEmpty()
         {
             var test = GetMoreThan5ButLessThan100();
-            T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
+
+            static T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
             Assert.Equal(PrimitiveFirst(test), FirstOrDefault(test, ignoredFactory));
         }
         #endregion
@@ -156,7 +157,8 @@ namespace THNETII.Common.Linq.Test
         public void LastOrDefaultIgnoresFactoryIfNonEmpty()
         {
             var test = GetMoreThan5ButLessThan100();
-            T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
+
+            static T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
             Assert.Equal(PrimitiveLast(test), LastOrDefault(test, ignoredFactory));
         }
         #endregion
@@ -255,7 +257,8 @@ namespace THNETII.Common.Linq.Test
         {
             const int index = 5;
             var test = GetMoreThan5ButLessThan100();
-            T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
+
+            static T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
             Assert.Equal(PrimitiveElementAt(test, index), ElementAtOrDefault(test, index, ignoredFactory));
         }
 

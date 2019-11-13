@@ -294,7 +294,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void NotNullOrEmptyReturnsOtherwiseIfNullEnumerable()
         {
-            IEnumerable<int> enumerable = null;
+            IEnumerable<int>? enumerable = null;
             IEnumerable<int> otherwise = Enumerable.Empty<int>();
 
             Assert.Same(otherwise, enumerable.NotNullOrEmpty(otherwise));
@@ -334,7 +334,7 @@ namespace THNETII.Common.Test
         {
             IEnumerable<int> enumerable = Enumerable.Range(0, 10);
 
-            Assert.Equal(enumerable, enumerable.NotNullOrEmpty(otherwiseFactory: null));
+            Assert.Equal(enumerable, enumerable.NotNullOrEmpty(otherwiseFactory: null!));
         }
 
         [Fact]

@@ -22,7 +22,7 @@ namespace THNETII.Common
         /// <remarks>This extension method is a convenience method that allows for functional-style chaining invocations instead of having to write an equivalent <c>if</c>-statement.</remarks>
         [return: NotNullIfNotNull("otherwise")]
         public static T NotNull<T>([MaybeNull] this T x, [MaybeNull] T otherwise)
-            where T : class => !(x is null) ? x : otherwise;
+            where T : class? => !(x is null) ? x : otherwise;
 
         /// <summary>
         /// Guards an instance against being <see langword="null"/>, creating an alternative default value if the check fails.
@@ -35,7 +35,7 @@ namespace THNETII.Common
         /// <exception cref="ArgumentNullException"><paramref name="otherwiseFactory"/> is <see langword="null"/>.</exception>
         [return: NotNull]
         public static T NotNull<T>([MaybeNull] this T x, Func<T> otherwiseFactory)
-             where T : class
+             where T : class?
         {
             if (!(x is null))
                 return x;
@@ -70,7 +70,7 @@ namespace THNETII.Common
                     throw new ArgumentNullException(nameof(otherwiseFactory));
                 return otherwiseFactory();
             }
-            return s;
+            return s!;
         }
 
         /// <summary>
@@ -263,7 +263,7 @@ namespace THNETII.Common
                     throw new ArgumentNullException(nameof(otherwiseFactory));
                 return otherwiseFactory();
             }
-            return s;
+            return s!;
         }
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace THNETII.Common
         /// <param name="x">The value to check against <see langword="null"/>.</param>
         /// <param name="value">Always returns back the value of <paramref name="x"/>.</param>
         /// <returns><see langword="true"/> if <paramref name="x"/> is not <see langword="null"/>; otherwise, <see langword="false"/>.</returns>
-        public static bool TryNotNull<T>([NotNullWhen(returnValue: true)] this T x, [NotNullWhen(returnValue: true)] out T value) where T : class
+        public static bool TryNotNull<T>([NotNullWhen(returnValue: true)] this T x, [NotNullWhen(returnValue: true)] out T value) where T : class?
         {
             value = x;
             return !(value is null);

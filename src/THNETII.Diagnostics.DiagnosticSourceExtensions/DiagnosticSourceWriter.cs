@@ -48,14 +48,11 @@ namespace THNETII.Diagnostics.DiagnosticSourceExtensions
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            switch (obj)
+            return obj switch
             {
-                case DiagnosticSourceWriter other:
-                    return Equals(other);
-                default:
-                case null:
-                    return false;
-            }
+                DiagnosticSourceWriter other => Equals(other),
+                _ => false,
+            };
         }
 
         /// <inheritdoc cref="object.GetHashCode"/>

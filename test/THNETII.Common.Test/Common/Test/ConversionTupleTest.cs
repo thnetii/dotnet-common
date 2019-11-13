@@ -25,7 +25,7 @@ namespace THNETII.Common.Test
         {
             const int testRawValue = 42;
 
-            string intToString(int i) => i.ToString();
+            static string intToString(int i) => i.ToString();
             var l = new ConversionTuple<int, string>(intToString);
             var r = new ConversionTuple<int, string>(intToString);
 
@@ -43,7 +43,7 @@ namespace THNETII.Common.Test
             const int testRawValueLeft = 42;
             const int testRawValueRight = ~testRawValueLeft;
 
-            string intToString(int i) => i.ToString();
+            static string intToString(int i) => i.ToString();
             var l = new ConversionTuple<int, string>(intToString);
             var r = new ConversionTuple<int, string>(intToString);
 

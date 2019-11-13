@@ -44,15 +44,12 @@ namespace THNETII.Common
             {
                 if (m2.HasValue)
                 {
-                    switch (m1.Value)
+                    return m1.Value switch
                     {
-                        case IComparable<T> compT:
-                            return compT.CompareTo(m2.Value);
-                        case IComparable compAny:
-                            return compAny.CompareTo(m2.Value);
-                        default:
-                            return 0;
-                    }
+                        IComparable<T> compT => compT.CompareTo(m2.Value),
+                        IComparable compAny => compAny.CompareTo(m2.Value),
+                        _ => 0,
+                    };
                 }
                 return -1;
             }
@@ -198,15 +195,12 @@ namespace THNETII.Common
         /// </remarks>
         public override bool Equals(object obj)
         {
-            switch (obj)
+            return obj switch
             {
-                case Maybe<T> otherMaybe:
-                    return Equals(otherMaybe);
-                case T otherValue:
-                    return Equals(otherValue);
-                default:
-                    return base.Equals(obj);
-            }
+                Maybe<T> otherMaybe => Equals(otherMaybe),
+                T otherValue => Equals(otherValue),
+                _ => base.Equals(obj),
+            };
         }
 
         /// <summary>

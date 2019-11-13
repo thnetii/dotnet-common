@@ -51,7 +51,7 @@ namespace THNETII.DependencyInjection
             // services for an injected Service Provider Factory.
             var defaultServiceProvider = services.BuildServiceProvider();
 
-            bool factoryPredicate(ServiceDescriptor desc)
+            static bool factoryPredicate(ServiceDescriptor desc)
             {
                 var t = desc.ServiceType
 #if NETSTANDARD1_3
