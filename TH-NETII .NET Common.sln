@@ -10,8 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		AllRules.ruleset = AllRules.ruleset
 		Directory.Build.props = Directory.Build.props
-		Directory.Build.targets = Directory.Build.targets
 		Directory.Meta.props = Directory.Meta.props
+		Directory.Nullable.props = Directory.Nullable.props
 		Directory.Version.props = Directory.Version.props
 		LICENSE = LICENSE
 		NuGet.config = NuGet.config
@@ -65,7 +65,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.TypeConverter.Xml",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "typeconverter", "typeconverter", "{55479F4D-4B67-4E47-8354-77FA6E12087E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THNETII.CommandLine.Hosting", "src\THNETII.CommandLine.Hosting\THNETII.CommandLine.Hosting.csproj", "{1259BD34-B532-4956-8546-4690FD5EF6B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.CommandLine.Hosting", "src\THNETII.CommandLine.Hosting\THNETII.CommandLine.Hosting.csproj", "{1259BD34-B532-4956-8546-4690FD5EF6B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

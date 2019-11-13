@@ -41,4 +41,6 @@
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  <Import Condition="Exists('$(MSBuildThisFileDirectory)Directory.Nullable.props')"
+          Project="$(MSBuildThisFileDirectory)Directory.Nullable.props"/>
 </Project>
