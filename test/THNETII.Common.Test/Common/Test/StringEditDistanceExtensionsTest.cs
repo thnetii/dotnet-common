@@ -17,8 +17,9 @@ namespace THNETII.Common.Test
         [Fact]
         public void EditDistanceAcceptsNullFirstArgument()
         {
+            const string? first = null;
             const string other = "abc";
-            Assert.Equal(other.Length, StringEditDistanceExtensions.EditDistance(null, other));
+            Assert.Equal(other.Length, first.EditDistance(other));
         }
 
         [Fact]

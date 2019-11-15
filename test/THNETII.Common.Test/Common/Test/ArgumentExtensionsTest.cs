@@ -124,7 +124,7 @@ namespace THNETII.Common.Test
         public void ThrowIfNullOrEmptyReturnsSameReferenceIfArgumentNotNullOrEmptyEnumerable()
         {
             IEnumerable<int> enumerable = Enumerable.Range(0, 10);
-            Assert.Same(enumerable, enumerable.ThrowIfNullOrEmpty(nameof(enumerable)));
+            Assert.Equal(enumerable, enumerable.ThrowIfNullOrEmpty(nameof(enumerable)));
         }
 
         [Fact]

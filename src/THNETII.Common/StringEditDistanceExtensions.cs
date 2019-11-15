@@ -32,7 +32,7 @@ namespace THNETII.Common
             }
 
             string a = str!;
-            string b = str!;
+            string b = otherStr!;
 
             // Strip common prefix:
             // either a or b may be null, but a is the shorter string and len_a is 0 if a is null

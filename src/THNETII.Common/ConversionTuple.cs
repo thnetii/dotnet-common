@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Threading;
-using THNETII.Common.Collections.Generic;
 
 namespace THNETII.Common
 {

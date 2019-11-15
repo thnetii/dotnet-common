@@ -28,7 +28,7 @@ namespace THNETII.Common
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: NotNull]
-        public static T ThrowIfNull<T>([NotNull] this T instance, string name) where T : class
+        public static T ThrowIfNull<T>([NotNull] this T instance, string name) where T : class?
             => instance ?? throw new ArgumentNullException(name);
 
         /// <summary>
@@ -96,38 +96,39 @@ namespace THNETII.Common
         {
             switch (enumerable)
             {
-                case null: throw new ArgumentNullException(name);
-                case T[] array:
-                    if (array.Length < 1)
-                        throw new ArgumentException($"{name} is a non-null, zero-length array.", name);
+                case null:
+                    throw new ArgumentNullException(name);
+                case T[] { Length: 0 }:
+                    throw new ArgumentException($"{name} is a non-null, zero-length array.", name);
+                case ICollection<T> { Count: 0 } collection:
+                    throw new ArgumentException($"{name} is a non-null, empty collection.", name);
+                case string { Length: 0 } str:
+                    throw new ArgumentException($"{name} is a non-null, empty string.", name);
+
+                case T[] _:
+                case ICollection<T> _:
+                case string _:
                     break;
-                case ICollection<T> collection:
-                    if (collection.Count < 1)
-                        throw new ArgumentException($"{name} is a non-null, empty collection.", name);
-                    break;
-                case string str:
-                    if (str.Length < 1)
-                        throw new ArgumentException($"{name} is a non-null, empty string.", name);
-                    break;
+
                 default:
-                case var e:
+                case IEnumerable<T> e:
                     var enumerator = e.GetEnumerator();
                     if (!enumerator.MoveNext())
                     {
                         enumerator.Dispose();
                         throw new ArgumentException($"{name} is a non-null, empty enumerable.", name);
                     }
-                    IEnumerable<T> wrapAroundEnumerable()
+                    static IEnumerable<T> wrapAroundEnumerable(IEnumerator<T> enumerator)
                     {
                         using (enumerator)
                         {
                             do
                             {
-                                yield return enumerator.Current; 
+                                yield return enumerator.Current;
                             } while (enumerator.MoveNext());
                         }
                     }
-                    return wrapAroundEnumerable();
+                    return wrapAroundEnumerable(enumerator);
             }
             return enumerable;
         }

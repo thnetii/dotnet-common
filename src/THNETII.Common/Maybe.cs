@@ -40,22 +40,21 @@ namespace THNETII.Common
         /// </returns>
         public static int Compare<T>(Maybe<T> m1, Maybe<T> m2)
         {
-            if (m1.HasValue)
+            switch ((m1, m2))
             {
-                if (m2.HasValue)
-                {
-                    return m1.Value switch
-                    {
-                        IComparable<T> compT => compT.CompareTo(m2.Value),
-                        IComparable compAny => compAny.CompareTo(m2.Value),
-                        _ => 0,
-                    };
-                }
-                return -1;
+                case ({ HasValue: false }, { HasValue: false }):
+                    return 0;
+                case ({ HasValue: true }, { HasValue: false }):
+                    return -1;
+                case ({ HasValue: false }, { HasValue: true }):
+                    return 1;
+                case ({ HasValue: true, Value: IComparable<T> compT }, { HasValue: true }):
+                    return compT.CompareTo(m2.Value);
+                case ({ HasValue: true, Value: IComparable cmp }, { HasValue: true }):
+                    return cmp.CompareTo(m2.Value);
+                case ({ HasValue: true, }, { HasValue: true }):
+                    return 0;
             }
-            else if (m2.HasValue)
-                return 1;
-            return 0;
         }
 
         /// <summary>
@@ -102,13 +101,14 @@ namespace THNETII.Common
     public struct Maybe<T> : IEquatable<Maybe<T>>, IEquatable<T>
     {
         private static readonly string nullString = $"{null}";
-#pragma warning disable CA1000 // Do not declare static members on generic types
+
+
         /// <summary>
         /// Gets a <see cref="Maybe{T}"/> value where the value of <typeparamref name="T"/> is unset.
         /// </summary>
         /// <value>The default value of the <see cref="Maybe{T}"/> structure.</value>
+        [SuppressMessage("Design", "CA1000: Do not declare static members on generic types")]
         public static Maybe<T> NoValue { get => default; }
-#pragma warning restore CA1000 // Do not declare static members on generic types
 
         private T value;
 
@@ -468,7 +468,6 @@ namespace THNETII.Common
         public static bool operator !=(T value, Maybe<T> maybe)
             => !maybe.Equals(value);
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CA2225 // Operator overloads have named alternates
         /// <summary>
         /// Implicityly casts a value of type <typeparamref name="T"/> to a <see cref="Maybe{T}"/> value.
@@ -492,6 +491,5 @@ namespace THNETII.Common
             { throw new InvalidCastException(null, invOpExcept); }
         }
 #pragma warning restore CA2225 // Operator overloads have named alternates
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }
