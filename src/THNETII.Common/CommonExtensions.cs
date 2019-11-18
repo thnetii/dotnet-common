@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace THNETII.Common
@@ -19,8 +20,10 @@ namespace THNETII.Common
         /// <param name="otherwise">The value to return in case <paramref name="x"/> is <see langword="null"/>.</param>
         /// <returns>The value of <paramref name="x"/> if <paramref name="x"/> is not <see langword="null"/>; otherwise, the value of <paramref name="otherwise"/> is returned.</returns>
         /// <remarks>This extension method is a convenience method that allows for functional-style chaining invocations instead of having to write an equivalent <c>if</c>-statement.</remarks>
+        [return: NotNullIfNotNull("x")]
+        [return: NotNullIfNotNull("otherwise")]
         public static T NotNull<T>(this T x, T otherwise)
-            where T : class => !(x is null) ? x : otherwise;
+            where T : class? => !(x is null) ? x : otherwise;
 
         /// <summary>
         /// Guards an instance against being <see langword="null"/>, creating an alternative default value if the check fails.
@@ -31,8 +34,9 @@ namespace THNETII.Common
         /// <returns>The value of <paramref name="x"/> if <paramref name="x"/> is not <see langword="null"/>; otherwise, the value returned from <paramref name="otherwiseFactory"/> is returned.</returns>
         /// <remarks>This extension method is a convenience method that allows for functional-style chaining invocations instead of having to write an equivalent <c>if</c>-statement.</remarks>
         /// <exception cref="ArgumentNullException"><paramref name="otherwiseFactory"/> is <see langword="null"/>.</exception>
+        [return: NotNull]
         public static T NotNull<T>(this T x, Func<T> otherwiseFactory)
-             where T : class
+             where T : class?
         {
             if (!(x is null))
                 return x;
@@ -48,7 +52,9 @@ namespace THNETII.Common
         /// <param name="otherwise">The value to return in case <paramref name="s"/> is <see langword="null"/> or empty.</param>
         /// <returns>The value of <paramref name="s"/> if <paramref name="s"/> is neither <see langword="null"/> nor the empty string; otherwise, the value of <paramref name="otherwise"/> is returned.</returns>
         /// <remarks>This extension method is a convenience method that allows for functional-style chaining invocations instead of having to write an equivalent <c>if</c>-statement.</remarks>
-        public static string NotNullOrEmpty(this string s, string otherwise) => string.IsNullOrEmpty(s) ? otherwise : s;
+        [return: NotNullIfNotNull("otherwise")]
+        public static string? NotNullOrEmpty(this string? s, string? otherwise) =>
+            string.IsNullOrEmpty(s) ? otherwise : s;
 
         /// <summary>
         /// Guards a string against being <see langword="null"/> or the empty string, creating an alternative default value if the check fails.
@@ -58,7 +64,7 @@ namespace THNETII.Common
         /// <returns>The value of <paramref name="s"/> if <paramref name="s"/> is neither <see langword="null"/> nor the empty string; otherwise, the value returned from <paramref name="otherwiseFactory"/> is returned.</returns>
         /// <remarks>This extension method is a convenience method that allows for functional-style chaining invocations instead of having to write an equivalent <c>if</c>-statement.</remarks>
         /// <exception cref="ArgumentNullException"><paramref name="otherwiseFactory"/> is <see langword="null"/>.</exception>
-        public static string NotNullOrEmpty(this string s, Func<string> otherwiseFactory)
+        public static string NotNullOrEmpty(this string? s, Func<string> otherwiseFactory)
         {
             if (string.IsNullOrEmpty(s))
             {
@@ -66,7 +72,7 @@ namespace THNETII.Common
                     throw new ArgumentNullException(nameof(otherwiseFactory));
                 return otherwiseFactory();
             }
-            return s;
+            return s!;
         }
 
         /// <summary>
@@ -79,7 +85,8 @@ namespace THNETII.Common
         /// <paramref name="otherwise"/> if <paramref name="array"/> is <see langword="null"/> or empty;
         /// otherwise, <paramref name="array"/>.
         /// </returns>
-        public static T[] NotNullOrEmpty<T>(this T[] array, T[] otherwise)
+        [return: NotNullIfNotNull("otherwise")]
+        public static T[]? NotNullOrEmpty<T>(this T[]? array, T[]? otherwise)
         {
             switch (array)
             {
@@ -102,7 +109,7 @@ namespace THNETII.Common
         /// otherwise, <paramref name="array"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="array"/> is empty and <paramref name="otherwiseFactory"/> is <see langword="null"/>.</exception>
-        public static T[] NotNullOrEmpty<T>(this T[] array, Func<T[]> otherwiseFactory)
+        public static T[] NotNullOrEmpty<T>(this T[]? array, Func<T[]> otherwiseFactory)
         {
             switch (array)
             {
@@ -131,33 +138,31 @@ namespace THNETII.Common
         /// if the first element is availble. To prevent double evaluation of the enumerable, the created enumerator is
         /// preserved and wrapped in the new enumerable that is returned.
         /// </remarks>
-        public static IEnumerable<T> NotNullOrEmpty<T>(this IEnumerable<T> enumerable, IEnumerable<T> otherwise)
+        [return: NotNullIfNotNull("otherwise")]
+        public static IEnumerable<T>? NotNullOrEmpty<T>(this IEnumerable<T>? enumerable, IEnumerable<T>? otherwise)
         {
             switch (enumerable)
             {
                 case null:
+                case T[] { Length: 0 }:
+                case ICollection<T> c when c.Count == 0:
+                case string { Length: 0 }:
                     return otherwise;
-                case T[] array:
-                    if (array.Length < 1)
-                        return otherwise;
+
+                case T[] _:
+                case ICollection<T> _:
+                case string _:
                     break;
-                case ICollection<T> collection:
-                    if (collection.Count < 1)
-                        return otherwise;
-                    break;
-                case string str:
-                    if (str.Length < 1)
-                        return otherwise;
-                    break;
-                case var e:
+
                 default:
+                case IEnumerable<T> e:
                     var enumerator = e.GetEnumerator();
                     if (!enumerator.MoveNext())
                     {
                         enumerator.Dispose();
                         return otherwise;
                     }
-                    IEnumerable<T> wrapAroundEnumerable()
+                    static IEnumerable<T> wrapAroundEnumerable(IEnumerator<T> enumerator)
                     {
                         using (enumerator)
                         {
@@ -167,7 +172,7 @@ namespace THNETII.Common
                             } while (enumerator.MoveNext());
                         }
                     }
-                    return wrapAroundEnumerable();
+                    return wrapAroundEnumerable(enumerator);
             }
             return enumerable;
         }
@@ -187,33 +192,30 @@ namespace THNETII.Common
         /// if the first element is availble. To prevent double evaluation of the enumerable, the created enumerator is
         /// preserved and wrapped in the new enumerable that is returned.
         /// </remarks>
-        public static IEnumerable<T> NotNullOrEmpty<T>(this IEnumerable<T> enumerable, Func<IEnumerable<T>> otherwiseFactory)
+        public static IEnumerable<T> NotNullOrEmpty<T>(this IEnumerable<T>? enumerable, Func<IEnumerable<T>> otherwiseFactory)
         {
             switch (enumerable)
             {
                 case null:
+                case T[] { Length: 0 }:
+                case ICollection<T> collection when collection.Count == 0:
+                case string { Length: 0 }:
                     break;
-                case T[] array:
-                    if (array.Length < 1)
-                        break;
+
+                case T[] _:
+                case ICollection<T> _:
+                case string _:
                     return enumerable;
-                case ICollection<T> collection:
-                    if (collection.Count < 1)
-                        break;
-                    return enumerable;
-                case string str:
-                    if (str.Length < 1)
-                        break;
-                    return enumerable;
+
                 default:
-                case var e:
+                case IEnumerable<T> e:
                     var enumerator = e.GetEnumerator();
                     if (!enumerator.MoveNext())
                     {
                         enumerator.Dispose();
                         break;
                     }
-                    IEnumerable<T> wrapAroundEnumerable()
+                    static IEnumerable<T> wrapAroundEnumerable(IEnumerator<T> enumerator)
                     {
                         using (enumerator)
                         {
@@ -223,7 +225,7 @@ namespace THNETII.Common
                             } while (enumerator.MoveNext());
                         }
                     }
-                    return wrapAroundEnumerable();
+                    return wrapAroundEnumerable(enumerator);
             }
             if (otherwiseFactory is null)
                 throw new ArgumentNullException(nameof(otherwiseFactory));
@@ -238,7 +240,9 @@ namespace THNETII.Common
         /// <remarks>This extension method is a convenience method that allows for functional-style chaining invocations instead of having to write an equivalent <c>if</c>-statement.</remarks>
         /// <returns>The value of <paramref name="s"/> if <paramref name="s"/> is neither <see langword="null"/>, the empty string nor whitespace-only; otherwise, the value of <paramref name="otherwise"/> is returned.</returns>
         /// <remarks>This extension method is a convenience method that allows for functional-style chaining invocations instead of having to write an equivalent <c>if</c>-statement.</remarks>
-        public static string NotNullOrWhiteSpace(this string s, string otherwise) => string.IsNullOrWhiteSpace(s) ? otherwise : s;
+        [return: NotNullIfNotNull("otherwise")]
+        public static string? NotNullOrWhiteSpace(this string? s, string? otherwise) =>
+            string.IsNullOrWhiteSpace(s) ? otherwise : s;
 
         /// <summary>
         /// Guards a string against being <see langword="null"/>, empty or whitespace-only, creating an alternative default value if the check fails.
@@ -248,7 +252,7 @@ namespace THNETII.Common
         /// <returns>The value of <paramref name="s"/> if <paramref name="s"/> is neither <see langword="null"/>, the empty string nor whitespace-only; otherwise, the value returned from <paramref name="otherwiseFactory"/> is returned.</returns>
         /// <remarks>This extension method is a convenience method that allows for functional-style chaining invocations instead of having to write an equivalent <c>if</c>-statement.</remarks>
         /// <exception cref="ArgumentNullException"><paramref name="otherwiseFactory"/> is <see langword="null"/>.</exception>
-        public static string NotNullOrWhiteSpace(this string s, Func<string> otherwiseFactory)
+        public static string NotNullOrWhiteSpace(this string? s, Func<string> otherwiseFactory)
         {
             if (string.IsNullOrWhiteSpace(s))
             {
@@ -256,7 +260,7 @@ namespace THNETII.Common
                     throw new ArgumentNullException(nameof(otherwiseFactory));
                 return otherwiseFactory();
             }
-            return s;
+            return s!;
         }
 
         /// <summary>
@@ -266,11 +270,13 @@ namespace THNETII.Common
         /// <param name="x">The value to check against <see langword="null"/>.</param>
         /// <param name="value">Always returns back the value of <paramref name="x"/>.</param>
         /// <returns><see langword="true"/> if <paramref name="x"/> is not <see langword="null"/>; otherwise, <see langword="false"/>.</returns>
-        public static bool TryNotNull<T>(this T x, out T value) where T : class
+        public static bool TryNotNull<T>(
+            [NotNullWhen(returnValue: true)] this T x,
+            [NotNullWhen(returnValue: true)] out T value) where T : class?
         {
             value = x;
             return !(value is null);
-        }        
+        }
 
         /// <summary>
         /// Checks whether the specified string is neither <see langword="null"/> nor empty and returns it through the out-parameter.
@@ -278,7 +284,9 @@ namespace THNETII.Common
         /// <param name="s">The string to check against <see langword="null"/> or the empty string.</param>
         /// <param name="value">Always returns back the value of <paramref name="s"/>.</param>
         /// <returns><see langword="true"/> if <paramref name="s"/> is neither <see langword="null"/> nor the empty string; otherwise, <see langword="false"/>.</returns>
-        public static bool TryNotNullOrEmpty(this string s, out string value)
+        public static bool TryNotNullOrEmpty(
+            [NotNullWhen(returnValue: true)] this string? s,
+            [NotNullWhen(returnValue: true)] out string? value)
         {
             value = s;
             return !string.IsNullOrEmpty(value);
@@ -290,7 +298,9 @@ namespace THNETII.Common
         /// <param name="array">The array to check against <see langword="null"/> or the empty array.</param>
         /// <param name="value">Always returns back the value of <paramref name="array"/>.</param>
         /// <returns><see langword="true"/> if <paramref name="array"/> is neither <see langword="null"/> nor empty; otherwise, <see langword="false"/>.</returns>
-        public static bool TryNotNullOrEmpty<T>(this T[] array, out T[] value)
+        public static bool TryNotNullOrEmpty<T>(
+            [NotNullWhen(returnValue: true)] this T[]? array,
+            [NotNullWhen(returnValue: true)] out T[]? value)
         {
             value = array;
             return !(array is null) && array.Length >= 1;
@@ -307,28 +317,34 @@ namespace THNETII.Common
         /// if the first element is availble. To prevent double evaluation of the enumerable, the created enumerator is
         /// preserved and wrapped in the new enumerable that is returned.
         /// </remarks>
-        public static bool TryNotNullOrEmpty<T>(this IEnumerable<T> enumerable, out IEnumerable<T> value)
+        public static bool TryNotNullOrEmpty<T>(
+            [NotNullWhen(returnValue: true)] this IEnumerable<T>? enumerable,
+            [NotNullWhen(returnValue: true)] out IEnumerable<T>? value)
         {
             value = enumerable;
             switch (enumerable)
             {
                 case null:
+                case T[] { Length: 0 }:
+                case ICollection<T> c when c.Count == 0:
+                case string { Length: 0 }:
                     return false;
-                case T[] array:
-                    return array.Length >= 1;
-                case ICollection<T> collection:
-                    return collection.Count >= 1;
-                case string str:
-                    return str.Length >= 1;
+
+                case T[] _:
+                case ICollection<T> _:
+                case string _:
+                    return true;
+
                 default:
-                case var e:
+                case IEnumerable<T> e:
                     var enumerator = e.GetEnumerator();
                     if (!enumerator.MoveNext())
                     {
                         enumerator.Dispose();
                         return false;
                     }
-                    IEnumerable<T> wrapAroundEnumerable()
+                    static IEnumerable<T> wrapAroundEnumerable(
+                        IEnumerator<T> enumerator)
                     {
                         using (enumerator)
                         {
@@ -338,7 +354,7 @@ namespace THNETII.Common
                             } while (enumerator.MoveNext());
                         }
                     }
-                    value = wrapAroundEnumerable();
+                    value = wrapAroundEnumerable(enumerator);
                     return true;
             }
         }
@@ -349,7 +365,9 @@ namespace THNETII.Common
         /// <param name="s">The string to check against <see langword="null"/>, the empty string and white-space only.</param>
         /// <param name="value">Always returns back the value of <paramref name="s"/>.</param>
         /// <returns><see langword="true"/> if <paramref name="s"/> is neither <see langword="null"/>, the empty string nor white-space only; otherwise, <see langword="false"/>.</returns>
-        public static bool TryNotNullOrWhiteSpace(this string s, out string value)
+        public static bool TryNotNullOrWhiteSpace(
+            [NotNullWhen(returnValue: true)] this string? s,
+            [NotNullWhen(returnValue: true)] out string? value)
         {
             value = s;
             return !string.IsNullOrWhiteSpace(value);
@@ -364,7 +382,8 @@ namespace THNETII.Common
         /// Returns <paramref name="array"/> if it is non-<see langword="null"/>; otherwise, a zero-length <typeparamref name="T"/>-array is returned.
         /// The return value of this method is guaranteed to be non-<see langword="null"/>.
         /// </returns>
-        public static T[] ZeroLengthIfNull<T>(this T[] array) => array ?? Array.Empty<T>();
+        public static T[] ZeroLengthIfNull<T>(this T[]? array) =>
+            array ?? Array.Empty<T>();
 
         /// <summary>
         /// Returns the specified <see cref="IEnumerable{T}"/> instance, or an empty <see cref="IEnumerable{T}"/> if the specified enumerable is <see langword="null"/>.
@@ -375,6 +394,8 @@ namespace THNETII.Common
         /// Returns <paramref name="enumerable"/> if it is non-<see langword="null"/>; otherwise, an empty <see cref="IEnumerable{T}"/> is returned.
         /// The return value of this method is guaranteed to be non-<see langword="null"/>.
         /// </returns>
-        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> enumerable) => enumerable ?? Enumerable.Empty<T>();
+        public static IEnumerable<T> EmptyIfNull<T>(
+            this IEnumerable<T>? enumerable) =>
+            enumerable ?? Enumerable.Empty<T>();
     }
 }

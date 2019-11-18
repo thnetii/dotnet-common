@@ -10,7 +10,7 @@ namespace THNETII.Diagnostics.DiagnosticSourceExtensions
     /// </summary>
     public readonly struct DiagnosticSourceWriter : IEquatable<DiagnosticSourceWriter>
     {
-        private readonly DiagnosticSource diagnosticSource;
+        private readonly DiagnosticSource? diagnosticSource;
 
         /// <summary>
         /// Gets the name of the event being written.
@@ -24,7 +24,7 @@ namespace THNETII.Diagnostics.DiagnosticSourceExtensions
         /// </summary>
         /// <param name="diagnosticSource">The <see cref="DiagnosticSource"/> to write to. Can be <see langword="null"/>.</param>
         /// <param name="name">The name of the event being written.</param>
-        public DiagnosticSourceWriter(DiagnosticSource diagnosticSource, string name)
+        public DiagnosticSourceWriter(DiagnosticSource? diagnosticSource, string name)
         {
             this.diagnosticSource = diagnosticSource;
             Name = name;
@@ -48,14 +48,11 @@ namespace THNETII.Diagnostics.DiagnosticSourceExtensions
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            switch (obj)
+            return obj switch
             {
-                case DiagnosticSourceWriter other:
-                    return Equals(other);
-                default:
-                case null:
-                    return false;
-            }
+                DiagnosticSourceWriter other => Equals(other),
+                _ => false,
+            };
         }
 
         /// <inheritdoc cref="object.GetHashCode"/>

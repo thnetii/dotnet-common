@@ -26,7 +26,7 @@ namespace THNETII.Diagnostics.DiagnosticSourceExtensions
         /// This extension method serves as a convenience method to condense the otherwise recommended <c>if</c>-block for logging to a <see cref="DiagnosticSource"/> instance.
         /// <para>If <paramref name="diagnosticSource"/> is <see langword="null"/>, <see langword="null"/> is returned.</para>
         /// </remarks>
-        public static DiagnosticSourceWriter? IfEnabled(this DiagnosticSource diagnosticSource, string name)
+        public static DiagnosticSourceWriter? IfEnabled(this DiagnosticSource? diagnosticSource, string name)
         {
             if (diagnosticSource?.IsEnabled(name) ?? false == false)
                 return null;
@@ -53,7 +53,7 @@ namespace THNETII.Diagnostics.DiagnosticSourceExtensions
         /// <para>If <paramref name="diagnosticSource"/> is <see langword="null"/>, <see langword="null"/> is returned.</para>
         /// </remarks>
         /// <seealso cref="IfEnabled(DiagnosticSource, string)"/>
-        public static DiagnosticSourceWriter? IfEnabled(this DiagnosticSource diagnosticSource, string name, object arg1, object arg2 = null)
+        public static DiagnosticSourceWriter? IfEnabled(this DiagnosticSource? diagnosticSource, string name, object arg1, object? arg2 = null)
         {
             if (diagnosticSource?.IsEnabled(name, arg1, arg2) ?? false == false)
                 return null;

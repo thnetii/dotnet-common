@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using System;
+
 using THNETII.DependencyInjection.Nesting;
 
 namespace THNETII.DependencyInjection.Configuration
@@ -24,7 +26,7 @@ namespace THNETII.DependencyInjection.Configuration
             this IServiceCollection services, string sectionName,
             Action<INestedServiceCollection> configureServices)
         {
-            IConfiguration getConfigurationSection(IServiceProvider serviceProvider)
+            IConfiguration? getConfigurationSection(IServiceProvider serviceProvider)
             {
                 return serviceProvider
                     .GetService<RootServiceProviderAccessor>()?

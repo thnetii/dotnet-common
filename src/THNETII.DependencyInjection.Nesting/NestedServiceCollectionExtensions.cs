@@ -22,7 +22,7 @@ namespace THNETII.DependencyInjection.Nesting
         private static INestedServiceCollection InternalWithRootServicesAddBehavior(
             this INestedServiceCollection services,
             RootServicesAddBehavior behavior,
-            Action<INestedServiceCollection> configureServices)
+            Action<INestedServiceCollection>? configureServices)
         {
             if (services is null)
                 throw new ArgumentNullException(nameof(services));
@@ -107,9 +107,9 @@ namespace THNETII.DependencyInjection.Nesting
         public static INestedServiceCollection<TKey> WithRootServicesAddBehavior<TKey>(
             this INestedServiceCollection<TKey> services,
             RootServicesAddBehavior behavior,
-            Action<INestedServiceCollection<TKey>> configureServices)
+            Action<INestedServiceCollection<TKey>>? configureServices)
         {
-            Action<INestedServiceCollection> internalConfigureServices;
+            Action<INestedServiceCollection>? internalConfigureServices;
             if (configureServices is null)
                 internalConfigureServices = null;
             else
@@ -135,9 +135,9 @@ namespace THNETII.DependencyInjection.Nesting
         public static INestedServiceCollection<TFamily, TKey> WithRootServicesAddBehavior<TFamily, TKey>(
             this INestedServiceCollection<TFamily, TKey> services,
             RootServicesAddBehavior behavior,
-            Action<INestedServiceCollection<TFamily, TKey>> configureServices)
+            Action<INestedServiceCollection<TFamily, TKey>>? configureServices)
         {
-            Action<INestedServiceCollection> internalConfigureServices;
+            Action<INestedServiceCollection>? internalConfigureServices;
             if (configureServices is null)
                 internalConfigureServices = null;
             else

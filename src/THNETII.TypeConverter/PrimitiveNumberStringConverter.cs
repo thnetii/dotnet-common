@@ -22,7 +22,7 @@ namespace THNETII.TypeConverter
         /// formatting information for conversion. Omit or specify <see langword="null"/>
         /// to use the <see cref="NumberFormatInfo"/> for the current culture.
         /// </param>
-        public PrimitiveNumberStringConverter(IFormatProvider formatProvider = default)
+        public PrimitiveNumberStringConverter(IFormatProvider? formatProvider = default)
         {
             Int8 = new NumberStringConverter<sbyte>(sbyte.Parse, sbyte.TryParse, formatProvider);
             UInt8 = new NumberStringConverter<byte>(byte.Parse, byte.TryParse, formatProvider);

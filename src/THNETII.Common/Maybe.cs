@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace THNETII.Common
@@ -39,25 +40,21 @@ namespace THNETII.Common
         /// </returns>
         public static int Compare<T>(Maybe<T> m1, Maybe<T> m2)
         {
-            if (m1.HasValue)
+            switch ((m1, m2))
             {
-                if (m2.HasValue)
-                {
-                    switch (m1.Value)
-                    {
-                        case IComparable<T> compT:
-                            return compT.CompareTo(m2.Value);
-                        case IComparable compAny:
-                            return compAny.CompareTo(m2.Value);
-                        default:
-                            return 0;
-                    }
-                }
-                return -1;
+                case ({ HasValue: false }, { HasValue: false }):
+                    return 0;
+                case ({ HasValue: true }, { HasValue: false }):
+                    return -1;
+                case ({ HasValue: false }, { HasValue: true }):
+                    return 1;
+                case ({ HasValue: true, Value: IComparable<T> compT }, { HasValue: true }):
+                    return compT.CompareTo(m2.Value);
+                case ({ HasValue: true, Value: IComparable cmp }, { HasValue: true }):
+                    return cmp.CompareTo(m2.Value);
+                case ({ HasValue: true, }, { HasValue: true }):
+                    return 0;
             }
-            else if (m2.HasValue)
-                return 1;
-            return 0;
         }
 
         /// <summary>
@@ -81,7 +78,7 @@ namespace THNETII.Common
         /// or <see langword="null"/> if no <see cref="Maybe{T}"/> was specified.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="maybeType"/> is <see langword="null"/>.</exception>
-        public static Type GetUnderlyingType(Type maybeType)
+        public static Type? GetUnderlyingType(Type maybeType)
         {
             var mt = maybeType.ThrowIfNull(nameof(maybeType))
 #if NETSTANDARD1_3
@@ -104,13 +101,14 @@ namespace THNETII.Common
     public struct Maybe<T> : IEquatable<Maybe<T>>, IEquatable<T>
     {
         private static readonly string nullString = $"{null}";
-#pragma warning disable CA1000 // Do not declare static members on generic types
+
+
         /// <summary>
         /// Gets a <see cref="Maybe{T}"/> value where the value of <typeparamref name="T"/> is unset.
         /// </summary>
         /// <value>The default value of the <see cref="Maybe{T}"/> structure.</value>
+        [SuppressMessage("Design", "CA1000: Do not declare static members on generic types")]
         public static Maybe<T> NoValue { get => default; }
-#pragma warning restore CA1000 // Do not declare static members on generic types
 
         private T value;
 
@@ -165,7 +163,7 @@ namespace THNETII.Common
         /// </summary>
         public void Clear()
         {
-            value = default;
+            value = default!;
             HasValue = false;
         }
 
@@ -197,15 +195,12 @@ namespace THNETII.Common
         /// </remarks>
         public override bool Equals(object obj)
         {
-            switch (obj)
+            return obj switch
             {
-                case Maybe<T> otherMaybe:
-                    return Equals(otherMaybe);
-                case T otherValue:
-                    return Equals(otherValue);
-                default:
-                    return base.Equals(obj);
-            }
+                Maybe<T> otherMaybe => Equals(otherMaybe),
+                T otherValue => Equals(otherValue),
+                _ => base.Equals(obj),
+            };
         }
 
         /// <summary>
@@ -233,7 +228,8 @@ namespace THNETII.Common
             {
                 return (value is IEquatable<T> equatableValue)
                     ? equatableValue.Equals(otherValue)
-                    : value.Equals(otherValue);
+                    : value?.Equals(otherValue)
+                    ?? Equals(value, otherValue);
             }
             else
                 return false;
@@ -264,7 +260,8 @@ namespace THNETII.Common
             {
                 return otherMaybe.HasValue && ((value is IEquatable<T> equatableValue)
                     ? equatableValue.Equals(otherMaybe.value)
-                    : value.Equals(otherMaybe.value));
+                    : value?.Equals(otherMaybe.value)
+                    ?? Equals(value, otherMaybe.value));
             }
             else
                 return !otherMaybe.HasValue;
@@ -285,7 +282,7 @@ namespace THNETII.Common
         /// property is <see langword="true"/>; otherwise the default value of the underlying
         /// type.
         /// </returns>
-        public T GetValueOrDefault() => GetValueOrDefault(default);
+        public T GetValueOrDefault() => GetValueOrDefault(default!);
 
         /// <summary>
         /// Retrieves the assigned underlying value of the <see cref="Maybe{T}"/> structure
@@ -323,7 +320,7 @@ namespace THNETII.Common
         public override string ToString()
         {
             return HasValue
-                ? (value is object obj && obj is null) ? nullString : value.ToString()
+                ? (value is object obj && obj is null) ? nullString : value!.ToString()
                 : $"{nameof(Maybe<T>)}<{typeof(T)}>.{nameof(NoValue)}";
         }
 
@@ -471,7 +468,6 @@ namespace THNETII.Common
         public static bool operator !=(T value, Maybe<T> maybe)
             => !maybe.Equals(value);
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CA2225 // Operator overloads have named alternates
         /// <summary>
         /// Implicityly casts a value of type <typeparamref name="T"/> to a <see cref="Maybe{T}"/> value.
@@ -495,6 +491,5 @@ namespace THNETII.Common
             { throw new InvalidCastException(null, invOpExcept); }
         }
 #pragma warning restore CA2225 // Operator overloads have named alternates
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

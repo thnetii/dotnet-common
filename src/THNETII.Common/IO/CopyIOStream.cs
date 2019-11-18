@@ -105,7 +105,7 @@ namespace THNETII.Common.IO
         /// <param name="closeReadCopy">A boolean value that indicates whether to close the read-copy stream when the wrapper is closed.</param>
         /// <param name="closeWriteCopy">A boolean value that indicates whether to close the write-copy stream when the wrapper is closed.</param>
         /// <exception cref="ArgumentNullException"><paramref name="baseStream"/> is <see langword="null"/>.</exception>
-        public CopyIOStream(Stream baseStream, Stream readCopy, Stream writeCopy, bool closeBaseStream, bool closeReadCopy, bool closeWriteCopy)
+        public CopyIOStream(Stream baseStream, Stream? readCopy, Stream? writeCopy, bool closeBaseStream, bool closeReadCopy, bool closeWriteCopy)
         {
             BaseStream = baseStream ?? throw new ArgumentNullException(nameof(baseStream));
             CloseBaseStream = closeBaseStream;
@@ -130,7 +130,7 @@ namespace THNETII.Common.IO
         /// The <see cref="Stream"/> instance that was passed to the <see cref="CopyIOStream"/> constructor when this instance was created; 
         /// or <see langword="null"/> if the wrapper does not copy data on read operations.
         /// </value>
-        public Stream ReadCopy { get; }
+        public Stream? ReadCopy { get; }
 
         /// <summary>
         /// Gets the stream to which the wrapper writes data that is written to the origin stream.
@@ -139,7 +139,7 @@ namespace THNETII.Common.IO
         /// The <see cref="Stream"/> instance that was passed to the <see cref="CopyIOStream"/> constructor when this instance was created; 
         /// or <see langword="null"/> if the wrapper does not copy data on write operations.
         /// </value>
-        public Stream WriteCopy { get; }
+        public Stream? WriteCopy { get; }
 
         /// <summary>
         /// Gets a value that determines whether the origin stream is closed when this instance is closed.
@@ -239,7 +239,7 @@ namespace THNETII.Common.IO
             {
                 if (BaseStream.CanTimeout)
                     BaseStream.WriteTimeout = value;
-                if (ReadCopy?.CanTimeout ?? false)
+                if (WriteCopy?.CanTimeout ?? false)
                     WriteCopy.WriteTimeout = value;
             }
         }
@@ -346,7 +346,7 @@ namespace THNETII.Common.IO
 
         private int GetReadTimeout() => GetTimeout(s => s.ReadTimeout, ReadCopy);
         private int GetWriteTimeout() => GetTimeout(s => s.WriteTimeout, WriteCopy);
-        private int GetTimeout(Func<Stream, int> timeoutGetter, Stream copyStream)
+        private int GetTimeout(Func<Stream, int> timeoutGetter, Stream? copyStream)
         {
             if (BaseStream.CanTimeout)
             {

@@ -38,7 +38,7 @@ namespace THNETII.DependencyInjection.Nesting.Test
                 .AddInMemoryCollection(configDict)
                 .Build();
 
-            void configureTestService(INestedServiceCollection services)
+            static void configureTestService(INestedServiceCollection services)
                 => services.AddSingleton<TestService>();
 
             var serviceProvider = new ServiceCollection()

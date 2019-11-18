@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Xunit;
 
 namespace THNETII.Common.Test
@@ -19,21 +20,21 @@ namespace THNETII.Common.Test
         [Fact]
         public void ThrowIfNullThrowsArgumentNullExceptionIfArgumentNull()
         {
-            object obj = null;
+            object obj = null!;
             Assert.Throws<ArgumentNullException>(nameof(obj), () => obj.ThrowIfNull(nameof(obj)));
         }
 
         [Fact]
         public void ThrowIfNullAcceptsNullArgumentName()
         {
-            object obj = null;
-            Assert.Throws<ArgumentNullException>(() => obj.ThrowIfNull(null));
+            object obj = null!;
+            Assert.Throws<ArgumentNullException>(() => obj.ThrowIfNull(null!));
         }
 
         [Fact]
         public void ThrowIfNullAcceptsEmptyArgumentName()
         {
-            object obj = null;
+            object obj = null!;
             Assert.Throws<ArgumentNullException>(() => obj.ThrowIfNull(string.Empty));
         }
 
@@ -51,7 +52,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void ThrowIfNullOrEmptyThrowsArgumentNullExceptionIfArgumentNullString()
         {
-            string @string = null;
+            string? @string = null;
             Assert.Throws<ArgumentNullException>(nameof(@string), () => @string.ThrowIfNullOrEmpty(nameof(@string)));
         }
 
@@ -65,14 +66,14 @@ namespace THNETII.Common.Test
         [Fact]
         public void ThrowIfNullOrEmptyStringAcceptsNullArgumentName()
         {
-            string @string = null;
-            Assert.Throws<ArgumentNullException>(() => @string.ThrowIfNullOrEmpty(null));
+            string? @string = null;
+            Assert.Throws<ArgumentNullException>(() => @string.ThrowIfNullOrEmpty(null!));
         }
 
         [Fact]
         public void ThrowIfNullOrEmptyStringAcceptsEmptyArgumentName()
         {
-            string @string = null;
+            string? @string = null;
             Assert.Throws<ArgumentNullException>(() => @string.ThrowIfNullOrEmpty(string.Empty));
         }
 
@@ -90,7 +91,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void ThrowIfNullOrEmptyThrowsArgumentNullExceptionIfArgumentNullArray()
         {
-            int[] array = null;
+            int[]? array = null;
             Assert.Throws<ArgumentNullException>(nameof(array), () => array.ThrowIfNullOrEmpty(nameof(array)));
         }
 
@@ -104,14 +105,14 @@ namespace THNETII.Common.Test
         [Fact]
         public void ThrowIfNullOrEmptyArrayAcceptsNullArgumentName()
         {
-            int[] array = null;
-            Assert.Throws<ArgumentNullException>(() => array.ThrowIfNullOrEmpty(null));
+            int[]? array = null;
+            Assert.Throws<ArgumentNullException>(() => array.ThrowIfNullOrEmpty(null!));
         }
 
         [Fact]
         public void ThrowIfNullOrEmptyArrayAcceptsEmptyArgumentName()
         {
-            int[] array = null;
+            int[]? array = null;
             Assert.Throws<ArgumentNullException>(() => array.ThrowIfNullOrEmpty(string.Empty));
         }
 
@@ -129,7 +130,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void ThrowIfNullOrEmptyThrowsArgumentNullExceptionIfArgumentNullEnumerable()
         {
-            IEnumerable<int> enumerable = null;
+            IEnumerable<int>? enumerable = null;
             Assert.Throws<ArgumentNullException>(nameof(enumerable), () => enumerable.ThrowIfNullOrEmpty(nameof(enumerable)));
         }
 
@@ -143,14 +144,14 @@ namespace THNETII.Common.Test
         [Fact]
         public void ThrowIfNullOrEmptyEnumerableAcceptsNullArgumentName()
         {
-            IEnumerable<int> enumerable = null;
-            Assert.Throws<ArgumentNullException>(() => enumerable.ThrowIfNullOrEmpty(null));
+            IEnumerable<int>? enumerable = null;
+            Assert.Throws<ArgumentNullException>(() => enumerable.ThrowIfNullOrEmpty(null!));
         }
 
         [Fact]
         public void ThrowIfNullOrEmptyEnumerableAcceptsEmptyArgumentName()
         {
-            IEnumerable<int> enumerable = null;
+            IEnumerable<int>? enumerable = null;
             Assert.Throws<ArgumentNullException>(() => enumerable.ThrowIfNullOrEmpty(string.Empty));
         }
 
@@ -168,7 +169,7 @@ namespace THNETII.Common.Test
         [Fact]
         public void ThrowIfNullOrWhiteSpaceThrowsArgumentNullExceptionIfArgumentNull()
         {
-            string str = null;
+            string? str = null;
             Assert.Throws<ArgumentNullException>(() => str.ThrowIfNullOrWhiteSpace(nameof(str)));
         }
 
@@ -186,14 +187,14 @@ namespace THNETII.Common.Test
         [Fact]
         public void ThrowIfNullOrWhiteSpaceAcceptsNullArgumentName()
         {
-            string str = null;
-            Assert.Throws<ArgumentNullException>(() => str.ThrowIfNullOrWhiteSpace(null));
+            string? str = null;
+            Assert.Throws<ArgumentNullException>(() => str.ThrowIfNullOrWhiteSpace(null!));
         }
 
         [Fact]
         public void ThrowIfNullOrWhiteSpaceAcceptsEmptyArgumentName()
         {
-            string str = null;
+            string? str = null;
             Assert.Throws<ArgumentNullException>(() => str.ThrowIfNullOrWhiteSpace(string.Empty));
         }
 

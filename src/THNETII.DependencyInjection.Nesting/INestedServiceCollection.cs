@@ -13,7 +13,7 @@ namespace THNETII.DependencyInjection.Nesting
         /// inheited from the parent service collection.
         /// </summary>
         /// <value>An <see cref="IServiceCollection"/> containing the services inherited from the parent.</value>
-        IServiceCollection InheritedServices { get; }
+        IServiceCollection? InheritedServices { get; }
 
         /// <summary>
         /// Gets or sets the behaviour that controls if and how inherited

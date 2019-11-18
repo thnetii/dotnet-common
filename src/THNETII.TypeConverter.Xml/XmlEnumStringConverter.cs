@@ -81,7 +81,7 @@ namespace THNETII.TypeConverter.Xml
         {
             if (!(s is null) && EnumValues<T>.StringToValue.TryGetValue(s, out T value))
                 return value;
-            return EnumStringConverter.Parse<T>(s);
+            return EnumStringConverter.Parse<T>(s!);
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace THNETII.TypeConverter.Xml
         {
             if (!(s is null) && EnumValues<T>.StringToValue.TryGetValue(s, out value))
                 return true;
-            return EnumStringConverter.TryParse(s, out value);
+            return EnumStringConverter.TryParse(s!, out value);
         }
 
         /// <summary>

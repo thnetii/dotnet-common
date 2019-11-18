@@ -44,36 +44,34 @@ namespace THNETII.CommandLine.Extensions
         {
             if (asyncMain is null)
                 throw new ArgumentNullException(nameof(asyncMain));
-            using (var cts = new CancellationTokenSource())
+            using var cts = new CancellationTokenSource();
+            var cancelKeyPressHandler = new ConsoleCancelEventHandler((sender, e) =>
             {
-                var cancelKeyPressHandler = new ConsoleCancelEventHandler((sender, e) =>
-                {
-                    // If cancellation already has been requested,
-                    // do not cancel process termination signal.
-                    e.Cancel = !cts.IsCancellationRequested;
+                // If cancellation already has been requested,
+                // do not cancel process termination signal.
+                e.Cancel = !cts.IsCancellationRequested;
 
-                    cts.Cancel(throwOnFirstException: true);
-                });
-                Console.CancelKeyPress += cancelKeyPressHandler;
+                cts.Cancel(throwOnFirstException: true);
+            });
+            Console.CancelKeyPress += cancelKeyPressHandler;
 
-                var cancelToken = cts.Token;
-                try
+            var cancelToken = cts.Token;
+            try
+            {
+                var task = asyncMain(cancelToken);
+                switch (task)
                 {
-                    var task = asyncMain(cancelToken);
-                    switch (task)
-                    {
-                        case Task<int> intTask:
-                            return await intTask.ConfigureAwait(continueOnCapturedContext: false);
-                        case Task voidTask:
-                            await voidTask.ConfigureAwait(continueOnCapturedContext: false);
-                            break;
-                    }
-                    return ProcessExitCode.ExitSuccess;
+                    case Task<int> intTask:
+                        return await intTask.ConfigureAwait(continueOnCapturedContext: false);
+                    case Task voidTask:
+                        await voidTask.ConfigureAwait(continueOnCapturedContext: false);
+                        break;
                 }
-                finally
-                {
-                    Console.CancelKeyPress -= cancelKeyPressHandler;
-                } 
+                return ProcessExitCode.ExitSuccess;
+            }
+            finally
+            {
+                Console.CancelKeyPress -= cancelKeyPressHandler;
             }
         }
 
@@ -151,7 +149,7 @@ namespace THNETII.CommandLine.Extensions
         /// <exception cref="System.IO.IOException">An I/O error occurred.</exception>
         /// <seealso cref="Console.ReadLine"/>
         /// <seealso cref="Console.ReadKey(bool)"/>
-        public static string ReadLineMasked(bool printAsterisk = true)
+        public static string? ReadLineMasked(bool printAsterisk = true)
         {
             var builder = new StringBuilder();
             bool continueReading = true;

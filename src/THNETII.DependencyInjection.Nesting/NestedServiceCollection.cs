@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+
 using THNETII.Common;
 using THNETII.Common.Collections.Generic;
 
@@ -31,7 +33,7 @@ namespace THNETII.DependencyInjection.Nesting
         public TKey Key { get; }
 
         /// <inheritdoc cref="INestedServiceCollection.InheritedServices" />
-        public IServiceCollection InheritedServices { get; }
+        public IServiceCollection? InheritedServices { get; }
 
         /// <inheritdoc cref="INestedServiceCollection.RootServicesAddBehavior" />
         public RootServicesAddBehavior RootServicesAddBehavior { get; set; } =
@@ -46,7 +48,7 @@ namespace THNETII.DependencyInjection.Nesting
         /// The parent service collection from which parent services should be inherited.
         /// </param>
         public NestedServiceCollection(TKey key,
-            IServiceCollection inheritedServices)
+            IServiceCollection? inheritedServices)
         {
             Key = key;
             InheritedServices = inheritedServices;
@@ -140,7 +142,7 @@ namespace THNETII.DependencyInjection.Nesting
 #endif
                 }
                 if (InheritedServices.Count != beforeAdd || ensureAddProxy)
-                    rootProxyDescriptors.Add(rootProxyDescriptor);
+                    rootProxyDescriptors.Add(rootProxyDescriptor); 
             }
         }
 
@@ -161,7 +163,7 @@ namespace THNETII.DependencyInjection.Nesting
             set
             {
                 if (index < InheritedCount)
-                    InheritedServices[index] = value;
+                    InheritedServices![index] = value;
                 else
                     nestedServices[index - InheritedCount] = value;
             }
@@ -215,7 +217,7 @@ namespace THNETII.DependencyInjection.Nesting
             var rootDesc = rootProxyDescriptors
                 .Where(d => d.ServiceType == nestedDesc.ServiceType)
                 .ElementAt(nestedServiceTypeIdx);
-            InheritedServices.Remove(rootDesc);
+            InheritedServices?.Remove(rootDesc);
             rootProxyDescriptors.Remove(rootDesc,
                 ReferenceEqualityComparer<ServiceDescriptor>.Default);
         }
@@ -225,7 +227,7 @@ namespace THNETII.DependencyInjection.Nesting
         {
             nestedServices.Clear();
             foreach (var proxyDesc in rootProxyDescriptors)
-                InheritedServices.Remove(proxyDesc);
+                InheritedServices?.Remove(proxyDesc);
             rootProxyDescriptors.Clear();
         }
 

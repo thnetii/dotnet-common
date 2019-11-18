@@ -8,31 +8,33 @@ namespace THNETII.Common
     public static class StringEditDistanceExtensions
     {
         /// <summary>
-        /// Returns the edit distance from the current string <paramref name="a"/> to the other string <paramref name="b"/>.
+        /// Returns the edit distance from the current string <paramref name="str"/> to the other string <paramref name="otherStr"/>.
         /// <para>The edit distance between two strings, is the number of character edit operations needed in order to change one string to another.</para>
         /// </summary>
-        /// <param name="a">The original string.</param>
-        /// <param name="b">The other string to calculate the distance to.</param>
-        /// <returns>The number of characters that need to be changed, inserted or deleted in <paramref name="a"/> to produce <paramref name="b"/>.</returns>
+        /// <param name="str">The original string.</param>
+        /// <param name="otherStr">The other string to calculate the distance to.</param>
+        /// <returns>The number of characters that need to be changed, inserted or deleted in <paramref name="str"/> to produce <paramref name="otherStr"/>.</returns>
         /// <remarks>
         /// This uses the <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein distance algorithm</a> with only a linear
         /// memory overhead.
         /// <para>This implementation is highly optimized!</para>
         /// <para>The original implementation is taken from the <c>editDistance</c> implementation found in the standard library for the Nim programming language.</para>
         /// </remarks>
-        public static int EditDistance(this string a, string b)
+        public static int EditDistance(this string? str, string? otherStr)
         {
-            int len_a = a?.Length ?? 0;
-            int len_b = b?.Length ?? 0;
+            int len_a = str?.Length ?? 0;
+            int len_b = otherStr?.Length ?? 0;
 
             // Make b the longer string
             if (len_a > len_b)
             {
-                return EditDistance(b, a);
+                return EditDistance(otherStr, str);
             }
 
+            string a = str!;
+            string b = otherStr!;
+
             // Strip common prefix:
-#pragma warning disable CA1062 // Validate arguments of public methods
             // either a or b may be null, but a is the shorter string and len_a is 0 if a is null
             // access to a or b is safe.
             int s, s_bound = len_a;
@@ -41,7 +43,6 @@ namespace THNETII.Common
                 len_a--;
                 len_b--;
             }
-#pragma warning restore CA1062 // Validate arguments of public methods
 
             // Strip common suffix:
             while (len_a > 0 && len_b > 0 && a[s + len_a - 1] == b[s + len_b - 1])

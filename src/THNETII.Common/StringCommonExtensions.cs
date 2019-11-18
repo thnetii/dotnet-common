@@ -65,12 +65,10 @@ namespace THNETII.Common
 
         private static IEnumerable<string> YieldLines(this string s)
         {
-            using (var reader = new StringReader(s))
+            using var reader = new StringReader(s);
+            for (string line = reader.ReadLine(); !(line is null); line = reader.ReadLine())
             {
-                for (string line = reader.ReadLine(); !(line is null); line = reader.ReadLine())
-                {
-                    yield return line;
-                }
+                yield return line;
             }
         }
 

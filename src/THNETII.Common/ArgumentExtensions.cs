@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace THNETII.Common
@@ -26,7 +27,8 @@ namespace THNETII.Common
         /// </para>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T ThrowIfNull<T>(this T instance, string name) where T : class
+        [return: NotNull]
+        public static T ThrowIfNull<T>([NotNull] this T instance, string name) where T : class?
             => instance ?? throw new ArgumentNullException(name);
 
         /// <summary>
@@ -47,11 +49,11 @@ namespace THNETII.Common
         /// <exception cref="ArgumentException"><paramref name="value"/> is empty.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string ThrowIfNullOrEmpty(this string value, string name)
+        public static string ThrowIfNullOrEmpty(this string? value, string name)
         {
             if (string.IsNullOrEmpty(value))
                 throw value is null ? new ArgumentNullException(name) : new ArgumentException("value must neither be empty, nor null.", name);
-            return value;
+            return value!;
         }
 
         /// <summary>
@@ -65,14 +67,14 @@ namespace THNETII.Common
         /// <exception cref="ArgumentException"><paramref name="array"/> has a length of <c>0</c> (zero).</exception>
         /// <exception cref="ArgumentNullException"><paramref name="array"/> is <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ThrowIfNullOrEmpty<T>(this T[] array, string name)
+        public static T[] ThrowIfNullOrEmpty<T>(this T[]? array, string name)
         {
-            switch (array)
+            return array switch
             {
-                case null: throw new ArgumentNullException(name);
-                case var empty when empty.Length < 1: throw new ArgumentException($"{name} is a non-null, zero-length array.", name);
-                default: return array;
-            }
+                null => throw new ArgumentNullException(name),
+                { Length: 0 } => throw new ArgumentException($"{name} is a non-null, zero-length array.", name),
+                _ => array,
+            };
         }
 
         /// <summary>
@@ -90,42 +92,43 @@ namespace THNETII.Common
         /// </remarks>
         /// <exception cref="ArgumentException"><paramref name="enumerable"/> does not contain any elements.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="enumerable"/> is <see langword="null"/>.</exception>
-        public static IEnumerable<T> ThrowIfNullOrEmpty<T>(this IEnumerable<T> enumerable, string name)
+        public static IEnumerable<T> ThrowIfNullOrEmpty<T>(this IEnumerable<T>? enumerable, string name)
         {
             switch (enumerable)
             {
-                case null: throw new ArgumentNullException(name);
-                case T[] array:
-                    if (array.Length < 1)
-                        throw new ArgumentException($"{name} is a non-null, zero-length array.", name);
+                case null:
+                    throw new ArgumentNullException(name);
+                case T[] { Length: 0 }:
+                    throw new ArgumentException($"{name} is a non-null, zero-length array.", name);
+                case ICollection<T> c when c.Count == 0:
+                    throw new ArgumentException($"{name} is a non-null, empty collection.", name);
+                case string { Length: 0 }:
+                    throw new ArgumentException($"{name} is a non-null, empty string.", name);
+
+                case T[] _:
+                case ICollection<T> _:
+                case string _:
                     break;
-                case ICollection<T> collection:
-                    if (collection.Count < 1)
-                        throw new ArgumentException($"{name} is a non-null, empty collection.", name);
-                    break;
-                case string str:
-                    if (str.Length < 1)
-                        throw new ArgumentException($"{name} is a non-null, empty string.", name);
-                    break;
+
                 default:
-                case var e:
+                case IEnumerable<T> e:
                     var enumerator = e.GetEnumerator();
                     if (!enumerator.MoveNext())
                     {
                         enumerator.Dispose();
                         throw new ArgumentException($"{name} is a non-null, empty enumerable.", name);
                     }
-                    IEnumerable<T> wrapAroundEnumerable()
+                    static IEnumerable<T> wrapAroundEnumerable(IEnumerator<T> enumerator)
                     {
                         using (enumerator)
                         {
                             do
                             {
-                                yield return enumerator.Current; 
+                                yield return enumerator.Current;
                             } while (enumerator.MoveNext());
                         }
                     }
-                    return wrapAroundEnumerable();
+                    return wrapAroundEnumerable(enumerator);
             }
             return enumerable;
         }
@@ -148,11 +151,11 @@ namespace THNETII.Common
         /// <exception cref="ArgumentException"><paramref name="value"/> is either empty or consists only of white-space characters.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string ThrowIfNullOrWhiteSpace(this string value, string name)
+        public static string ThrowIfNullOrWhiteSpace(this string? value, string name)
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw value is null ? new ArgumentNullException(nameof(name)) : new ArgumentException("value must neither be empty, nor null, nor whitespace-only.", name);
-            return value;
+            return value!;
         }
     }
 }

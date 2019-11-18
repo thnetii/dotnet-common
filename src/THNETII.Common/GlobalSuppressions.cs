@@ -7,4 +7,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Globalization", "CA1303: Do not pass literals as localized parameters")]
-
+[assembly: SuppressMessage("Style", "IDE0056: Use index operator", Justification = "TFM pre .NET Standard 2.1")]

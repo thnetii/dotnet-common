@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+
 using Xunit;
 
 namespace THNETII.Common.Linq.Test
@@ -39,7 +40,7 @@ namespace THNETII.Common.Linq.Test
         #region First
         [SkippableFact]
         public void FirstOfNullThrows() =>
-            Assert.Throws<ArgumentNullException>(() => First(null));
+            Assert.Throws<ArgumentNullException>(() => First(null!));
 
         [SkippableFact]
         public void FirstOfEmptyThrows() =>
@@ -54,11 +55,11 @@ namespace THNETII.Common.Linq.Test
 
         [SkippableFact]
         public void FirstOrDefaultOfNullThrows() =>
-            Assert.Throws<ArgumentNullException>(() => FirstOrDefault(null));
+            Assert.Throws<ArgumentNullException>(() => FirstOrDefault(null!));
 
         [SkippableFact]
         public void FirstOrDefaultOfEmptyReturnsDefaultT() =>
-            Assert.Equal(default, FirstOrDefault(GetEmpty()));
+            Assert.Equal(default!, FirstOrDefault(GetEmpty()));
 
         [SkippableFact]
         public void FirstOrDefaultOfEmptyReturnsArgument()
@@ -93,7 +94,8 @@ namespace THNETII.Common.Linq.Test
         public void FirstOrDefaultIgnoresFactoryIfNonEmpty()
         {
             var test = GetMoreThan5ButLessThan100();
-            T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
+
+            static T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
             Assert.Equal(PrimitiveFirst(test), FirstOrDefault(test, ignoredFactory));
         }
         #endregion
@@ -101,7 +103,7 @@ namespace THNETII.Common.Linq.Test
         #region Last
         [SkippableFact]
         public void LastOfNullThrows() =>
-            Assert.Throws<ArgumentNullException>(() => Last(null));
+            Assert.Throws<ArgumentNullException>(() => Last(null!));
 
         [SkippableFact]
         public void LastOfEmptyThrows() =>
@@ -116,11 +118,11 @@ namespace THNETII.Common.Linq.Test
 
         [SkippableFact]
         public void LastOrDefaultOfNullThrows() =>
-            Assert.Throws<ArgumentNullException>(() => LastOrDefault(null));
+            Assert.Throws<ArgumentNullException>(() => LastOrDefault(null!));
 
         [SkippableFact]
         public void LastOrDefaultOfEmptyReturnsDefaultT() =>
-            Assert.Equal(default, LastOrDefault(GetEmpty()));
+            Assert.Equal(default!, LastOrDefault(GetEmpty()));
 
         [SkippableFact]
         public void LastOrDefaultOfEmptyReturnsArgument()
@@ -155,7 +157,8 @@ namespace THNETII.Common.Linq.Test
         public void LastOrDefaultIgnoresFactoryIfNonEmpty()
         {
             var test = GetMoreThan5ButLessThan100();
-            T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
+
+            static T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
             Assert.Equal(PrimitiveLast(test), LastOrDefault(test, ignoredFactory));
         }
         #endregion
@@ -164,7 +167,7 @@ namespace THNETII.Common.Linq.Test
         [SkippableFact]
         public void ElementAtOfNullThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => ElementAt(null, default));
+            Assert.Throws<ArgumentNullException>(() => ElementAt(null!, default));
         }
 
         [SkippableFact]
@@ -181,11 +184,11 @@ namespace THNETII.Common.Linq.Test
 
         [SkippableFact]
         public void ElementAtOrDefaultOfNullThrows() =>
-            Assert.Throws<ArgumentNullException>(() => ElementAtOrDefault(null, default));
+            Assert.Throws<ArgumentNullException>(() => ElementAtOrDefault(null!, default));
 
         [SkippableFact]
         public void ElementAtOrDefaultOfEmptyReturnsDefaultT() =>
-            Assert.Equal(default, ElementAtOrDefault(GetEmpty(), default));
+            Assert.Equal(default!, ElementAtOrDefault(GetEmpty(), default));
 
         [SkippableFact]
         public void ElementAtOrDefaultOfEmptyReturnsArgument()
@@ -220,7 +223,7 @@ namespace THNETII.Common.Linq.Test
         public void ElementAtOrDefaultWithNegativeReturnsDefault()
         {
             var test = GetMoreThan5ButLessThan100();
-            T expected = default;
+            T expected = default!;
             Assert.Equal(expected, ElementAtOrDefault(test, -1));
         }
 
@@ -254,7 +257,8 @@ namespace THNETII.Common.Linq.Test
         {
             const int index = 5;
             var test = GetMoreThan5ButLessThan100();
-            T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
+
+            static T ignoredFactory() => throw new InvalidOperationException("The factory should never be invoked");
             Assert.Equal(PrimitiveElementAt(test, index), ElementAtOrDefault(test, index, ignoredFactory));
         }
 
@@ -271,7 +275,7 @@ namespace THNETII.Common.Linq.Test
         {
             const int index = 100;
             var test = GetMoreThan5ButLessThan100();
-            Assert.Equal(default, ElementAtOrDefault(test, index));
+            Assert.Equal(default!, ElementAtOrDefault(test, index));
         }
 
         [SkippableFact]
