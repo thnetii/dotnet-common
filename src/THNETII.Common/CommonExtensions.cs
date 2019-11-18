@@ -145,7 +145,7 @@ namespace THNETII.Common
             {
                 case null:
                 case T[] { Length: 0 }:
-                case ICollection<T> { Count: 0 }:
+                case ICollection<T> c when c.Count == 0:
                 case string { Length: 0 }:
                     return otherwise;
 
@@ -198,7 +198,7 @@ namespace THNETII.Common
             {
                 case null:
                 case T[] { Length: 0 }:
-                case ICollection<T> { Count: 0 }:
+                case ICollection<T> collection when collection.Count == 0:
                 case string { Length: 0 }:
                     break;
 
@@ -326,7 +326,7 @@ namespace THNETII.Common
             {
                 case null:
                 case T[] { Length: 0 }:
-                case ICollection<T> { Count: 0 }:
+                case ICollection<T> c when c.Count == 0:
                 case string { Length: 0 }:
                     return false;
 

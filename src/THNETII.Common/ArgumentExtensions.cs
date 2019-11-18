@@ -100,9 +100,9 @@ namespace THNETII.Common
                     throw new ArgumentNullException(name);
                 case T[] { Length: 0 }:
                     throw new ArgumentException($"{name} is a non-null, zero-length array.", name);
-                case ICollection<T> { Count: 0 } collection:
+                case ICollection<T> c when c.Count == 0:
                     throw new ArgumentException($"{name} is a non-null, empty collection.", name);
-                case string { Length: 0 } str:
+                case string { Length: 0 }:
                     throw new ArgumentException($"{name} is a non-null, empty string.", name);
 
                 case T[] _:
