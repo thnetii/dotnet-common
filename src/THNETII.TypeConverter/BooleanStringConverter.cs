@@ -58,7 +58,7 @@ namespace THNETII.TypeConverter
         /// class for more information on the conversion rules.
         /// </remarks>
         /// <exception cref="FormatException"><paramref name="s"/> cannot be converted to a <see cref="bool"/> value.</exception>
-        public static bool Parse(string s)
+        public static bool Parse(string? s)
         {
             if (bool.TryParse(s, out bool v))
                 return v;
@@ -143,7 +143,7 @@ namespace THNETII.TypeConverter
         public static bool? ParseOrNull(string s)
             => TryParse(s, out bool value) ? (bool?)value : null;
 
-        private static bool TryParseAlternative(string s, out bool alternateResult)
+        private static bool TryParseAlternative(string? s, out bool alternateResult)
         {
             if (s is null)
             {

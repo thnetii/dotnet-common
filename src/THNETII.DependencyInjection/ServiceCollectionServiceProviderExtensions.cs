@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+
 using System;
 using System.Linq;
 using System.Reflection;
@@ -46,7 +47,7 @@ namespace THNETII.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
-            IServiceProvider serviceProvider = null;
+            IServiceProvider? serviceProvider = null;
             // Create a default ServiceProvider to use to dependency inject
             // services for an injected Service Provider Factory.
             var defaultServiceProvider = services.BuildServiceProvider();

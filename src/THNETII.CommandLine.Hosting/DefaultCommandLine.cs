@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 using System;
 using System.CommandLine.Builder;
@@ -41,7 +40,7 @@ namespace THNETII.CommandLine.Hosting
         /// root-command (or one of its sub-commands).
         /// </returns>
         public static Task<int> InvokeAsync(ICommandDefinition definition,
-            string[] args, Action<IHostBuilder> configureHost = null)
+            string[] args, Action<IHostBuilder>? configureHost = null)
         {
             if (definition is null)
                 throw new ArgumentNullException(nameof(definition));

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace THNETII.Common.Buffers.Text
 {
-    public static class Base64UrlSafe
+    internal static class Base64UrlSafe
     {
         private static readonly byte urlsafe62 = EncodeUtf8(Base64UrlSafeConvert.urlsafe62);
         private static readonly byte urlsafe63 = EncodeUtf8(Base64UrlSafeConvert.urlsafe63);

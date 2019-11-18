@@ -47,9 +47,9 @@ namespace THNETII.CommandLine.Extensions
             using var cts = new CancellationTokenSource();
             var cancelKeyPressHandler = new ConsoleCancelEventHandler((sender, e) =>
             {
-                    // If cancellation already has been requested,
-                    // do not cancel process termination signal.
-                    e.Cancel = !cts.IsCancellationRequested;
+                // If cancellation already has been requested,
+                // do not cancel process termination signal.
+                e.Cancel = !cts.IsCancellationRequested;
 
                 cts.Cancel(throwOnFirstException: true);
             });
@@ -149,7 +149,7 @@ namespace THNETII.CommandLine.Extensions
         /// <exception cref="System.IO.IOException">An I/O error occurred.</exception>
         /// <seealso cref="Console.ReadLine"/>
         /// <seealso cref="Console.ReadKey(bool)"/>
-        public static string ReadLineMasked(bool printAsterisk = true)
+        public static string? ReadLineMasked(bool printAsterisk = true)
         {
             var builder = new StringBuilder();
             bool continueReading = true;

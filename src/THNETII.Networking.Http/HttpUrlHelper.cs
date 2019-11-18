@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 
 using THNETII.Common;
@@ -9,9 +8,9 @@ namespace THNETII.Networking.Http
 {
     public static class HttpUrlHelper
     {
-        private static StringBuilder queryBuilder;
+        private static StringBuilder? queryBuilder;
 
-        public static string ToQueryString(IEnumerable<KeyValuePair<string, string>> queryParams)
+        public static string ToQueryString(IEnumerable<KeyValuePair<string, string>>? queryParams)
         {
             if (queryParams is null)
                 return "?";
@@ -25,7 +24,7 @@ namespace THNETII.Networking.Http
             bool first = true;
             foreach (var queryPair in queryParams)
             {
-                if (queryPair.Key.TryNotNullOrWhiteSpace(out string key))
+                if (queryPair.Key.TryNotNullOrWhiteSpace(out var key))
                 {
                     if (!first)
                         queryBuilder.Append('&');

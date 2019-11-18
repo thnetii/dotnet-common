@@ -40,7 +40,7 @@ namespace THNETII.TypeConverter
     {
         private readonly NumberStylesParseFunc<T> parse;
         private readonly NumberStylesTryParseFunc<T> tryParse;
-        private readonly IFormatProvider formatProvider;
+        private readonly IFormatProvider? formatProvider;
 
         /// <summary>
         /// Initializes a new <see cref="NumberStringConverter{T}"/> using the
@@ -60,7 +60,7 @@ namespace THNETII.TypeConverter
         /// <seealso cref="int.Parse(string, NumberStyles, IFormatProvider)"/>
         /// <seealso cref="int.TryParse(string, NumberStyles, IFormatProvider, out int)"/>
         public NumberStringConverter(NumberStylesParseFunc<T> parse,
-            NumberStylesTryParseFunc<T> tryParse, IFormatProvider formatProvider = default)
+            NumberStylesTryParseFunc<T> tryParse, IFormatProvider? formatProvider = default)
         {
             this.parse = parse ?? throw new ArgumentNullException(nameof(parse));
             this.tryParse = tryParse ?? throw new ArgumentNullException(nameof(tryParse));

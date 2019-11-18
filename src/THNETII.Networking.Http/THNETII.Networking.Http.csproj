@@ -2,8 +2,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <LangVersion>8</LangVersion>
+    <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <TargetFrameworks>netstandard1.3;netstandard1.6;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;netstandard1.6;netstandard2.0;netstandard2.1</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
     <Description>TH-NETII .NET Common values and methods for HTTP operations</Description>

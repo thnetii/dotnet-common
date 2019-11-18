@@ -36,7 +36,6 @@ namespace THNETII.DependencyInjection.Nesting
         /// extension method.
         /// </summary>
         Replace = 4,
-#if NETSTANDARD2_0
         /// <summary>
         /// Add nested services to the parent collection using the
         /// <see cref="ServiceCollectionDescriptorExtensions.Add(Microsoft.Extensions.DependencyInjection.IServiceCollection, Microsoft.Extensions.DependencyInjection.ServiceDescriptor)"/>
@@ -44,6 +43,5 @@ namespace THNETII.DependencyInjection.Nesting
         /// service type are registered.
         /// </summary>
         ReplaceAll = 5
-#endif
     }
 }

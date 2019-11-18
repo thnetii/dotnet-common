@@ -28,7 +28,7 @@ namespace THNETII.Networking.Http
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <see langword="null"/>.</exception>
         /// <seealso cref="HttpContentHeaders.ContentType"/>
-        public static bool IsText(this HttpContent httpContent, bool trueIfNoContentType = true)
+        public static bool IsText(this HttpContent? httpContent, bool trueIfNoContentType = true)
         {
             if (httpContent is null)
                 return false;
@@ -50,7 +50,7 @@ namespace THNETII.Networking.Http
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <see langword="null"/>.</exception>
         /// <seealso cref="HttpContentHeaders.ContentType"/>
-        public static bool IsHtml(this HttpContent httpContent, bool trueIfNoContentType = true)
+        public static bool IsHtml(this HttpContent? httpContent, bool trueIfNoContentType = true)
         {
             if (httpContent is null)
                 return false;
@@ -72,7 +72,7 @@ namespace THNETII.Networking.Http
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <see langword="null"/>.</exception>
         /// <seealso cref="HttpContentHeaders.ContentType"/>
-        public static bool IsXml(this HttpContent httpContent, bool trueIfNoContentType = true)
+        public static bool IsXml(this HttpContent? httpContent, bool trueIfNoContentType = true)
         {
             if (httpContent is null)
                 return false;
@@ -94,7 +94,7 @@ namespace THNETII.Networking.Http
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <see langword="null"/>.</exception>
         /// <seealso cref="HttpContentHeaders.ContentType"/>
-        public static bool IsJson(this HttpContent httpContent, bool trueIfNoContentType = true)
+        public static bool IsJson(this HttpContent? httpContent, bool trueIfNoContentType = true)
         {
             if (httpContent is null)
                 return false;
@@ -119,21 +119,21 @@ namespace THNETII.Networking.Http
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="httpContent"/> is <see langword="null"/>.</exception>
         /// <seealso cref="HttpContent.ReadAsStreamAsync"/>
-        public static async Task<StreamReader> ReadAsStreamReaderAsync(this HttpContent httpContent, Encoding defaultEncoding = null)
+        public static async Task<StreamReader> ReadAsStreamReaderAsync(this HttpContent httpContent, Encoding? defaultEncoding = null)
         {
             if (httpContent is null)
                 throw new ArgumentNullException(nameof(httpContent));
 
             var readStreamTask = httpContent.ReadAsStreamAsync();
-            Encoding encoding = GetContentCharsetEncoding(httpContent, defaultEncoding);
+            Encoding? encoding = GetContentCharsetEncoding(httpContent, defaultEncoding);
             var stream = await readStreamTask.ConfigureAwait(continueOnCapturedContext: false);
             return encoding is null ? new StreamReader(stream) : new StreamReader(stream, encoding);
         }
 
-        private static Encoding GetContentCharsetEncoding(HttpContent httpContent, Encoding defaultEncoding = null)
+        private static Encoding? GetContentCharsetEncoding(HttpContent httpContent, Encoding? defaultEncoding = null)
         {
             var charset = httpContent.Headers.ContentType?.CharSet;
-            Encoding encoding = defaultEncoding;
+            Encoding? encoding = defaultEncoding;
             if (!string.IsNullOrWhiteSpace(charset))
             {
                 try

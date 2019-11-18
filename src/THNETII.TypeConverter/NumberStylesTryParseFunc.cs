@@ -25,5 +25,5 @@ namespace THNETII.TypeConverter
     /// <returns><see langword="true"/> is <paramref name="s"/> was converted successfully; otherwise, <see langword="false"/>.</returns>
     /// <exception cref="ArgumentException"><paramref name="style"/> is not a valid combination of the <see cref="NumberStyles"/> enumeration.</exception>
     public delegate bool NumberStylesTryParseFunc<T>(string s, NumberStyles style,
-        IFormatProvider formatProvider, out T result);
+        IFormatProvider? formatProvider, out T result);
 }

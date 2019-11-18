@@ -19,5 +19,5 @@ namespace THNETII.TypeConverter
     /// <exception cref="FormatException"><paramref name="s"/> is not in a format compliant with <paramref name="style"/>.</exception>
     /// <exception cref="OverflowException">The number represented by <paramref name="s"/> cannot losslessly fit into a value of type <typeparamref name="T"/>.</exception>
     public delegate T NumberStylesParseFunc<T>(string s, NumberStyles style,
-        IFormatProvider formatProvider);
+        IFormatProvider? formatProvider);
 }

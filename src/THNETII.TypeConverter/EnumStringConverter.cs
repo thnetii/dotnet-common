@@ -86,7 +86,7 @@ namespace THNETII.TypeConverter
                     return (EnumTryParseFunc<T>)miNumeric.Invoke(null, new[] { numberConverter });
                 }
 
-                return null;
+                return null!;
             }
 
             static EnumTryParseFunc<TEnum> InitializeNumericTryParseFromUnderlyingType<TNumeric, TEnum>(NumberStringConverter<TNumeric> numberStringConverter)
