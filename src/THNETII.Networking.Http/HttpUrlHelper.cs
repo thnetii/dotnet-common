@@ -35,34 +35,71 @@ namespace THNETII.Networking.Http
             if (queryParams is null)
                 return "?";
 
+            var queryBuilder = PrepareQueryStringBuilder();
+
+            bool first = true;
+            foreach (var queryPair in queryParams)
+            {
+                AppendQueryPair(queryPair, queryBuilder, ref first);
+            }
+            var queryString = queryBuilder.ToString();
+
+            ResetQueryStringBuilder(queryBuilder);
+
+            return queryString;
+        }
+
+        /// <inheritdoc cref="ToQueryString(IEnumerable{KeyValuePair{string, string?}})" />
+        public static string ToQueryString(ReadOnlySpan<KeyValuePair<string, string?>> queryParams)
+        {
+            if (queryParams.IsEmpty)
+                return "?";
+
+            var queryBuilder = PrepareQueryStringBuilder();
+
+            bool first = true;
+            foreach (ref readonly KeyValuePair<string, string?> queryPair in queryParams)
+            {
+                AppendQueryPair(queryPair, queryBuilder, ref first);
+            }
+            var queryString = queryBuilder.ToString();
+
+            ResetQueryStringBuilder(queryBuilder);
+
+            return queryString;
+        }
+
+        private static StringBuilder PrepareQueryStringBuilder()
+        {
             StringBuilder queryBuilder;
             (queryBuilder, HttpUrlHelper.queryBuilder) =
                 (HttpUrlHelper.queryBuilder ?? new StringBuilder(), null);
             queryBuilder.Clear();
 
             queryBuilder.Append('?');
-            bool first = true;
-            foreach (var queryPair in queryParams)
-            {
-                if (queryPair.Key.TryNotNullOrWhiteSpace(out var key))
-                {
-                    if (!first)
-                        queryBuilder.Append('&');
-                    else
-                        first = false;
-                    queryBuilder
-                        .Append(key)
-                        .Append('=')
-                        .Append(Uri.EscapeDataString(queryPair.Value ?? string.Empty));
-                }
-            }
-            var queryString = queryBuilder.ToString();
+            return queryBuilder;
+        }
 
+        private static void AppendQueryPair(in KeyValuePair<string, string?> queryPair, StringBuilder queryBuilder, ref bool first)
+        {
+            if (queryPair.Key.TryNotNullOrWhiteSpace(out var key))
+            {
+                if (!first)
+                    queryBuilder.Append('&');
+                else
+                    first = false;
+                queryBuilder
+                    .Append(key)
+                    .Append('=')
+                    .Append(Uri.EscapeDataString(queryPair.Value ?? string.Empty));
+            }
+        }
+
+        private static void ResetQueryStringBuilder(StringBuilder queryBuilder)
+        {
             if (queryBuilder.Capacity > 1024)
                 queryBuilder.Capacity = 1024;
             HttpUrlHelper.queryBuilder = queryBuilder;
-
-            return queryString;
         }
     }
 }
