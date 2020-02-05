@@ -1,4 +1,9 @@
-using System.Text;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 using Xunit;
 
@@ -7,36 +12,100 @@ namespace THNETII.Common.Collections.Generic.Test
     public class ReferenceEqualityComparerTest
     {
         [Fact]
-        public void StringReferenceEqualityComparerDefaultIsNotNull() =>
-            Assert.NotNull(ReferenceEqualityComparer.Instance);
-
-        [Fact]
-        public void SameInstanceStringStaticReferenceEqualityComparisonReturnsTrue()
+        public void TypeHasNoPublicCtors()
         {
-            const string src = "Test";
-            var p1 = src;
-            var p2 = src;
-
-            Assert.True(ReferenceEqualityComparer.StaticEquals(p1, p2));
+            ConstructorInfo[] ctors = typeof(ReferenceEqualityComparer).GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            Assert.DoesNotContain(ctors, ctor => ctor.IsPublic || ctor.IsFamily || ctor.IsFamilyOrAssembly);
         }
 
         [Fact]
-        public void DifferentInstanceSameValueStringStaticReferenceEqualityComparisonReturnsFalse()
+        public void InstanceProperty_ReturnsSingleton()
         {
-            const string src = "Test";
-            var p1 = new StringBuilder(src).ToString();
-            var p2 = new StringBuilder(src).ToString();
+            ReferenceEqualityComparer comparer = ReferenceEqualityComparer.Instance;
+            Assert.NotNull(comparer);
 
-            Assert.False(ReferenceEqualityComparer.StaticEquals(p1, p2));
+            // use reflection to call property getter and make sure it's the exact same instance
+            var comparerPropertyInfo = typeof(ReferenceEqualityComparer)
+                .GetProperty(
+                    nameof(ReferenceEqualityComparer.Instance),
+                    BindingFlags.Public | BindingFlags.Static,
+                    null, null, Type.EmptyTypes, null
+                    );
+            object? comparerFromReflection = comparerPropertyInfo?
+                .GetGetMethod()?
+                .Invoke(
+                    null,
+                    BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
+                    null, null, CultureInfo.InvariantCulture
+                    );
+            Assert.Same(comparer, comparerFromReflection);
         }
 
         [Fact]
-        public void DifferentValueStringStaticReferenceEqualityComparisonReturnsFalse()
+        public void Equals_UsesReferenceEquals()
         {
-            var p1 = "Test1";
-            var p2 = "Test2";
+            MyClass o1 = new MyClass { SomeInt = 10 };
+            MyClass o2 = new MyClass { SomeInt = 10 };
+            Assert.Equal(o1, o2);
 
-            Assert.False(ReferenceEqualityComparer.StaticEquals(p1, p2));
+            ReferenceEqualityComparer comparer1 = ReferenceEqualityComparer.Instance;
+            IEqualityComparer comparer2 = ReferenceEqualityComparer.Instance;
+            IEqualityComparer<object> comparer3 = ReferenceEqualityComparer.Instance;
+            IEqualityComparer<MyClass> comparer4 = ReferenceEqualityComparer.Instance; // test contravariance
+
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+#pragma warning disable CS8604 // Possible null reference argument.
+            Assert.True(comparer1.Equals(null, null));
+            Assert.False(comparer1.Equals(null, o2));
+            Assert.False(comparer1.Equals(o1, o2));
+            Assert.False(comparer1.Equals(o1, null));
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+
+            Assert.True(comparer2.Equals(null, null));
+            Assert.False(comparer2.Equals(null, o2));
+            Assert.False(comparer2.Equals(o1, o2));
+            Assert.False(comparer2.Equals(o1, null));
+
+            Assert.True(comparer3.Equals(null, null));
+            Assert.False(comparer3.Equals(null, o2));
+            Assert.False(comparer3.Equals(o1, o2));
+            Assert.False(comparer3.Equals(o1, null));
+
+            Assert.True(comparer4.Equals(null, null));
+            Assert.False(comparer4.Equals(null, o2));
+            Assert.False(comparer4.Equals(o1, o2));
+            Assert.False(comparer4.Equals(o1, null));
+        }
+
+        [Fact]
+        public void GetHashCode_UsesRuntimeHelpers()
+        {
+            object o = new ClassWithBadGetHashCodeImplementation(); // make sure we don't call object.GetHashCode()
+
+            ReferenceEqualityComparer comparer1 = ReferenceEqualityComparer.Instance;
+            IEqualityComparer comparer2 = ReferenceEqualityComparer.Instance;
+            IEqualityComparer<object> comparer3 = ReferenceEqualityComparer.Instance;
+            IEqualityComparer<ClassWithBadGetHashCodeImplementation> comparer4 = ReferenceEqualityComparer.Instance; // test contravariance
+
+            int runtimeHelpersHashCode = RuntimeHelpers.GetHashCode(o);
+            Assert.Equal(runtimeHelpersHashCode, comparer1.GetHashCode(o));
+            Assert.Equal(runtimeHelpersHashCode, comparer2.GetHashCode(o));
+            Assert.Equal(runtimeHelpersHashCode, comparer3.GetHashCode(o));
+            Assert.Equal(runtimeHelpersHashCode, comparer4.GetHashCode((ClassWithBadGetHashCodeImplementation)o));
+        }
+
+        private class ClassWithBadGetHashCodeImplementation
+        {
+            public override int GetHashCode() => throw new NotImplementedException();
+        }
+
+        private class MyClass
+        {
+            public int SomeInt;
+
+            public override bool Equals(object? obj) => obj is MyClass c && this.SomeInt == c.SomeInt;
+            public override int GetHashCode() => this.SomeInt;
         }
     }
 }

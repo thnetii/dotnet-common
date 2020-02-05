@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace THNETII.Common.Collections.Generic
 {
@@ -43,6 +44,6 @@ namespace THNETII.Common.Collections.Generic
         /// </summary>
         /// <param name="obj">The object for which to get a hash code.</param>
         /// <returns>A hash code for the specified object, or <c>0</c> (zero) if <paramref name="obj"/> is <see langword="null"/>.</returns>
-        public int GetHashCode(object? obj) => obj?.GetHashCode() ?? 0;
+        public int GetHashCode(object obj) => RuntimeHelpers.GetHashCode(obj);
     }
 }
