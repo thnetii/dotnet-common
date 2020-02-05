@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace THNETII.Common.Collections.Generic
 {
@@ -9,14 +10,13 @@ namespace THNETII.Common.Collections.Generic
     /// <typeparam name="T">The type of the object that is referenced by the weak reference.</typeparam>
     public class WeakReferenceEqualityComparer<T> : IEqualityComparer<WeakReference<T>> where T : class
     {
-#pragma warning disable CA1000 // Do not declare static members on generic types
         /// <summary>
         /// Returns a default weak reference equality comparer instance for the type referenced by the generic argument.
         /// </summary>
         /// <value>A singleton <see cref="WeakReferenceEqualityComparer{T}"/> instance that can be shared by all parts of the application.</value>
+        [SuppressMessage("Design", "CA1000: Do not declare static members on generic types")]
         public static WeakReferenceEqualityComparer<T> Default { get; } =
             new WeakReferenceEqualityComparer<T>();
-#pragma warning restore CA1000 // Do not declare static members on generic types
 
         /// <summary>
         /// Determines whether two instances of type <typeparamref name="T"/> refer to the same object instance.
@@ -32,7 +32,7 @@ namespace THNETII.Common.Collections.Generic
         /// <item><term>The targets of both <see cref="WeakReference{T}"/> instances are reference equal.</term></item>
         /// </list>
         /// </remarks>
-        public bool Equals(WeakReference<T> x, WeakReference<T> y)
+        public bool Equals(WeakReference<T>? x, WeakReference<T>? y)
         {
             if (ReferenceEquals(x, y))
                 return true;
@@ -40,7 +40,7 @@ namespace THNETII.Common.Collections.Generic
                 return false;
             return x.TryGetTarget(out var xRef)
                 && y.TryGetTarget(out var yRef)
-                && ReferenceEqualityComparer<T>.Default.Equals(xRef, yRef);
+                && ReferenceEqualityComparer.Instance.Equals(xRef, yRef);
         }
 
         /// <summary>
@@ -48,10 +48,10 @@ namespace THNETII.Common.Collections.Generic
         /// </summary>
         /// <param name="obj">The object for which to get a hash code.</param>
         /// <returns>A hash code for the specified object, or <c>0</c> (zero) if <paramref name="obj"/> is <see langword="null"/>.</returns>
-        public int GetHashCode(WeakReference<T> obj)
+        public int GetHashCode(WeakReference<T>? obj)
         {
             if (!(obj is null) && obj.TryGetTarget(out var target))
-                return ReferenceEqualityComparer<T>.Default.GetHashCode(target);
+                return ReferenceEqualityComparer.Instance.GetHashCode(target);
             return default;
         }
     }

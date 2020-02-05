@@ -53,8 +53,7 @@ namespace THNETII.DependencyInjection.Nesting
             Key = key;
             InheritedServices = inheritedServices;
             this.inheritedServices = inheritedServices.EmptyIfNull()
-                .Except(rootProxyDescriptors,
-                    ReferenceEqualityComparer<ServiceDescriptor>.Default)
+                .Except(rootProxyDescriptors, ReferenceEqualityComparer.Instance)
                 .Select(desc => GetProxyDescriptorForNested(desc));
             nestedServices = new ServiceCollection();
         }
@@ -219,7 +218,7 @@ namespace THNETII.DependencyInjection.Nesting
                 .ElementAt(nestedServiceTypeIdx);
             InheritedServices?.Remove(rootDesc);
             rootProxyDescriptors.Remove(rootDesc,
-                ReferenceEqualityComparer<ServiceDescriptor>.Default);
+                ReferenceEqualityComparer.Instance);
         }
 
         /// <inheritdoc cref="ICollection{T}.Clear" />
