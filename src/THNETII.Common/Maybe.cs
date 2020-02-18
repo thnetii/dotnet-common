@@ -18,8 +18,6 @@ namespace THNETII.Common
         /// <returns>An initialized <see cref="Maybe{T}"/> structure that is initialized to the specified <paramref name="value"/>.</returns>
         public static Maybe<T> Create<T>(T value) => new Maybe<T>(value);
 
-        private static readonly Type openMaybeType = typeof(Maybe<>);
-
         /// <summary>
         /// Compares two <see cref="Maybe{T}"/> values and returns an integer that indicates
         /// whether the first value precedes, follows, or occurs in the same position in the sort
@@ -85,7 +83,8 @@ namespace THNETII.Common
                 .GetTypeInfo()
 #endif
                 ;
-            if (mt.IsGenericType && maybeType.GetGenericTypeDefinition() == openMaybeType)
+            if (mt.IsGenericType &&
+                maybeType.GetGenericTypeDefinition() == typeof(Maybe<>))
                 return maybeType.GetGenericArguments()[0];
             return null;
         }
@@ -120,7 +119,7 @@ namespace THNETII.Common
         /// to the <see cref="Maybe{T}"/>; <see langword="false"/> if the <see cref="Maybe{T}"/> 
         /// has no value assigned to it.
         /// </value>
-        public bool HasValue { get; private set; }
+        public bool HasValue { readonly get; private set; }
 
         /// <summary>
         /// Gets or sets the underlying value of the <see cref="Maybe{T}"/> structure.
@@ -133,7 +132,7 @@ namespace THNETII.Common
         /// <exception cref="InvalidOperationException">The <see cref="HasValue"/> property is <see langword="false"/> while attempting to get the value of the <see cref="Value"/> property.</exception>
         public T Value
         {
-            get
+            readonly get
             {
                 if (HasValue)
                     return value;
@@ -193,7 +192,7 @@ namespace THNETII.Common
         /// Otherwise, <see cref="object.Equals(object)"/> is used.
         /// </para>
         /// </remarks>
-        public override bool Equals(object obj)
+        public readonly override bool Equals(object obj)
         {
             return obj switch
             {
@@ -222,7 +221,7 @@ namespace THNETII.Common
         /// Otherwise, <see cref="object.Equals(object)"/> is used.
         /// </para>
         /// </remarks>
-        public bool Equals(T otherValue)
+        public readonly bool Equals(T otherValue)
         {
             if (HasValue)
             {
@@ -254,7 +253,7 @@ namespace THNETII.Common
         /// Otherwise, <see cref="object.Equals(object)"/> is used.
         /// </para>
         /// </remarks>
-        public bool Equals(Maybe<T> otherMaybe)
+        public readonly bool Equals(Maybe<T> otherMaybe)
         {
             if (HasValue)
             {
@@ -271,7 +270,7 @@ namespace THNETII.Common
         /// Returns a hash code for the current instance.
         /// </summary>
         /// <returns><c>0</c> (zero) if <see cref="HasValue"/> is <see langword="false"/> or <see cref="Value"/> is <see langword="null"/>; otherwise, the value obtained by invoking <see cref="object.GetHashCode"/> on <see cref="Value"/>.</returns>
-        public override int GetHashCode() => HasValue ? (value?.GetHashCode() ?? 0) : 0;
+        public readonly override int GetHashCode() => HasValue ? (value?.GetHashCode() ?? 0) : 0;
 
         /// <summary>
         /// Retrieves the assigned underlying value of the <see cref="Maybe{T}"/> structure
@@ -282,7 +281,7 @@ namespace THNETII.Common
         /// property is <see langword="true"/>; otherwise the default value of the underlying
         /// type.
         /// </returns>
-        public T GetValueOrDefault() => GetValueOrDefault(default!);
+        public readonly T GetValueOrDefault() => GetValueOrDefault(default!);
 
         /// <summary>
         /// Retrieves the assigned underlying value of the <see cref="Maybe{T}"/> structure
@@ -294,7 +293,7 @@ namespace THNETII.Common
         /// property evaluates to <see langword="true"/>; otherwise the value of the <paramref name="default"/>
         /// parameter.
         /// </returns>
-        public T GetValueOrDefault(T @default) => HasValue ? Value : @default;
+        public readonly T GetValueOrDefault(T @default) => HasValue ? Value : @default;
 
         /// <summary>
         /// Returns a <see cref="string"/> representing the current <see cref="Maybe{T}"/> value.
@@ -317,7 +316,7 @@ namespace THNETII.Common
         /// </item>
         /// </list>
         /// </returns>
-        public override string ToString()
+        public readonly override string ToString()
         {
             return HasValue
                 ? (value is object obj && obj is null) ? nullString : value!.ToString()
