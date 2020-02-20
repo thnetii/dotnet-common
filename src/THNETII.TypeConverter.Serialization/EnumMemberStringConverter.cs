@@ -92,7 +92,7 @@ namespace THNETII.TypeConverter.Serialization
         /// if <paramref name="s"/> cannot be converted to <typeparamref name="T"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1000")]
-        public static T ParseOrDefault<T>(string s) where T : struct, Enum =>
+        public static T ParseOrDefault<T>(string? s) where T : struct, Enum =>
             ParseOrDefault<T>(s, @default: default);
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace THNETII.TypeConverter.Serialization
         /// if <paramref name="s"/> cannot be converted to <typeparamref name="T"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1000")]
-        public static T ParseOrDefault<T>(string s, T @default) where T : struct, Enum
+        public static T ParseOrDefault<T>(string? s, T @default) where T : struct, Enum
         {
             if (TryParse(s, out T value))
                 return value;
@@ -131,7 +131,7 @@ namespace THNETII.TypeConverter.Serialization
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         [SuppressMessage("Microsoft.Design", "CA1000")]
-        public static T ParseOrDefault<T>(string s, Func<T> defaultFactory)
+        public static T ParseOrDefault<T>(string? s, Func<T> defaultFactory)
             where T : struct, Enum
         {
             if (TryParse(s, out T value))
@@ -156,7 +156,7 @@ namespace THNETII.TypeConverter.Serialization
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
         [SuppressMessage("Microsoft.Design", "CA1000")]
-        public static T ParseOrDefault<T>(string s, Func<string, T> defaultFactory)
+        public static T ParseOrDefault<T>(string? s, Func<string?, T> defaultFactory)
             where T : struct, Enum
         {
             if (TryParse(s, out T value))
@@ -179,7 +179,7 @@ namespace THNETII.TypeConverter.Serialization
         /// if <paramref name="s"/> cannot be converted to <typeparamref name="T"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1000")]
-        public static T? ParseOrNull<T>(string s) where T : struct, Enum
+        public static T? ParseOrNull<T>(string? s) where T : struct, Enum
         {
             if (TryParse(s, out T value))
                 return value;
@@ -200,11 +200,11 @@ namespace THNETII.TypeConverter.Serialization
         /// </returns>
         /// <remarks>If this method returns <see langword="false"/>, the out-value of the <paramref name="value"/> parameter is not defined.</remarks>
         [SuppressMessage("Microsoft.Design", "CA1000")]
-        public static bool TryParse<T>(string s, out T value) where T : struct, Enum
+        public static bool TryParse<T>(string? s, out T value) where T : struct, Enum
         {
             if (!(s is null) && EnumValues<T>.StringToValue.TryGetValue(s, out value))
                 return true;
-            return EnumStringConverter.TryParse(s!, out value);
+            return EnumStringConverter.TryParse(s, out value);
         }
 
         /// <summary>

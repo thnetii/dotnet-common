@@ -81,7 +81,7 @@ namespace THNETII.TypeConverter
         /// See the remarks section of the <see cref="BooleanStringConverter"/>
         /// class for more information on the conversion rules.
         /// </remarks>
-        public static bool ParseOrDefault(string s) => ParseOrDefault(s, default(bool));
+        public static bool ParseOrDefault(string? s) => ParseOrDefault(s, default(bool));
 
         /// <summary>
         /// Converts the specified string to a <see cref="bool"/> value
@@ -98,7 +98,7 @@ namespace THNETII.TypeConverter
         /// See the remarks section of the <see cref="BooleanStringConverter"/>
         /// class for more information on the conversion rules.
         /// </remarks>
-        public static bool ParseOrDefault(string s, bool @default)
+        public static bool ParseOrDefault(string? s, bool @default)
             => TryParse(s, out bool value) ? value : @default;
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace THNETII.TypeConverter
         /// class for more information on the conversion rules.
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
-        public static bool ParseOrDefault(string s, Func<bool> defaultFactory)
+        public static bool ParseOrDefault(string? s, Func<bool> defaultFactory)
         {
             if (TryParse(s, out bool value))
                 return value;
@@ -140,7 +140,7 @@ namespace THNETII.TypeConverter
         /// See the remarks section of the <see cref="BooleanStringConverter"/>
         /// class for more information on the conversion rules.
         /// </remarks>
-        public static bool? ParseOrNull(string s)
+        public static bool? ParseOrNull(string? s)
             => TryParse(s, out bool value) ? (bool?)value : null;
 
         private static bool TryParseAlternative(string? s, out bool alternateResult)
@@ -187,9 +187,9 @@ namespace THNETII.TypeConverter
         /// See the remarks section of the <see cref="BooleanStringConverter"/>
         /// class for more information on the conversion rules.
         /// </remarks>
-        public static bool TryParse(string s, out bool value)
+        public static bool TryParse(string? s, out bool value)
         {
-            return bool.TryParse(s, out value) ||
+            return (s is string && bool.TryParse(s, out value)) ||
                 TryParseAlternative(s, out value);
         }
 

@@ -97,7 +97,7 @@ namespace THNETII.TypeConverter
         /// specified in <paramref name="s"/> or the default value for <typeparamref name="T"/> if
         /// <paramref name="s"/> cannot be converted into a value of <typeparamref name="T"/>.
         /// </returns>
-        public T ParseOrDefault(string s) => ParseOrDefault(s, default(T));
+        public T ParseOrDefault(string? s) => ParseOrDefault(s, default(T));
 
         /// <summary>
         /// Converts the specified string to a value of type <typeparamref name="T"/>
@@ -110,7 +110,7 @@ namespace THNETII.TypeConverter
         /// specified in <paramref name="s"/> or <paramref name="default"/> if
         /// <paramref name="s"/> cannot be converted into a value of <typeparamref name="T"/>.
         /// </returns>
-        public T ParseOrDefault(string s, T @default) =>
+        public T ParseOrDefault(string? s, T @default) =>
             TryParse(s, out T value) ? value : @default;
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace THNETII.TypeConverter
         /// <paramref name="s"/> cannot be converted into a value of <typeparamref name="T"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="defaultFactory"/> is <see langword="null"/>.</exception>
-        public T ParseOrDefault(string s, Func<T> defaultFactory)
+        public T ParseOrDefault(string? s, Func<T> defaultFactory)
         {
             if (TryParse(s, out T value))
                 return value;
@@ -144,7 +144,7 @@ namespace THNETII.TypeConverter
         /// specified in <paramref name="s"/> or <see langword="null"/> if
         /// <paramref name="s"/> cannot be converted into a value of <typeparamref name="T"/>.
         /// </returns>
-        public T? ParseOrNull(string s) =>
+        public T? ParseOrNull(string? s) =>
             TryParse(s, out T value) ? (T?)value : null;
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace THNETII.TypeConverter
         /// <param name="value">When this method returns, if the conversion succeeded, contains the converted value; otherwise the default value of type <typeparamref name="T"/>.</param>
         /// <returns><see langword="true"/> if value was converted successfully; otherwise, <see langword="false"/>.</returns>
         [SuppressMessage("Usage", "PC001: API not supported on all platforms", Justification = "https://github.com/dotnet/platform-compat/issues/123")]
-        public bool TryParse(string s, out T value)
+        public bool TryParse(string? s, out T value)
         {
             if (tryParse(s, NumberStyles.Number, formatProvider, out value))
                 return true;
