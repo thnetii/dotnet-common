@@ -97,7 +97,9 @@ namespace THNETII.CommandLine.Hosting
                 {
                     host.ConfigureServices((context, services) =>
                     {
-
+                        services.AddOptions<InvocationLifetimeOptions>()
+                            .Configure<IConfiguration>((opts, config) =>
+                                config.Bind("Lifetime", opts));
                     });
                     configureHost?.Invoke(host);
                 })
