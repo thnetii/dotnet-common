@@ -65,6 +65,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "typeconverter", "typeconver
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THNETII.CommandLine.Hosting", "src\THNETII.CommandLine.Hosting\THNETII.CommandLine.Hosting.csproj", "{1259BD34-B532-4956-8546-4690FD5EF6B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THNETII.Networking.Http.Caching", "src\THNETII.Networking.Http.Caching\THNETII.Networking.Http.Caching.csproj", "{795D19D6-C440-4DEB-9F97-ABE7967503CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -279,6 +281,18 @@ Global
 		{1259BD34-B532-4956-8546-4690FD5EF6B6}.Release|x64.Build.0 = Release|Any CPU
 		{1259BD34-B532-4956-8546-4690FD5EF6B6}.Release|x86.ActiveCfg = Release|Any CPU
 		{1259BD34-B532-4956-8546-4690FD5EF6B6}.Release|x86.Build.0 = Release|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Debug|x64.Build.0 = Debug|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Debug|x86.Build.0 = Debug|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Release|x64.ActiveCfg = Release|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Release|x64.Build.0 = Release|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Release|x86.ActiveCfg = Release|Any CPU
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -306,6 +320,7 @@ Global
 		{FB0DF478-2BFD-483D-90C6-E5C7BD53B585} = {55479F4D-4B67-4E47-8354-77FA6E12087E}
 		{55479F4D-4B67-4E47-8354-77FA6E12087E} = {331613E4-9D79-4254-AC6C-C118A863AA66}
 		{1259BD34-B532-4956-8546-4690FD5EF6B6} = {4E4BB68A-477E-4963-BB24-54E06414DDC1}
+		{795D19D6-C440-4DEB-9F97-ABE7967503CE} = {C0B0DDA0-78FB-4EC1-9A72-870BD2448D71}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1BDA8D3-891E-4F91-BFEA-B8B23CFA3678}
