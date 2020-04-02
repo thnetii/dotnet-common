@@ -8,7 +8,7 @@ namespace THNETII.Common.Reflection
     /// </summary>
     public class AssemblyAttributesAccessor
     {
-        private readonly Assembly assembly;
+        public Assembly Assembly { get; }
 
         private AssemblyCopyrightAttribute? attribute_Copyright;
 
@@ -180,20 +180,20 @@ namespace THNETII.Common.Reflection
         /// <exception cref="ArgumentNullException"><paramref name="assembly"/> is <see langword="null"/>.</exception>
         public AssemblyAttributesAccessor(Assembly assembly)
         {
-            this.assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
+            Assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
         }
 
         private AssemblyName GetAssemblyName(ref AssemblyName? assembly_name_field)
         {
             if (assembly_name_field is null)
-                assembly_name_field = assembly.GetName();
+                assembly_name_field = Assembly.GetName();
             return assembly_name_field;
         }
 
         private TAttribute GetAssemblyCustomAttribute<TAttribute>(ref TAttribute attribute_field) where TAttribute : Attribute?
         {
             if (attribute_field is null)
-                attribute_field = assembly.GetCustomAttribute<TAttribute>();
+                attribute_field = Assembly.GetCustomAttribute<TAttribute>();
             return attribute_field;
         }
     }
