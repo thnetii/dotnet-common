@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using THNETII.Common.Buffers.Text;
 
 namespace THNETII.Common

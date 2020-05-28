@@ -1,4 +1,4 @@
-﻿namespace THNETII.Networking.Http
+namespace THNETII.Networking.Http
 {
     /// <summary>
     /// Provides well-known HTTP Media Type string constants.
