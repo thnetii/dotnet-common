@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 namespace THNETII.Common.Linq.Test

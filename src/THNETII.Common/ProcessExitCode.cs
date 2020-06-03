@@ -1,4 +1,4 @@
-﻿namespace THNETII.Common
+namespace THNETII.Common
 {
     /// <summary>
     /// Convenience type that provides exit code constants for processes.
