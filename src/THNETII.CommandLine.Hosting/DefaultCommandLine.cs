@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.CommandLine.Builder;
 using System.CommandLine.Hosting;
-using System.CommandLine.Invocation;
+using System.CommandLine.Parsing;
 using System.Threading.Tasks;
 
 namespace THNETII.CommandLine.Hosting
