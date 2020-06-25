@@ -302,8 +302,16 @@ namespace THNETII.Common
             [NotNullWhen(returnValue: true)] this T[]? array,
             [NotNullWhen(returnValue: true)] out T[]? value)
         {
-            value = array;
-            return !(array is null) && array.Length >= 1;
+            if (array is null || array.Length < 1)
+            {
+                value = array;
+                return false;
+            }
+            else
+            {
+                value = array;
+                return true;
+            }
         }
 
         /// <summary>
@@ -321,18 +329,19 @@ namespace THNETII.Common
             [NotNullWhen(returnValue: true)] this IEnumerable<T>? enumerable,
             [NotNullWhen(returnValue: true)] out IEnumerable<T>? value)
         {
-            value = enumerable;
             switch (enumerable)
             {
                 case null:
                 case T[] { Length: 0 }:
                 case ICollection<T> c when c.Count == 0:
                 case string { Length: 0 }:
+                    value = enumerable;
                     return false;
 
                 case T[] _:
                 case ICollection<T> _:
                 case string _:
+                    value = enumerable;
                     return true;
 
                 default:
@@ -341,6 +350,7 @@ namespace THNETII.Common
                     if (!enumerator.MoveNext())
                     {
                         enumerator.Dispose();
+                        value = enumerable;
                         return false;
                     }
                     static IEnumerable<T> wrapAroundEnumerable(

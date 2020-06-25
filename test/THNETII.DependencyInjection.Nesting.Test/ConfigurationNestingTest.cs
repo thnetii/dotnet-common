@@ -1,9 +1,12 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using Xunit;
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 using THNETII.DependencyInjection.Configuration;
+
+using Xunit;
 
 namespace THNETII.DependencyInjection.Nesting.Test
 {
@@ -19,7 +22,7 @@ namespace THNETII.DependencyInjection.Nesting.Test
                 this.config = config;
             }
 
-            public string Test => config?[testKey];
+            public string? Test => config?[testKey];
         }
 
         [Fact]
