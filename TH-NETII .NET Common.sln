@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Nullable.props = Directory.Nullable.props
 		Directory.Version.props = Directory.Version.props
 		LICENSE = LICENSE
+		nuget.config = nuget.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A1768F41-219C-424C-92B8-695477251F6A}"
