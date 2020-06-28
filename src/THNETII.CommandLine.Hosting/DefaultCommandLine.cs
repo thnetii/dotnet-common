@@ -47,7 +47,7 @@ namespace THNETII.CommandLine.Hosting
 
             var parser = new CommandLineBuilder(definition.RootCommand)
                 .UseDefaults()
-                .UseHost(Host.CreateDefaultBuilder, host =>
+                .UseHost(Host.CreateDefaultBuilder, configureHost + (host =>
                 {
                     host.ConfigureServices((context, services) =>
                     {
@@ -58,8 +58,7 @@ namespace THNETII.CommandLine.Hosting
                             .Configure<IConfiguration>((opts, config) =>
                                 config.Bind("Lifetime", opts));
                     });
-                    configureHost?.Invoke(host);
-                })
+                }))
                 .Build();
 
             return parser.InvokeAsync(args ?? Array.Empty<string>());
