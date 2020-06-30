@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -39,7 +40,37 @@ namespace THNETII.CommandLine.Hosting.Sample
             var def = new ProgramDefinition();
             var parser = new CommandLineBuilder(def.RootCommand)
                 .UseDefaults()
-                .UseHost(Host.CreateDefaultBuilder, host =>
+                .UseHost(hostArgs =>
+                {
+                    var hostBuilder = Host.CreateDefaultBuilder(hostArgs);
+
+                    hostBuilder.ConfigureAppConfiguration((context, config) =>
+                    {
+                        var fileProvider = new EmbeddedFileProvider(typeof(Program).Assembly);
+                        var hostingEnvironment = context.HostingEnvironment;
+
+                        var sources = config.Sources;
+                        int originalSourcesCount = sources.Count;
+
+                        config.AddJsonFile(fileProvider,
+                            $"appsettings.json",
+                            optional: true, reloadOnChange: true);
+                        config.AddJsonFile(fileProvider,
+                            $"appsettings.{hostingEnvironment.EnvironmentName}.json",
+                            optional: true, reloadOnChange: true);
+
+                        const int insert_idx = 1;
+                        for (int i_dst = insert_idx, i_src = originalSourcesCount;
+                            i_src < sources.Count; i_dst++, i_src++)
+                        {
+                            var configSource = sources[i_src];
+                            sources.RemoveAt(i_src);
+                            sources.Insert(i_dst, configSource);
+                        }
+                    });
+
+                    return hostBuilder;
+                }, host =>
                 {
                     host.ConfigureServices((context, services) =>
                     {
