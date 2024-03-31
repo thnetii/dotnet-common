@@ -1,4 +1,3 @@
-using System;
 using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Hosting;
@@ -32,7 +31,7 @@ namespace THNETII.CommandLine.Hosting.Sample
             string? value = cmd.FindResultFor(def.ValueArgument) is { } valueResult
                 ? valueResult.GetValueOrDefault<string>() : null;
             if (!string.IsNullOrWhiteSpace(value))
-                logger.LogInformation($"Argument passed: {{{nameof(value)}}}", value);
+                logger.LogInformation($"Argument passed: {{Value}}", value);
         });
 
         public static Task<int> Main(string[] args)
@@ -81,10 +80,10 @@ namespace THNETII.CommandLine.Hosting.Sample
                     });
                 })
                 .Build();
-            return parser.InvokeAsync(args ?? Array.Empty<string>());
+            return parser.InvokeAsync(args ?? []);
         }
 
-        internal class ProgramDefinition
+        internal sealed class ProgramDefinition
         {
             public ProgramDefinition()
             {

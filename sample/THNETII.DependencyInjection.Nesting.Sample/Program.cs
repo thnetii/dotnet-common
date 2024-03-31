@@ -16,7 +16,6 @@ namespace THNETII.DependencyInjection.Nesting.Sample
     public static class Program
     {
         [SuppressMessage("Reliability", "CA2000: Dispose objects before losing scope")]
-        [SuppressMessage("Code Quality", "IDE0067: Dispose objects before losing scope")]
         public static void Main(string[] args)
         {
             const string configJsonPath = "appsettings.json";

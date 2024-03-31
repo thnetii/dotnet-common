@@ -1,24 +1,14 @@
 version: 2
 updates:
-- package-ecosystem: nuget
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "04:00"
-  open-pull-requests-limit: 10
-  assignees:
-  - couven92
-  ignore:
-  - dependency-name: Microsoft.Extensions.FileProviders.Embedded
-    versions:
-    - 5.0.2
-    - 5.0.3
-    - 5.0.4
-- package-ecosystem: gitsubmodule
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "04:00"
-  open-pull-requests-limit: 10
-  assignees:
-  - couven92
+  - package-ecosystem: nuget
+    directory: "/"
+    schedule:
+      interval: daily
+    assignees:
+      - thnetii/organization
+  - package-ecosystem: gitsubmodule
+    directory: "/"
+    schedule:
+      interval: daily
+    assignees:
+      - thnetii/organization
